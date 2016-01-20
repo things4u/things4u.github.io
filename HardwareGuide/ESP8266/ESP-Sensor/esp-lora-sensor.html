@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>SI4432</title>
+<title>ESP8266 LoRa Sensor</title>
 </head>
 
 <body>
@@ -80,6 +80,7 @@
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <h2>Connections Wemos D1-mini to RFM95</h2>
+<p>These connections must be made as a minimum to get the ESP8266 work with the RFM95 and the LMIC software. The software will probably also work on other ESP866 nodeMCU based boards, but pay attention as their pin layout might be different.</p>
 <table width="78%" border="1">
   <tr>
     <th width="15%" scope="col">Wemos top</th>
@@ -117,7 +118,7 @@
     <td>DIO1</td>
     <td>.dio[1]</td>
     <td>D2, GPIO4</td>
-    <td>May be left open</td>
+    <td>Must be connected</td>
   </tr>
   <tr>
     <td>DIO0</td>
@@ -140,7 +141,7 @@
   <tr>
     <td>SCK</td>
     <td>&nbsp;</td>
-    <td>D5, CLK</td>
+    <td>D5, GPIO14, CLK</td>
     <td>&nbsp;</td>
   </tr>
   <tr>
@@ -150,22 +151,23 @@
     <td>&nbsp;</td>
   </tr>
   <tr>
-    <td>&nbsp;</td>
+    <td>RESET</td>
     <td>.rst</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
+    <td>D0, GPIO16</td>
+    <td>No interrupt support (which is OK)</td>
   </tr>
   <tr>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
-    <td>D0</td>
+    <td>D3, GPIO3</td>
+    <td><p>D3 is used to select boot-up. Only works with UART connected and flashing. Probably leave open!<br />
+      </p></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>D4, GPIO2</td>
     <td>Free</td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
   </tr>
 </table>
 <p>&nbsp;</p>
