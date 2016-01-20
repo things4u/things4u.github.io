@@ -8,7 +8,7 @@
 <body>
  <h1>ESP8266 IoT</h1>
 <p>A new variant of the sensor and gateway node is the IOT sensor which is based on a Wifi node such as the ESP8266. This means that the sensor does not use the 433MHz or 868MHz frequency band to transmit sensor values but uses the 2.4GHz Wifi band and a proper IP connection to send (temperature) values.</p>
-<p>This opens new possibilities: It may be possible to combine certain functions of the Raspberry and the Arduino for the LamPI environment. For example, If the ESP would be able work wih 433MHz receivers and transmitters it would be possible to receive messages coming from the LamPI daemon and send back received sensor readings to the daemon.</p>
+<p>This opens new possibilities: It may be possible to combine certain functions of an intelligent mcu such as the Raspberry and the Arduino for your projects. For example, If the ESP would be able work wih 433MHz receivers and transmitters it would be possible to receive messages coming from the LamPI daemon and send back received sensor readings to the daemon.</p>
 <p>But first, let's start with the simple stuff, the family tree :-)</p>
 <h1>The ESP8266 famility</h1>
  <p>There are several types of ESP 8266 boards available. They differ in the amount of memory and IO channels/pins available to the user. </p>
@@ -19,7 +19,7 @@
  <p>&nbsp;</p>
  <p>&nbsp;</p>
  <h4>Specifications</h4>
- <p>On Ebay its specifications are as follows:</p>
+ <p>The specifications of the ESP8266 are quite impressive for such a small device. On Aliexpress the ESP01 sell for around $2 or less with the following specifications:</p>
 <pre>SDIO 2.0, SPI, UART<br /> 32-pin QFN package<br /> Integrated RF switch, balun, 24dBm PA, DCXO, and PMU<br /> Integrated RISC processor, on-chip memory and external memory interfaces<br /> Integrated MAC/baseband processors<br /> Quality of Service management<br /> I2S interface for high fidelity audio applications<br /> On-chip low-dropout linear regulators for all internal supplies<br /> Proprietary spurious-free clock generation architecture<br /> Integrated WEP, TKIP, AES, and WAPI engines<br /> Supports APSD for optimal VoIP applications<br /> Patented spurious noise cancellation algorithm for integration in SOC applications<br /> Supports Bluetooth co-existence interface<br /> Self-calibrated RF to ensure optimal performance under all operating conditions<br /> Zero factory tuning<br /> No external RF components<br /> <br /> Specifications:<br /> 802.11 b/g/n<br /> Wi-Fi Direct (P2P), soft-AP<br /> Integrated TCP/IP protocol stack<br /> Integrated TR switch, balun, LNA, power amplifier and matching network<br /> Integrated PLLs, regulators, DCXO and power management units<br /> +19.5dBm output power in 802.11b mode<br /> Power down leakage current of &lt;10uA<br /> Integrated low power 32-bit CPU could be used as application processor<br /> SDIO 1.1/2.0, SPI, UART<br /> STBC, 1×1 MIMO, 2×1 MIMO<br /> A-MPDU &amp; A-MSDU aggregation &amp; 0.4ms guard interval<br /> Wake up and transmit packets in &lt; 2ms<br /> Voltage: 1.8-3.8V<br /> Standby power consumption of &lt; 1.0mW (DTIM3)<br /> Dimension:25 x 15 mm<br /> Net weight:2 g<br /> Package weight:12 g</pre>
  <h4>Pin-Out</h4>
  <table width="59%" border="1">
@@ -83,7 +83,8 @@
  <p>I had hoped that this board would make the ESP12 easy to work with, but I keep having trouble with the Serial connections, and after uploading the firmware the device will not always boot correctly and the Serial connection is difficult to deal with. It may be hardware related, but for the few Euro's I do not plan to spend too much time on finding the root cause of my problems. I first like to have a working environment so that at least I know that it works and have a prototype environment. After that, debugging is much easier as we have a working environment to compare with.</p>
  <p><a href="images/esp12e_c.JPG"><img src="images/esp12e_c.JPG" width="467" height="375" hspace="10" vspace="10" /></a></p>
 <p>So, as this boards did not work reliably on my PC I have opted for a third option to start with. But what would then the most simple way to start with the ESP8266?</p>
-<h2>nodeMCU1.0 (ESP12E based)</h2>
+<h2>nodeMCU0.9 and nodeMCU 1.0</h2>
+ <p>Two powerful ESP8266 based boards are the nodeMCU 0.9 which is basedon the ESP-12 and the nodeMCU 1.0&nbsp;based on the ESP-12E. They are also called version 1 and version 2. On the market (ebay and aliexpress) people offer also version 3 nodes. Sometimes they are based on special ESP-12 versions and they have their own IDE as well. But most of the time all versions behave almost the same.</p>
  <p>This small board (and new ones are even smaller) can be connected to the computer with a micro USB cable and can be programmed without an extra FTDI interfaces or other additional hardware. I must say, getting these boards to work: powering, reset, upload sketches and monitor execution is a piece of cake compared to the bare chips...</p>
 <p>I have to see if I can make these boards energy efficient so they can be powered by battery, which would make this sensor solution even more versatile. However, even without battery operation it is a good solution for sensors that are remote to our house.</p>
  <p><img src="images/nodeMCU1.0-a.jpg" width="600" height="450" hspace="10" vspace="10" /></p>
@@ -101,8 +102,7 @@
    <li>Install the matching ESP add-on libraries by starting the IDE,&nbsp;opening preferences and adding this link to the Additional Board Manager URL's: <code>http://arduino.esp8266.com/stable/package_esp8266com_index.json</code></li>
    <li>Goto Boards selector, open the Boardmanager, and select ESP8266 support from the list and install it</li>
 </ul>
-<p>You're all set to start the ESP IDE. </p>
-<p>&nbsp;</p>
+<p>You're all set to start the ESP IDE.</p>
 <h1>IDE Considerations</h1>
 <p>Unfortunately, when you use the&nbsp;environment for both Arduino and ESP development there are a few things that you have to change and some others you have to be aware of:</p>
 <h3>Size of variables</h3>
@@ -119,164 +119,6 @@
 <h3>Pin Numbering</h3>
 <p>The numbering and identification of GPIO pins is different between the two machine architectures:<br />
 </p>
-<table width="61%" border="1">
-  <tr>
-    <th width="13%" scope="col">GPIO</th>
-    <th width="8%" scope="col">PIN</th>
-    <th width="79%" scope="col">Function</th>
-  </tr>
-  <tr>
-    <td>GPIO0</td>
-    <td>D3</td>
-    <td>433 Receiver</td>
-  </tr>
-  <tr>
-    <td height="24">GPIO1</td>
-    <td>TX</td>
-    <td>&nbsp;-- nc</td>
-  </tr>
-  <tr>
-    <td>GPIO2</td>
-    <td>D4</td>
-    <td><p>&nbsp;-- nc (Usable for interrupts as well)</p></td>
-  </tr>
-  <tr>
-    <td>GPIO3</td>
-    <td>RX</td>
-    <td>&nbsp;-- nc</td>
-  </tr>
-  <tr>
-    <td>GPIO4</td>
-    <td>D2</td>
-    <td>SDA I2C</td>
-  </tr>
-  <tr>
-    <td>GPIO5</td>
-    <td>D1</td>
-    <td>SCL I2C</td>
-  </tr>
-  <tr>
-    <td>GPIO6</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>GPIO7</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>GPIO8</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>GPIO9</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>GPIO10</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>GPIO11</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>GPIO12</td>
-    <td>D6</td>
-    <td>ONE WIRE</td>
-  </tr>
-  <tr>
-    <td>GPIO13</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>GPIO14</td>
-    <td>D5</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>GPIO15</td>
-    <td>D8</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>GPIO16</td>
-    <td>D0</td>
-    <td>433Transmitter</td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>0</td>
-    <td>&nbsp;</td>
-    <td>SDA I2C on ESP01</td>
-  </tr>
-  <tr>
-    <td>2</td>
-    <td>&nbsp;</td>
-    <td>SCL I2C on ESP01</td>
-  </tr>
-</table>
-<p>The above pin mappings are used on the nodeMCU1.0 board and also works on the Wemos D1-mini board.</p>
-<h3>Interrupts</h3>
-<p>The LamPI gateway sketch makes use of the interrupt system. The pin to interrupt system of the ESP is different from that of the standard Arduino system. In order to have the standard bahaviour of ArduinoGateway and ESP-Getaway be the same, we have to use GPIO0 for interrupt 0. </p>
-<p>Remember that for standard Adruino, interrupt 0 is mapped upon pin D2. For the ESP8266 all interrupts pins are the same pins as the GPIO. This means for example that&nbsp;when using the InterruptChain libray we must either choose a&nbsp;pin for our receiver with a number lower than 6 or we have to make modifications to the library...</p>
-<table width="60%" border="1">
-  <tr>
-    <th scope="col">GPIO</th>
-    <th scope="col">Pin</th>
-    <th scope="col">Interrupt</th>
-    <th scope="col">Description</th>
-  </tr>
-  <tr>
-    <td>0</td>
-    <td>D3</td>
-    <td>0</td>
-    <td>GPIO0 is mapped in interrupt 0</td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>2</td>
-    <td>D4</td>
-    <td>2</td>
-    <td>GPIO2 is mapped in interrupt 2</td>
-  </tr>
-  <tr>
-    <td>etc</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-</table>
-<p>&nbsp;</p>
-<h3>Clashing Libraries</h3>
-<p>As the IDE seems to be taking the standard libraries first and then the ESP specific libraries, we have a problem. In some cases you can make definitions that are dependent on the hardware architecture, but you do not always want to open all standard libraries and make changes. And should we make changes we have to be careful tha the libraries will still wok for the standard Arduino boards.</p>
-<p>After all, when upgrading later to a new version of the IDE when it becomes available you would have to redo all those modifications to the new environment which is a cumbersome task (should you remember all changes you made)</p>
-<ol>
-  <li>OneWire: Change the OneWire.h and .cpp files and rename them to OneWireESP.h<br />
-  C:\Users\maarten\AppData\Roaming\Arduino15\packages\esp8266\hardware\esp8266\1.6.5-947-g39819f0\libraries\OneWire.<br />
-  And in your ESP sketches make sure you include the OneWireESP.h file
-  <br />
-  <br />
-  </li>
-  <li>The Real-Time Clock uses some same definitions as the time.h library.The compiler allows this and it does not seem&nbsp;to hurt but it is annoying.</li>
-</ol>
-<p>And yes, I know that I added a conditional&nbsp;definition to one of the libraries in order to make it work ( think it was time.h) but cannot remember anymore.&nbsp;Embarassing ... but I'll document it later if I see it again.</p>
-<p>&nbsp;</p>
 <h1>Programming Best Practices</h1>
 <p>Although we cannot see it when programming the IDE, the ESP8266 board is running far more (and complex) code in the background while executing our sketches. Therefore there are several things to keep in mind:</p>
 <ol>
@@ -306,12 +148,10 @@
 </p>
 <p><a href="ESP-Sensor/esp-lora-sensor.html">Read further on the ESP Sensor project</a><br />
 </p>
-<h1>NodeMCU Gateway</h1>
-<p>This is serious stuff: For a long time I thought it was nearly impossible to get this to work reliably, but in the end the project was successful. I started this project thinking that if we could combine the functions of a Raspberry slave with an Arduino Mega gateway node we would have a cheap replacement for a 40 + 10 euro setup.</p>
-<p>However, on the Arduino we spent far too much time in interrupt handlers and we spend too much time in the main loop() as well. The ESP8266 is not forgiving if we do so. When spending more than 50ms in a routine the watchdog will reset the chip. So in our new ESP8266 setup we need to make sure that we either end the loop() within 40 ms or so, or add delay() statements in the loop if we do. And we must make sure to end interrupt service routines as soon as possible without calling any Wifi functions in these routines.</p>
-<p><a href="ESP-Gateway/esp-gateway.html">Read here further about the ESP Gateway project</a></p>
+<h1>ESP LoRa Gateway</h1>
+<p>This is something for further study. If the ESP8266 can handle 433 transmitters/receivers or setp and maintain WiFi connections while at the same time working as a LoRa node remains to be seen.</p>
 <h1>Battery Operation</h1>
-<p>Of course these devices can be battery operated. After all, similar stuff is in every mobile phone. However,  those mobile phones are charged avery day or every other day, and that is not exactly what your are looking for&nbsp;when operating a sensor on a battery. The specifications tell us that the power usage is less than 1mA when stand-by, which is OK but not terrific. About 100uA would be far better for a battery powered device and would make the batteries last for a year or so.</p>
+<p>Of course these devices can be battery operated. After all, similar stuff is in every mobile phone. However,  those mobile phones are charged avery day or every other day, and that is not exactly what your are looking for&nbsp;when operating a sensor on a battery. The specifications tell us that the power usage is less than 1mA when stand-by, which is OK but not terrific. About 100uA if less would be far better for a battery powered device and would make the batteries last for months to a year or more.</p>
 <p>And experiene shows that making a connection to the network and to the host in some cases can take a lot of time (for yet unknown reasons). And making these connection require most power. So if a node should wake up every minute o so and spends 15-30 seconds looking for the network or the host, battery operation will not work.</p>
  <h1>Links</h1>
  <ul>

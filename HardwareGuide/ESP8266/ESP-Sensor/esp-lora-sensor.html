@@ -8,16 +8,23 @@
 <body>
 <h1>ESP8266 / RMF95w LoRa Sensor</h1>
 <h2>Introduction</h2>
- <p>This page describes the ESP8266 Sensor that was built for use in a LoRa network/</p>
- <p>&nbsp;</p>
+ <p>This page describes the ESP8266 Sensor that was built for use in a LoRa network. The state of this sensor&nbsp;is: Work in progress</p>
+<p>Still to be sorted out:</p>
+ <ul>
+   <li>What DIO pin's need to be connected to the ESP8266 MCU and what are not necessary.The minimum set of pins that need to be connected is found below. However, please keep in mind that in order to do anything smart with this &quot;sensor&quot;, you have to connect physical sensor devices to the mcu so that it can report these value to the network</li>
+   <li>We need to find out what low-power options can be used for the ESP-8266 especially if we do not use its WiFi functions</li>
+   <li>Can we use WiFi functions together with the LoRa sensor, and will the ESP8266 be stable for a longer time.</li>
+ </ul>
+<p>&nbsp;</p>
  <h2>Pin-out RFM95W transceiver</h2>
-<p><img src="../images/rfm95w-1.jpg" width="538" height="344" />§§§&nbsp;	&nbsp;	</p>
+ <p>The following is the pin-out of the RFP95 chip. Of course if you choose to use a LoRabee or other type of adapter board you have to use thos pin settings.</p>
+<p><img src="../images/rfm95w-1.jpg" width="538" height="344" />&nbsp;	&nbsp;	</p>
 <p>Pin-out on HopeRF rfm95 shield:</p>
-<table width="60%" border="1">
+<table width="41%" height="281" border="1">
   <tr>
-    <th scope="col">&nbsp;</th>
-    <th scope="col">Top (antenna)</th>
-    <th scope="col">&nbsp;</th>
+    <th width="25%" scope="col">&nbsp;</th>
+    <th width="47%" scope="col">Top (antenna)</th>
+    <th width="28%" scope="col">&nbsp;</th>
   </tr>
   <tr>
     <td>DIO4</td>
@@ -70,17 +77,25 @@
     <td>3.3V</td>
   </tr>
 </table>
-<p>This solutions is not usable out of the box with the LoRaBee type of adapter board as that board does not expose the DIO5 pin of the RFM95.</p>
 <p>&nbsp;</p>
-<p>Connect to Wemos D1-mini</p>
-<table width="62%" border="1">
+<p>&nbsp;</p>
+<h2>Connections Wemos D1-mini to RFM95</h2>
+<table width="78%" border="1">
   <tr>
-    <th width="53%" scope="col">Wemos top</th>
-    <th width="47%" scope="col">LMIC</th>
-    <th width="47%" scope="col">ESP8266 pins</th>
+    <th width="15%" scope="col">Wemos top</th>
+    <th width="16%" scope="col">LMIC</th>
+    <th width="18%" scope="col">ESP8266 pins</th>
+    <th width="51%" scope="col">NOTEs</th>
+  </tr>
+  <tr>
+    <td>DIO5</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
   </tr>
   <tr>
     <td>DIO4</td>
+    <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
   </tr>
@@ -88,45 +103,68 @@
     <td>DIO3</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
+    <td>&nbsp;</td>
   </tr>
   <tr>
     <td>DIO2</td>
     <td>.dio[2]</td>
-    <td>D3</td>
+    <td>D3, GPIO3</td>
+    <td><p>Does not work standalone as D3 is used to select boot=up. Only works with UART connected and flashing.</p>
+      <p>Probably leave open!<br />
+    </p></td>
   </tr>
   <tr>
     <td>DIO1</td>
     <td>.dio[1]</td>
-    <td>D2</td>
+    <td>D2, GPIO4</td>
+    <td>May be left open</td>
   </tr>
   <tr>
     <td>DIO0</td>
     <td>.dio[0]</td>
-    <td>D1</td>
+    <td>D1, GPIO5</td>
+    <td>Must be connected</td>
   </tr>
   <tr>
-    <td><p>MISO (to D6, GPIO12)</p></td>
+    <td><p>MISO</p></td>
     <td>&nbsp;</td>
     <td>D6, GPIO12</td>
+    <td>&nbsp;</td>
   </tr>
   <tr>
     <td><p>MOSI</p></td>
     <td>&nbsp;</td>
     <td>D7, GPIO13</td>
+    <td>&nbsp;</td>
   </tr>
   <tr>
     <td>SCK</td>
     <td>&nbsp;</td>
     <td>D5, CLK</td>
+    <td>&nbsp;</td>
   </tr>
   <tr>
     <td>NSS</td>
     <td>.nss</td>
-    <td>D8</td>
+    <td>D8, GPIO15</td>
+    <td>&nbsp;</td>
   </tr>
   <tr>
     <td>&nbsp;</td>
     <td>.rst</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>D0</td>
+    <td>Free</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
     <td>&nbsp;</td>
   </tr>
 </table>
