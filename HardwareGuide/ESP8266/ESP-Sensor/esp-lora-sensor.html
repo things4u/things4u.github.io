@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>SI4432</title>
+</head>
+
+<body>
+<h1>ESP8266 / RMF95w LoRa Sensor</h1>
+<h2>Introduction</h2>
+ <p>This page describes the ESP8266 Sensor that was built for use in a LoRa network/</p>
+ <p>&nbsp;</p>
+ <h2>Pin-out RFM95W transceiver</h2>
+<p><img src="../images/rfm95w-1.jpg" width="538" height="344" />§§§&nbsp;	&nbsp;	</p>
+<p>Pin-out on HopeRF rfm95 shield:</p>
+<table width="60%" border="1">
+  <tr>
+    <th scope="col">&nbsp;</th>
+    <th scope="col">Top (antenna)</th>
+    <th scope="col">&nbsp;</th>
+  </tr>
+  <tr>
+    <td>DIO4</td>
+    <td>&nbsp;</td>
+    <td>GND</td>
+  </tr>
+  <tr>
+    <td>DIO3</td>
+    <td>&nbsp;</td>
+    <td>GND</td>
+  </tr>
+  <tr>
+    <td>DIO2</td>
+    <td>&nbsp;</td>
+    <td>GND</td>
+  </tr>
+  <tr>
+    <td>DIO1</td>
+    <td>&nbsp;</td>
+    <td>3.3V</td>
+  </tr>
+  <tr>
+    <td>DIO0</td>
+    <td>&nbsp;</td>
+    <td>GND</td>
+  </tr>
+  <tr>
+    <td><p>MISO</p></td>
+    <td>&nbsp;</td>
+    <td>GND</td>
+  </tr>
+  <tr>
+    <td><p>MOSI</p></td>
+    <td>&nbsp;</td>
+    <td>RST</td>
+  </tr>
+  <tr>
+    <td>SCK</td>
+    <td>&nbsp;</td>
+    <td>3.3V</td>
+  </tr>
+  <tr>
+    <td>NSS</td>
+    <td>&nbsp;</td>
+    <td>3.3V</td>
+  </tr>
+  <tr>
+    <td>RST</td>
+    <td>&nbsp;</td>
+    <td>3.3V</td>
+  </tr>
+</table>
+<p>This solutions is not usable out of the box with the LoRaBee type of adapter board as that board does not expose the DIO5 pin of the RFM95.</p>
+<p>&nbsp;</p>
+<p>Connect to Wemos D1-mini</p>
+<table width="62%" border="1">
+  <tr>
+    <th width="53%" scope="col">Wemos top</th>
+    <th width="47%" scope="col">LMIC</th>
+    <th width="47%" scope="col">ESP8266 pins</th>
+  </tr>
+  <tr>
+    <td>DIO4</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>DIO3</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>DIO2</td>
+    <td>.dio[2]</td>
+    <td>D3</td>
+  </tr>
+  <tr>
+    <td>DIO1</td>
+    <td>.dio[1]</td>
+    <td>D2</td>
+  </tr>
+  <tr>
+    <td>DIO0</td>
+    <td>.dio[0]</td>
+    <td>D1</td>
+  </tr>
+  <tr>
+    <td><p>MISO (to D6, GPIO12)</p></td>
+    <td>&nbsp;</td>
+    <td>D6, GPIO12</td>
+  </tr>
+  <tr>
+    <td><p>MOSI</p></td>
+    <td>&nbsp;</td>
+    <td>D7, GPIO13</td>
+  </tr>
+  <tr>
+    <td>SCK</td>
+    <td>&nbsp;</td>
+    <td>D5, CLK</td>
+  </tr>
+  <tr>
+    <td>NSS</td>
+    <td>.nss</td>
+    <td>D8</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>.rst</td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p><br />
+</p>
+<h2>Links</h2>
+ <ul>
+   <li>http://esp8266.com/wiki/doku.php?id=nodemcu</li>
+   <li>https://github.com/themadinventor/esptool</li>
+   <li><a href="http://www.esp8266.com/wiki/doku.php?id=esp8266_gpio_pin_allocations">ESP8266 pin allocations (esp8266.com)</a></li>
+ </ul>
+<p>&nbsp;</p>
+</body>
+</html>
