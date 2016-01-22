@@ -9,11 +9,12 @@
  <h1>ESP8266 IoT</h1>
 <p>A new variant of the sensor and gateway node is the IOT sensor which is based on a Wifi node such as the ESP8266. This means that the sensor does not use the 433MHz or 868MHz frequency band to transmit sensor values but uses the 2.4GHz Wifi band and a proper IP connection to send (temperature) values.</p>
 <p>This opens new possibilities: It may be possible to combine certain functions of an intelligent mcu such as the Raspberry and the Arduino for your projects. For example, If the ESP would be able work wih 433MHz receivers and transmitters it would be possible to receive messages coming from the LamPI daemon and send back received sensor readings to the daemon.</p>
+<p>Also, the ESP8266 has enough memory and power to be used as a MCU in a LoRa environment. Simply NOT use the built-in WiFi capabilities and use it as a MCU only. (<a href="ESP-Sensor/esp-lora-node.html">Please see THS PAGE for a recipe to turn the ESP into a LoRa node with a RFM95</a>).</p>
 <p>But first, let's start with the simple stuff, the family tree :-)</p>
 <h1>The ESP8266 famility</h1>
  <p>There are several types of ESP 8266 boards available. They differ in the amount of memory and IO channels/pins available to the user. </p>
  <h2>ESP01</h2>
- <p>I started with the ESP-01 version which is the simplest and cheapest board. It has only 2 IO ports. It's pin out is difficult, it has 2.54 mm pin spacing but two rows of 4 pins close to eah other make use of breadboards impossible without doing a little soldering (making a different connection). </p>
+ <p>A while ago I started with the ESP-01 version which is the simplest and cheapest board. It has only 2 IO ports. It's pin out is difficult, it has 2.54 mm pin spacing but two rows of 4 pins close to eah other make use of breadboards impossible without doing a little soldering (making a different connection). </p>
  <p>&nbsp;</p>
  <p><img src="images/esp-01.jpg" width="600" height="415" /></p>
  <p>&nbsp;</p>
@@ -69,11 +70,11 @@
      <td>&nbsp;</td>
    </tr>
 </table>
-<p>Because the ESP01 has only 2 GPIO pins available (GPIO0 and GPIO1), it's use is in general limited to a simple sensor node. The Dallas (OnWire) sensor DS18B20 would be a good candidate to use this little node for temperature measurements.</p>
+<p>Because the ESP01 has only 2 GPIO pins available (GPIO0 and GPIO1), it's use is in general limited to a simple sensor node. The Dallas (OnWire) sensor DS18B20 would be a good candidate to use this little node for temperature measurements. Picture shoes the ESP01 board with a FTDI board attached (left) so the actual board is much smaller.</p>
 <p><a href="images/esp01_b.JPG"><img src="images/esp01_b.JPG" width="600" height="450" hspace="10" vspace="10" /></a></p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
-<p>However, it's connector with 2 rows of 4 pins makes it difficult to connect this ESP01 device on a breadboard without building some sort of adapter board. And sources on the internet tell use we need 2 microswitches and a voltage regulator to use tis device reliably (and a FTDI adapter). </p>
+<p>However, it's connector with 2 rows of 4 pins makes it difficult to connect this ESP01 device on a breadboard without building some sort of adapter board. And sources on the internet tell use we need 2 microswitches and a voltage regulator to use tis device reliably (and a FTDI adapter). Especially the voltage regulator and the buttons required to operate this device made me decide to take another route.</p>
 <p><a href="images/esp01_c.JPG"><img src="images/esp01_c.JPG" width="600" height="450" hspace="10" vspace="10" /></a></p>
 <p></p>
 <h2>ESP 12</h2>
@@ -83,8 +84,9 @@
  <p>I had hoped that this board would make the ESP12 easy to work with, but I keep having trouble with the Serial connections, and after uploading the firmware the device will not always boot correctly and the Serial connection is difficult to deal with. It may be hardware related, but for the few Euro's I do not plan to spend too much time on finding the root cause of my problems. I first like to have a working environment so that at least I know that it works and have a prototype environment. After that, debugging is much easier as we have a working environment to compare with.</p>
  <p><a href="images/esp12e_c.JPG"><img src="images/esp12e_c.JPG" width="467" height="375" hspace="10" vspace="10" /></a></p>
 <p>So, as this boards did not work reliably on my PC I have opted for a third option to start with. But what would then the most simple way to start with the ESP8266?</p>
+<p>&nbsp;</p>
 <h2>nodeMCU0.9 and nodeMCU 1.0</h2>
- <p>Two powerful ESP8266 based boards are the nodeMCU 0.9 which is basedon the ESP-12 and the nodeMCU 1.0&nbsp;based on the ESP-12E. They are also called version 1 and version 2. On the market (ebay and aliexpress) people offer also version 3 nodes. Sometimes they are based on special ESP-12 versions and they have their own IDE as well. But most of the time all versions behave almost the same.</p>
+ <p>Two powerful ESP8266 based boards are the nodeMCU 0.9 which is basedon the ESP-12 and the nodeMCU 1.0&nbsp;based on the ESP-12E. They are also called version 1 and version 2. On the market (ebay and aliexpress) people offer also version 3 nodes. Sometimes they are based on special ESP-12 versions and they have their own IDE as well. But most of the time all versions behave almost the same if not identical.</p>
  <p>This small board (and new ones are even smaller) can be connected to the computer with a micro USB cable and can be programmed without an extra FTDI interfaces or other additional hardware. I must say, getting these boards to work: powering, reset, upload sketches and monitor execution is a piece of cake compared to the bare chips...</p>
 <p>I have to see if I can make these boards energy efficient so they can be powered by battery, which would make this sensor solution even more versatile. However, even without battery operation it is a good solution for sensors that are remote to our house.</p>
  <p><img src="images/nodeMCU1.0-a.jpg" width="600" height="450" hspace="10" vspace="10" /></p>
@@ -94,8 +96,7 @@
 <p>&nbsp;</p>
  <h1>Getting Started</h1>
  <h2>Hardware</h2>
- <p>As said above, I think the safest and easiest way to stat with the ESP boards is by buying a ready-to-go nodeMCU 1.0 board on Ebay.com or Aliexpress.com. Connect that board with a micro USB cable (same as for phones) to your computer and start installing the IDE.</p>
- <p>There are many people that have no problem whatsoever with PC's, but I found that my iMac and Ubuntu Linux machine provide the best and most reliable results here (and yes I do have a High-End I7 laptop at home, but it gives me problems).</p>
+ <p>As said above, I think the safest and easiest way to start with the ESP boards is by buying a ready-to-go nodeMCU 1.0 board on Ebay.com or Aliexpress.com. Connect that board with a micro USB cable (same as for phones) to your computer and start installing the IDE.</p>
  <h2>Software</h2>
 <ul>
    <li>Install the regular IDE for Arduino. Make sure you install version 1.6.5 for the IDE as that version works with the ESP devices</li>
@@ -117,7 +118,7 @@
   </ul>
 </ul>
 <h3>Pin Numbering</h3>
-<p>The numbering and identification of GPIO pins is different between the two machine architectures:<br />
+<p>The numbering and identification of GPIO pins differs from the Arduino machine.<br />
 </p>
 <h1>Programming Best Practices</h1>
 <p>Although we cannot see it when programming the IDE, the ESP8266 board is running far more (and complex) code in the background while executing our sketches. Therefore there are several things to keep in mind:</p>
@@ -143,17 +144,19 @@
 </ol>
 <p>&nbsp;</p>
 <h1>NodeMCU Sensor</h1>
-<p>This was my first project with the ESP8266 (nodemcu 1.0) and it is not difficult. I may be lucky, but with the changes made as described above it was easy to build an ESP-based sensor node that work reliably. However, its use is rather limited: It does not offer any specific benefits over an Arduino based and battery powered node except for its&nbsp;capabilities to work anywhere we have a Wifi connection available.</p>
-<p>In the default setup, the sensor will report its values over z websocket connection. The LamPI-node.js files has been changed in order to service these requests and as a result the sensors can be put on any place on earth as long as we have a reliable Wifi connection (So we need to know an SSID/password combination that works).<br />
+<p>This was my first LoRa project with the ESP8266 (nodemcu 1.0) and it is not difficult. I may be lucky, but with the changes made as described above it was easy to build an ESP-based sensor node that work reliably. However, its use is rather limited: It does not offer any specific benefits over an Arduino based and battery powered node except for its&nbsp;capabilities to work anywhere we have a Wifi connection available.<br />
 </p>
-<p><a href="ESP-Sensor/esp-lora-sensor.html">Read further on the ESP Sensor project</a><br />
+<p><a href="ESP-Sensor/esp-lora-sensor.html">Read further on the ESP Sensor project</a></p>
+<p><br />
 </p>
 <h1>ESP LoRa Gateway</h1>
 <p>This is something for further study. If the ESP8266 can handle 433 transmitters/receivers or setp and maintain WiFi connections while at the same time working as a LoRa node remains to be seen.</p>
+<p>&nbsp;</p>
 <h1>Battery Operation</h1>
 <p>Of course these devices can be battery operated. After all, similar stuff is in every mobile phone. However,  those mobile phones are charged avery day or every other day, and that is not exactly what your are looking for&nbsp;when operating a sensor on a battery. The specifications tell us that the power usage is less than 1mA when stand-by, which is OK but not terrific. About 100uA if less would be far better for a battery powered device and would make the batteries last for months to a year or more.</p>
 <p>And experiene shows that making a connection to the network and to the host in some cases can take a lot of time (for yet unknown reasons). And making these connection require most power. So if a node should wake up every minute o so and spends 15-30 seconds looking for the network or the host, battery operation will not work.</p>
- <h1>Links</h1>
+<p>&nbsp;</p>
+<h1>Links</h1>
  <ul>
    <li>http://esp8266.com/wiki/doku.php?id=nodemcu</li>
    <li>https://github.com/themadinventor/esptool</li>

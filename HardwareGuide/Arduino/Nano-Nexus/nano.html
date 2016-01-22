@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Nexus</title>
+</head>
+
+<body>
+<h1>Ideetron Nexus</h1>
+<p>Ideetron (http://www.ideetron.nl) has published a simplified version of the LoRa sensor that will run on an Arduino 328-based system. As the LoRa example code of IBM does in its published form not fit in a normal Arduino (328) they left functions out such as multi-channel.</p>
+<p>They made a dedicated package and call it &quot;LoRa Nexus&quot;</p>
+<p><a href="../../images/nexus_1.jpg"><img src="../../images/nexus_1.jpg" width="506" height="247" /></a></p>
+<p>The link to the sketch code can be found on their website.</p>
+<p>&nbsp;</p>
+<h2>MiniNexus</h2>
+<p>So let's make our own mini node based on a cheap Arduino Pro-Mini MCU ($ 2.00 on Aliexpress), a HopeRF95, a HTU21d temperature/humidity sensor ($4.00) and some resistors. Based on the LoRaWAN software and library sketches it should be possible to make your own &quot;Thing&quot;. </p>
+<p><img src="../../images/rfm95w-1.jpg" width="538" height="344" /></p>
+<p>And the Arduino Pro-Mini looks like this.</p>
+<p><img src="images/ArduinoProMini_Front_3v3.jpg" width="400" height="400" /></p>
+<p>Pin-out for use with an Arduino ProMini:</p>
+<table width="40%" border="1">
+  <tr>
+    <th width="18%" scope="col">Arduino</th>
+    <th width="14%" scope="col">Arduino Pin</th>
+    <th width="14%" scope="col">RFM95</th>
+    <th width="14%" scope="col">Color</th>
+  </tr>
+  <tr>
+    <td><p>RST</p></td>
+    <td>--</td>
+    <td>RESET</td>
+    <td>--</td>
+  </tr>
+  <tr>
+    <td>3.3V</td>
+    <td>&nbsp;</td>
+    <td>3.3V</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>GND</td>
+    <td>&nbsp;</td>
+    <td>GND</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>D4</td>
+    <td>&nbsp;</td>
+    <td>DIO0</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>D5</td>
+    <td>&nbsp;</td>
+    <td>DIO1</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>D6</td>
+    <td>&nbsp;</td>
+    <td>DIO5</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>D7</td>
+    <td>&nbsp;</td>
+    <td>DIO2</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>D10-SS</td>
+    <td>10</td>
+    <td>NSS</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>MOSI</td>
+    <td>11</td>
+    <td>MOSI</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>MISO</td>
+    <td>12</td>
+    <td>MISO</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>CLK</td>
+    <td>13</td>
+    <td>SCK</td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+<p>As you can see in the picture of the Arduino ProMini below (actual boards might differ a bit) we need pins at both sides of the board so left of right orientation of the RFM95 is less important. </p>
+<p>There are special adapter cards and boards available for tge RFM95w, but if we would wire&nbsp;and solder connections we need 10 wires.</p>
+<h2>breadboard</h2>
+<p>I soldered some jumpers (cut in half) to&nbsp;the RFM95 board to be able to test and experiment with the setup.</p>
+<p><a href="images/NanoLora_2.jpg"><img src="images/NanoLora_2.jpg" width="400" height="300" hspace="10" vspace="10" /></a></p>
+<p>&nbsp;</p>
+<h2>Final Version</h2>
+<p><a href="images/NanoLora_1.jpg"><img src="images/NanoLora_1.jpg" width="400" height="300" hspace="10" vspace="10" /></a></p>
+<h1>Wishlist</h1>
+<p>If we would like to make a simple node that can report temperature and humidity and runs on normal batteries we need to do some special tings as well:</p>
+<ul>
+  <li>Connect an HTU21d sensor with SDA pin to A4 and SCL to A5, and connect VCC and GND.</li>
+  <li>Make power reporting by using pin A0 as a reference sensor for battery power.</li>
+  <li>Cut some traces on the Arduino Board in order to disable LED (and voltage regulator) so that teh unit is really low power.</li>
+  <li>Change the skketch so that we can put the Arduino AND the RFM95 to sleep when necessary</li>
+</ul>
+<p>If we want to connect a simpl temperature/humidity sensor we have to </p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</body>
+</html>
