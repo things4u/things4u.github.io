@@ -2,21 +2,24 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Nexus</title>
+<title>Mini Node</title>
 </head>
 
 <body>
-<h1>Ideetron Nexus</h1>
-<p>Ideetron (http://www.ideetron.nl) has published a simplified version of the LoRa sensor that will run on an Arduino 328-based system. As the LoRa example code of IBM does in its published form not fit in a normal Arduino (328) they left functions out such as multi-channel.</p>
-<p>They made a dedicated package and call it &quot;LoRa Nexus&quot;</p>
+<h1>Mini LoRa</h1>
+<p>The Arduino Nano and Arduino Pro-Mini cheap yet well known candidates for building your own sensors. However, the reference implementations of LoRa stack for the RFM95 do not fit in the memory (yet). Most importantly because the AES encryption modules use huge amounts of memory in these stacks. Of course it is possible to fit these stuctures in program memory but still we are short of memory let alone that we could run some own code supporting our own physical sensors.</p>
+<p>Ideetron (http://www.ideetron.nl) has published a simplified version of the LoRa sensor that will run on an Arduino 328-based system. As the LoRa example code of IBM does in its published form not fit in a normal Arduino (328) they left functions out such as multi-channel. They made a dedicated package and call it &quot;LoRa Nexus&quot;, and published the software as an example on github. The link to the sketch code can be found on their website.</p>
 <p><a href="../../images/nexus_1.jpg"><img src="../../images/nexus_1.jpg" width="506" height="247" /></a></p>
-<p>The link to the sketch code can be found on their website.</p>
+<p>It is possible to use their code as a starting point for your own LoRa node + sensor.</p>
+<p>This page describes how to build you own node based on Arduino Pro-Mini MCU and the modified software of Ideetron.</p>
 <p>&nbsp;</p>
-<h2>MiniNexus</h2>
+<h2>Mini LoRa</h2>
 <p>So let's make our own mini node based on a cheap Arduino Pro-Mini MCU ($ 2.00 on Aliexpress), a HopeRF95, a HTU21d temperature/humidity sensor ($4.00) and some resistors. Based on the LoRaWAN software and library sketches it should be possible to make your own &quot;Thing&quot;. </p>
 <p><img src="../../images/rfm95w-1.jpg" width="538" height="344" /></p>
-<p>And the Arduino Pro-Mini looks like this.</p>
-<p><img src="images/ArduinoProMini_Front_3v3.jpg" width="400" height="400" /></p>
+<p>&nbsp;</p>
+<p>And the Arduino Pro-Mini looks like this. It's pin out is clearly marked on the outside of the board (that is, until I start to solder pin's to it). </p>
+<p><img src="images/ArduinoProMini_Front_3v3.jpg" width="400" height="250" /></p>
+<p>In order to operate the Pro-Mini you only need to attach a 3.3Vdc battery to pin's VCC and GND, however for downloading the sketch program you probably also want to solder pins to the 6-pin USB/FTDI interface to the right.</p>
 <p>Pin-out for use with an Arduino ProMini:</p>
 <table width="40%" border="1">
   <tr>
@@ -27,15 +30,15 @@
   </tr>
   <tr>
     <td><p>RST</p></td>
-    <td>--</td>
+    <td>RST</td>
     <td>RESET</td>
     <td>--</td>
   </tr>
   <tr>
-    <td>3.3V</td>
+    <td>VCC</td>
     <td>&nbsp;</td>
     <td>3.3V</td>
-    <td>&nbsp;</td>
+    <td>red</td>
   </tr>
   <tr>
     <td>GND</td>
@@ -45,25 +48,25 @@
   </tr>
   <tr>
     <td>D4</td>
-    <td>&nbsp;</td>
+    <td>4</td>
     <td>DIO0</td>
     <td>&nbsp;</td>
   </tr>
   <tr>
     <td>D5</td>
-    <td>&nbsp;</td>
+    <td>5</td>
     <td>DIO1</td>
     <td>&nbsp;</td>
   </tr>
   <tr>
     <td>D6</td>
-    <td>&nbsp;</td>
+    <td>6</td>
     <td>DIO5</td>
     <td>&nbsp;</td>
   </tr>
   <tr>
     <td>D7</td>
-    <td>&nbsp;</td>
+    <td>7</td>
     <td>DIO2</td>
     <td>&nbsp;</td>
   </tr>
@@ -96,10 +99,12 @@
 <p>There are special adapter cards and boards available for tge RFM95w, but if we would wire&nbsp;and solder connections we need 10 wires.</p>
 <h2>breadboard</h2>
 <p>I soldered some jumpers (cut in half) to&nbsp;the RFM95 board to be able to test and experiment with the setup.</p>
-<p><a href="images/NanoLora_2.jpg"><img src="images/NanoLora_2.jpg" width="400" height="300" hspace="10" vspace="10" /></a></p>
+<p><a href="images/MiniLora_2.jpg"><img src="images/MiniLora_2.jpg" width="400" height="300" hspace="10" vspace="10" /></a></p>
+<p>I left enough wire to make connection to the breadboard simple. But it looks like **** and it did not take much time before I decided to cut the wires really short and solder them directly to an Arduino Pro-Mini.</p>
 <p>&nbsp;</p>
 <h2>Final Version</h2>
-<p><a href="images/NanoLora_1.jpg"><img src="images/NanoLora_1.jpg" width="400" height="300" hspace="10" vspace="10" /></a></p>
+<p><a href="images/MiniLora_1.jpg"><img src="images/MiniLora_1.jpg" width="400" height="300" hspace="10" vspace="10" /></a></p>
+<p>As you can see, it is possible to make a real small sensor. </p>
 <h1>Wishlist</h1>
 <p>If we would like to make a simple node that can report temperature and humidity and runs on normal batteries we need to do some special tings as well:</p>
 <ul>
@@ -108,7 +113,7 @@
   <li>Cut some traces on the Arduino Board in order to disable LED (and voltage regulator) so that teh unit is really low power.</li>
   <li>Change the skketch so that we can put the Arduino AND the RFM95 to sleep when necessary</li>
 </ul>
-<p>If we want to connect a simpl temperature/humidity sensor we have to </p>
+<p><a href="mini-lowpower.html">Please read on Page 2 how to&nbsp;transform the node to a sensor</a></p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 </body>

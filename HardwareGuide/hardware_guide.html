@@ -10,10 +10,10 @@
 <h4>Version: 1.0.0<br>
   Date: January 2016
 </h4>
-<p>This page deals with the various types of hardware that can be connected to the LoRa network. </p>
+<p>This page deals with the various types of Nodes (hardware) that we connected to the LoRa network. </p>
 <p>&nbsp;</p>
 <h2>Structure of this document</h2>
-<p>This document is structured around hardware families for MCU that support thethingsnetwork.org.</p>
+<p>This document is structured around hardware families for MCU that support thethingsnetwork.org. For every family one or more nodes and/or sensors based on these nodes are described. </p>
 <h2>Table of contents</h2>
 <ul>
   <li>MCU modules
@@ -25,19 +25,33 @@
           <li><a href="ESP8266/ESP-Sensor/esp-lora-sensor.html">ESP Sensor temperature sensor node</a></li>
         </ul>
       </li>
-      <li>Arduino</li>
+      <li>Arduino
+        <ul>
+          <li><a href="Arduino/Mini-Sensor-HTU21/mini-lora.html">Arduino Pro Mini minimal  node</a></li>
+          <li><a href="Arduino/Mini-Sensor-HTU21/mini-lowpower.html">Arduino Pro Mini lowpower sensor</a></li>
+        </ul>
+      </li>
       <li>Raspberry</li>
     </ul>
   </li>
-  <li>Transceivers</li>
-  <li>Sensor modules</li>
+  <li>Transceivers
+    <ul>
+      <li>RFM95w</li>
+    </ul>
+  </li>
+  <li>Sensor modules
+    <ul>
+      <li>DS18B20</li>
+      <li>HTU21d</li>
+    </ul>
+  </li>
 </ul>
 <h2><a name="supported_devices"></a>Supported Devices</h2>
 <p>The following devices are tested with software on http://github.io/things4u</p>
 <ul>
-  <li>Nexus Software
+  <li>Mini Software (Minimal stack based on Nexus example of Ideetron)
     <ul>
-      <li>Arduino Pro-Mini, also with HTU21d sensor</li>
+      <li>Arduino Pro-Mini,  with HTU21d sensor</li>
     </ul>
   </li>
   <li>LIRC-v1.5: 

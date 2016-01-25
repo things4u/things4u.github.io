@@ -1,2 +1,2 @@
 # things4u.github.io
-Documentation of things4u 
+Documentation of Things4U  
