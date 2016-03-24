@@ -16,7 +16,10 @@
 <p>So the following connections need be made, please click on the picture to enlarge the image.</p>
 <p><a href="images/architecture.gif"><img src="images/architecture.gif" width="480" height="360" hspace="10" vspace="10" /></a></p>
 <h2>Software</h2>
-<p>The sketch for running the Mini Node and Sensor can be found <a href="https://github.com/things4u/LoRa-Thing">on Github</a>.</p>
+<p>The sketch for running the Mini Node and Sensor can be found <a href="https://github.com/things4u/LoRa-Thing">on Github</a>. This sketch uses a tiny stack where several functions are not implemented, the most important being that this stack does not use multiple channels. This stack has a real&nbsp;low-power variant implemented, which makes it run on batteries for a long time.</p>
+<p>So there is an alternative stack available based on the IBM LMIC software, I called it the LMIC-1.51 version. It can be found <a href="https://github.com/things4u/LoRa-LMIC-1.51">on Github</a>. The negative of using this stack is that there is less program and memory space available for sensor code since the stack itself is a big-spender. The positive: It uses the reference implementation.<br />
+  ToDo: I need to merge the LMIC-1.51 library with low-power so that a sensor will run for a longer time on the software (probably by disabling receive functions and sleep in between transmissions).
+</p>
 <p>&nbsp;</p>
 <h2>I2C Bus</h2>
 <p>The I2C bus is standard on Arduino devices. Devices on the bus are connected by 4 wires: Vcc, Gnd, SDA and SCL. The SDA pin is connected to pin A4 on the Arduino and SCL on pin A5&nbsp;(Please note A4 is the Analog pin 4!). </p>
@@ -28,8 +31,14 @@
   <li>Put the Arduino processor in sleep mode while waiting for the next transmit window. When using the Lowpower lib (included in the libraries directory on github) we can use a special sleep delay instead of the normal delay() function which will lower power consumption considerably.</li>
   <li>We also need to put the RFM95 to sleep between transmissions. The best way is to write the sleep command to the RFM95 register just before the Arduino goes to its long sleep (typical, 1 minute or more).<br />
     On my multi-meter the power use drops from around 1.8mA to 10uA during these sleep periods.
-  </li>
+ &nbsp; </li>
 </ul>
+<p>&nbsp;</p>
+<h2>Battery Level</h2>
+<p>Measuring the remaining battery power is is a very useful thing for battery operated sensors. So if the battery level drops below a certain value (say 1.1 Volts for a AA Alkaline cell) we see an LED blinking on the sensor board or we receive special battery sensor messages from the sensor (or both).</p>
+<p>The Arduino has an internal Analogue-Digital Converter (ADC) on board that can measure a voltage level and return a digital value indicating the level measured. The Arduino ADC has an internal reference value of around 1.1Volts DC, which means that when we measure 1.1V we receive the maximum measured value (and when we measure a voltage level of 0 Vdc this is 0). So for our 2 AA-cell battery which has a voltage of 2 * 1.6 = 3.2 Vdc. Therefore, the max is 3.2Vdc for fresh batteries and below (2 * 1.2 = ) 2.4 Vdc we should rapidly replace the batteries.</p>
+<p>The solution is to build a voltage divider with two resistors so that the resulting Voltage at the measuring analog pin will not exceed this 1.1V internal reference value. When we take into account that the input voltage of the battery will be 3.2 Vdc of evel a little higher, the voltage devider resistors will be of value 1.0 M and 330K Ohms. </p>
+<p>As said the value we get in return is and integer value between 0 and 1023. So we might convert this back to Voltage by multiplying with 4.45 (This is the input voltage for which the voltage devider more or less provides the reference votage of 1.1 V dc) and then dividing by 1023.</p>
 <p>&nbsp;</p>
 <h1>Wishlist</h1>
 <p>There is always room for improvement:</p>

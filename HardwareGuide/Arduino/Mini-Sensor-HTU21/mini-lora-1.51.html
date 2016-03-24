@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Mini Node</title>
+</head>
+
+<body>
+<h1>Mini LoRa sensor with full stack</h1>
+<p>Some week sago I started a project to get the full LMIC stack on a Atmega 328 based MCU. Initially, after a lot of effort it was possible to compile the code on an Arduino Pro-Mini, but there was no room left to execute any meaningful code on such node. </p>
+<p>Therefore I decided to remove the original AES encryption code from LMIC and merge the LMIC code with&nbsp; another AES library. Since I had experience with the Ideetron code I ported teh Encryption part of that code to the LMIC stack. The result was a much smaller and cleaner implementation of the encryption functions and&nbsp;a stack that fitted the Atmega 328 MCU leaving more than 400 bytes of memory and&nbsp;4K of flash to run sensor code.</p>
+<p>&nbsp;</p>
+<h2>Mini LoRa</h2>
+<p>So let's make our own mini node based on a cheap Arduino Pro-Mini MCU ($ 2.00 on Aliexpress), a HopeRF95, a HTU21d temperature/humidity sensor ($4.00) and some resistors. Based on the LoRaWAN software and library sketches it should be possible to make your own &quot;Thing&quot;. </p>
+<p><img src="../../images/rfm95w-1.jpg" width="538" height="344" /></p>
+<p>&nbsp;</p>
+<p>And the Arduino Pro-Mini looks like this. It's pin out is clearly marked on the outside of the board (that is, until I start to solder pin's to it). </p>
+<p><img src="images/ArduinoProMini_Front_3v3.jpg" width="400" height="250" /></p>
+<p>In order to operate the Pro-Mini you only need to attach a 3.3Vdc battery to pin's VCC and GND, however for downloading the sketch program you probably also want to solder pins to the 6-pin USB/FTDI interface to the right.</p>
+<p>Pin-out for use with an Arduino ProMini:</p>
+<table width="40%" border="1">
+  <tr>
+    <th width="18%" scope="col">Arduino</th>
+    <th width="14%" scope="col">Arduino Pin</th>
+    <th width="14%" scope="col">RFM95</th>
+    <th width="14%" scope="col">Color</th>
+  </tr>
+  <tr>
+    <td><p>RST</p></td>
+    <td>RST</td>
+    <td>RESET</td>
+    <td>--</td>
+  </tr>
+  <tr>
+    <td>VCC</td>
+    <td>&nbsp;</td>
+    <td>3.3V</td>
+    <td>red</td>
+  </tr>
+  <tr>
+    <td>GND</td>
+    <td>&nbsp;</td>
+    <td>GND</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>D4</td>
+    <td>4</td>
+    <td>DIO0</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>D5</td>
+    <td>5</td>
+    <td>DIO1</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>D6</td>
+    <td>6</td>
+    <td>DIO5</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>D7</td>
+    <td>7</td>
+    <td>DIO2</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>D10-SS</td>
+    <td>10</td>
+    <td>NSS</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>MOSI</td>
+    <td>11</td>
+    <td>MOSI</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>MISO</td>
+    <td>12</td>
+    <td>MISO</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>CLK</td>
+    <td>13</td>
+    <td>SCK</td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+<p>As you can see in the picture of the Arduino ProMini below (actual boards might differ a bit) we need pins at both sides of the board so left of right orientation of the RFM95 is less important. </p>
+<p>There are special adapter cards and boards available for tge RFM95w, but if we would wire&nbsp;and solder connections we need 10 wires.</p>
+<h2>&nbsp;</h2>
+<p>&nbsp;</p>
+<h2>Final Version</h2>
+<p><a href="images/MiniLora_1.jpg"><img src="images/MiniLora_1.jpg" width="400" height="300" hspace="10" vspace="10" /></a></p>
+<p>As you can see, it is possible to make a real small sensor. </p>
+<h1>Wishlist</h1>
+<p>If we would like to make a simple node that can report temperature and humidity and runs on normal batteries we need to do some special tings as well:</p>
+<ul>
+  <li>Connect an HTU21d sensor with SDA pin to A4 and SCL to A5, and connect VCC and GND.</li>
+  <li>Make power reporting by using pin A0 as a reference sensor for battery power.</li>
+  <li>Cut some traces on the Arduino Board in order to disable LED (and voltage regulator) so that teh unit is really low power.</li>
+  <li>Change the skketch so that we can put the Arduino AND the RFM95 to sleep when necessary</li>
+</ul>
+<p><a href="mini-lowpower.html">Please read on Page 2 how to&nbsp;transform the node to a sensor</a></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</body>
+</html>
