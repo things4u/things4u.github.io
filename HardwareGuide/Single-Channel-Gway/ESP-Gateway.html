@@ -24,7 +24,7 @@ The 1-channel gateway has the following limitations compared to its bigger broth
   <li>Works with one Spreading Factor mode only (SF7 is activated by default at the moment).</li>
 </ol>
 <h2>Building</h2>
-<p>As you can see on the picture above, the whole thing fits on a very small board. And as there are even less connections necessary as for the loRa node, the whol ething could be made in a matter of hours.</p>
+<p>As you can see on the picture above, the whole thing fits on a very small board. And as there are even less connections necessary as for the loRa node, this DIY project could be ready in a matter of hours.</p>
 <h2>&nbsp;</h2>
 <h2>Pin Out</h2>
 <p>The pin out of the two devices on the gateway board are as follows:</p>
@@ -96,10 +96,10 @@ The 1-channel gateway has the following limitations compared to its bigger broth
 <p>The clock function is implemented using NTP. As soon as we have an IP connection we try to connect to a timeserver to get the current time. This way we know how long the unit is operational since we last powered it on, and can we time things if necessary.</p>
 <h3>Webserver </h3>
 <p>As the ESP8266 is not a Linux machine, so it has no local persistent storage (disk), at least not out of the box. It also lacks the possibility to make a SSH connection as you can with a RaspberryPI for example. Still we would like to know how the device is doing, and how long it is operating without any problems. The latter is easy to measure if we look at the time that the gateway is operational. If that time is after the moment we plugged the gateway in, it probably suffered from a Watchdog reset and has restarted since.</p>
-<p>Although watchdogs are not OK, they are an integral part of the ESP8266 design. The chip will reset in a very short amount of timet so&nbsp;in principle we would not lose too many incoming packets (if any). However, since we will loose statistics data and probably the channel and WIFI setting as well if we make that dynamically, it would be better if we would not have ANY watchdog resets.</p>
+<p>Although watchdogs are not OK, they are an integral part of the ESP8266 design. The chip will reset in a very short amount of time so&nbsp;in principle we would not lose too many incoming packets (if any). However, since we will loose statistics data and probably the channel and WIFI setting as well if we make that dynamically, it would be better if we would not have ANY watchdog resets.</p>
 <p>Over the last week, both gateways have been running fine without any resets. So I had to add a date field in the webserver as well, since &quot;started on Friday&quot; would not give enough information at all.</p>
 <p>I built following webserver to view statistics and control debug level, channel assignment (future) etc. You can easily invoke the webserver at the IP address of the Gateway as follows: http://&lt;IP Address of Gateway&gt;:8080. The output looks like this. The interface also allows some setting of debug levels and statistics. More to come..</p>
-<p><a href="images/webserver-1.JPG"><img src="images/webserver-1-300.JPG" width="300" height="537"></a></p>
+<p><a href="images/webserver-1.JPG"><img src="images/webserver-1-300.JPG" width="300" height="537" hspace="10" vspace="10"></a></p>
 <h4>Todo:</h4>
 <ul>
   <li>Build function to assign the SSID and password dynamically (in progress)</li>
