@@ -25,7 +25,7 @@ The 1-channel gateway has the following limitations compared to its bigger broth
 </ol>
 <h2>Building</h2>
 <p>As you can see on the picture above, the whole thing fits on a very small board. And as there are even less connections necessary as for the loRa node, this DIY project could be ready in a matter of hours.</p>
-<h2>&nbsp;</h2>
+<p>I did not yet find a nice box to put the gateway in, but that will probably not last very long.</p>
 <h2>Pin Out</h2>
 <p>The pin out of the two devices on the gateway board are as follows:</p>
 <p><img src="../images/rfm95w-1.jpg" width="538" height="344"></p>
@@ -89,9 +89,9 @@ The 1-channel gateway has the following limitations compared to its bigger broth
 <p>* The reset pin does not have to be connected so it seems. It is only used at setup to read the chip identification</p>
 <p>As you can see, both reset and GPIO0 of the ESP8266 are not used. Not connecting the last one makes the ESP8266 gateway more stable and the behavior between flash and normal mode is the same.</p>
 <h2>Software</h2>
-<p>The software is currently under development and not yet published. Several additions have been made to the RaspberryPI version in order to make this ESP version more reliable and workable.</p>
+<p>The software is currently still under development. Several additions have been made to the RaspberryPI version in order to make this ESP version more reliable and workable. However, there are still some functions that can be included such as&nbsp;setting the SSID and password dynamically&nbsp;(The ESP will act as an access point so that your PC can connect to it, and set SSID and Password).</p>
 <h3>DNS</h3>
-<p>The ESP libraries support DNS hostnames out of the box. </p>
+<p>The ESP libraries support DNS hostnames out of the box. As apparently DNS functions are hard on the mcu, and may cause  crashes and watchdog resets, I have decided to only once get the IP address of the LoRa router and from that moment on use that IP address in the program.</p>
 <h3>Clock</h3>
 <p>The clock function is implemented using NTP. As soon as we have an IP connection we try to connect to a timeserver to get the current time. This way we know how long the unit is operational since we last powered it on, and can we time things if necessary.</p>
 <h3>Webserver </h3>
@@ -106,7 +106,7 @@ The 1-channel gateway has the following limitations compared to its bigger broth
   <li>Support a list of well-known SSID's (for example home, work and your Telephone) and switch between them if necessary</li>
   <li>Dynamic channel assignment (listen for other gateways and choose a free channel)</li>
   <li>Find a nice box/case for the board.</li>
-  <li>Find a really nice power adapter with 2M of wire for next to nothing</li>
+  <li>Find a really nice power adapter with 2 Meters of wire forlittle money</li>
   <li>Battery power (probably not practical).</li>
 </ul>
 <h2>Costs</h2>
