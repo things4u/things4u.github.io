@@ -12,10 +12,11 @@
 April 12, 2016</p>
 <p>(c) Maarten Westenberg (mw12554@hotmail.com)</p>
 <p>&nbsp;</p>
-<p><img src="images/DSCN3046.JPG" width="645" height="414"></p>
+<p><a href="images/DSCN3046.JPG"><img src="images/DSCN3046.JPG" width="645" height="414"></a></p>
 <h2>Introduction</h2>
 <p>After building the first 1-channel Gateway based on&nbsp;a raspberry with a RFM95 transceiver I asked myself whether it would be possible to make an even cheaper 1-channel gateway. If we would be satisfied with WiFi network support only, then the ESP8266 mcu would be a good candidate for such a gateway.</p>
 <p>Now most of us know that the ESP8266 is a difficult animal to play with. As the ESP8266 divides its time between the IDE program and its internal WiFi support system, we will get watchdog reset problems really soon if we do not allow the background processes to deal with WiFi on a very regular basis.</p>
+<p>The project source code is found on&nbsp;the <a href="https://github.com/things4u/ESP-1ch-Gateway">Things4U github page</a> as well.</p>
 <h2>Limitations</h2>
 <p>A full-function gateway is capable of simultaneously receive several LoRa packets with various spreading factors on random channels. The 1-channel gateway does not have the performance to do that. It is sort of compatible with the LoRa data format sent by sensors but it does not implement the rest of the LoRa specs and therefore is not compliant.<br>
 The 1-channel gateway has the following limitations compared to its bigger brother:</p>
@@ -24,17 +25,26 @@ The 1-channel gateway has the following limitations compared to its bigger broth
   <li>Works with one Spreading Factor mode only (SF7 is activated by default at the moment).</li>
 </ol>
 <h2>Building</h2>
-<p>As you can see on the picture above, the whole thing fits on a very small board. And as there are even less connections necessary as for the loRa node, this DIY project could be ready in a matter of hours.</p>
+<p>As you can see on the picture above, the whole thing fits on a very small board. And as there are even less connections necessary as for the loRa node, this DIY project could be ready in a matter of hours. These are the steps:</p>
+<ul>
+  <li>The small white ESP adapter plate is too large for our purpose. One side is sticking out from the pins (the side WITHOUT the small resisitors). Take a small saw and cut away the piece of the board not needed. If necessary dry-fit the ESP95 module to see how much should be cut away.</li>
+  <li>Get rid of the 3 small resistors on the adapter plate (just hold your soldering iron to them for a second and swipe away a resistor)</li>
+  <li>Solder pin's to the Wemos D1-mini and the small white ESP adapter board.</li>
+  <li>push the ESP adapter board in one of those experiment boards (So it cools the pins when soldering)</li>
+  <li>Solder the RFM95 module to the adapter board. Be careful to not overheat the RFM95 module. The module should be located such that the side of the adapter that just has been cut is closest to the antenna pin of the RFM95(look at the picture above).</li>
+  <li>Use a piece of 4x6 cm glassfiber and layout both modules same way as in picture above.</li>
+  <li>Connect the RFM and the ESP with small pieces of wire as indicated in the &quot;connections&quot; table below.</li>
+</ul>
 <p>I did not yet find a nice box to put the gateway in, but that will probably not last very long.</p>
 <h2>Pin Out</h2>
 <p>The pin out of the two devices on the gateway board are as follows:</p>
 <p><img src="../images/rfm95w-1.jpg" width="538" height="344"></p>
 <p>The pin-out of the ESP8266 is as follows (note: There are differences in pin-out between the various ESP8266 devices)</p>
-<p><img src="images/d1-mini-esp8266-board-smaller.jpg" width="600" height="262"></p>
+<p><a href="images/d1-mini-esp8266-board-sh_fixled.jpg"><img src="images/d1-mini-esp8266-board-smaller.jpg" width="600" height="262" hspace="10" vspace="10"></a></p>
 <p>&nbsp;</p>
 <h2>Connections</h2>
 <p>Connections need&nbsp;to be made as follows:</p>
-<table width="49%" border="1">
+<table width="49%" border="1" cellpadding="3">
   <tr>
     <th scope="col">RFM95 pin</th>
     <th scope="col">&nbsp;</th>
@@ -111,7 +121,7 @@ The 1-channel gateway has the following limitations compared to its bigger broth
 </ul>
 <h2>Costs</h2>
 <p>So what does it cost to build this LoRa gateway (all prices in $, amount in Euros is a little lower).</p>
-<table width="74%" border="0">
+<table width="74%" border="1" cellpadding="2">
   <tr>
     <th width="9%" scope="col">Number</th>
     <th width="79%" scope="col">Item</th>
@@ -144,8 +154,8 @@ The 1-channel gateway has the following limitations compared to its bigger broth
   </tr>
   <tr>
     <td>1</td>
-    <td>Piece of perf board</td>
-    <td>1.00</td>
+    <td>Piece of glassfiber perf board (sold per 10)</td>
+    <td>0.44</td>
   </tr>
   <tr>
     <td>1</td>
@@ -154,8 +164,8 @@ The 1-channel gateway has the following limitations compared to its bigger broth
   </tr>
   <tr>
     <td>1</td>
-    <td>SMA board connector</td>
-    <td>0.25</td>
+    <td>SMA board connector (sold per 20)</td>
+    <td>0.16</td>
   </tr>
   <tr>
     <td>0.5</td>
@@ -170,23 +180,24 @@ The 1-channel gateway has the following limitations compared to its bigger broth
   <tr>
     <td>&nbsp;</td>
     <td><strong>Total</strong> including power supply)</td>
-    <td><strong>19.00 </strong></td>
+    <td><strong>19.10 </strong></td>
   </tr>
   <tr>
     <td>&nbsp;</td>
     <td>Just the Gateway</td>
-    <td>14.00</td>
+    <td>14.10</td>
   </tr>
 </table>
 <p>&nbsp;</p>
 <h2>Links</h2>
 <p>The following links contain useful information for this project.</p>
 <ul>
-  <li>The source code for this gateway on the Things4U github page</li>
+  <li><a href="https://github.com/things4u/ESP-1ch-Gateway">The source code for this gateway on the Things4U github page</a></li>
   <li><a href="https://github.com/tftelkamp/single_chan_pkt_fwd">Here is Thomas' github page where the RaspberryPI  code is located for a 1-channel gateway</a></li>
   <li><a href="http://forum.thethingsnetwork.org/t/single-channel-gateway/798">The forum of thethingsnetwork.org on this subject</a></li>
   <li><a href="https://oshpark.com/shared_projects/36EsiJqR">Here you can order adapter boards for connecting RFM95 to RaspberryPI</a> or you can make those yourself (I did)</li>
-  <li>Order your RFM95 chips on Aliexpress.com or Ideetron.nl</li>
+  <li>Order your RFM95 chips on Aliexpress.com (about $8.00-8.50) or Ideetron.nl</li>
+  <li><a href="http://www.aliexpress.com/item/10Pcs-Double-Side-4x6-cm-Prototype-Universal-FR-4-Glass-Fiber-PCB-Board/32379317918.html">The glassfiber 4x6 cms board on Aliexpress</a></li>
 </ul>
 <p>&nbsp;</p>
 <h2>Questions</h2>
