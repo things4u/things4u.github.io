@@ -133,7 +133,7 @@ The 1-channel gateway has the following limitations compared to its bigger broth
 <p>Although watchdogs are not OK, they are an integral part of the ESP8266 design. The chip will reset in a very short amount of time so&nbsp;in principle we would not lose too many incoming packets (if any). However, since we will loose statistics data and probably the channel and WIFI setting as well if we make that dynamically, it would be better if we would not have ANY watchdog resets.</p>
 <p>Over the last week, both gateways have been running fine without any resets. So I had to add a date field in the webserver as well, since &quot;started on Friday&quot; would not give enough information at all.</p>
 <p>I built following webserver to view statistics and control debug level, channel assignment (future) etc. You can easily invoke the webserver at the IP address of the Gateway as follows: http://&lt;IP Address of Gateway&gt;:8080. The output looks like this. The interface also allows some setting of debug levels and statistics. More to come..</p>
-<p><a href="images/webserver-1.JPG"><img src="images/ws-1-300.jpg" width="300" height="493" hspace="10" vspace="10"></a></p>
+<p><a href="images/webserver-1.JPG"><img src="images/ws-1-300.jpg" width="300" height="493" hspace="5" vspace="5" border="1"></a></p>
 <h4>Todo:</h4>
 <ul>
   <li>Build function to assign the SSID and password dynamically (in progress)</li>
