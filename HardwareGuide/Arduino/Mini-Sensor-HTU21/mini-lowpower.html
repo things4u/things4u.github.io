@@ -23,12 +23,12 @@
 <p>&nbsp;</p>
 <h2>I2C Bus</h2>
 <p>The I2C bus is standard on Arduino devices. Devices on the bus are connected by 4 wires: Vcc, Gnd, SDA and SCL. The SDA pin is connected to pin A4 on the Arduino and SCL on pin A5&nbsp;(Please note A4 is the Analog pin 4!). </p>
-<p>In principle, multiple devices can be connected to the bus, which means we can daisy chain the devices and we do not need more pin's but all are connected to SAD/A4 and SCL/A5</p>
+<p>In principle, multiple devices can be connected to the bus, which means we can daisy chain the devices and we do not need more pin's but all are connected to SDA/A4 and SCL/A5</p>
 <p>&nbsp;</p>
 <h2>Sleep</h2>
 <p>The RFM95 uses 1.8mA in normal mode of operation. The machine is then always ready to transmit and receive messages. As we like to operate our node on batteries, best is to NOT receive any messages and only report/transmit sensor values every once in a while. Therefore there are two things we need to do:</p>
 <ul>
-  <li>Put the Arduino processor in sleep mode while waiting for the next transmit window. When using the Lowpower lib (included in the libraries directory on github) we can use a special sleep delay instead of the normal delay() function which will lower power consumption considerably.</li>
+  <li>Put the Arduino processor in sleep mode while waiting for the next transmit window. When using the Low-Power lib (included in the libraries directory on github) we can use a special sleep delay instead of the normal delay() function which will lower power consumption considerably.</li>
   <li>We also need to put the RFM95 to sleep between transmissions. The best way is to write the sleep command to the RFM95 register just before the Arduino goes to its long sleep (typical, 1 minute or more).<br />
     On my multi-meter the power use drops from around 1.8mA to 10uA during these sleep periods.
  &nbsp; </li>
