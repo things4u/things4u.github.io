@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>LamPI Architecture</title>
+</head>
+
+<body>
+
+<h1>LoRa Architecture</h1>
+<h5>June 2016</h5>
+<p>This page describes the main components of a LoRa network. As we make use of the TheThingsNetwork (TTN) environment, we will use that environment in our examples. At the time of writing this article, TTN1 is in use. In some cases there are alternatives available for TTN either commercial of private solutions. These might work with TTN or not and they may be &quot;compliant&quot; to the LoRaWAN specification or not. Some are documented here as we think that they make sense, some are not (yet).</p>
+<p>The page will focus on the backend of LoRa network, thus not on LoRa devices and sensors but on the things needed to receive messages, hand-out OTAA id,s, route messages to their destinations </p>
+<h2>Main Components</h2>
+<p>According to the website of thethingsnetwork (http://thethingsnetwork.org) the following components are present in a LoRa network.</p>
+<p><img src="images/LoRa Architecture.png" width="737" height="342"></p>
+<p>The following components are present:</p>
+<ul>
+  <li>A so-called mote (IoT device) in most cases a LoRa transceiver with a sensor</li>
+  <li>LoRaWAN gateways; there can be several gateways in reach that receive and react on a message of a&nbsp;device. Gateways forward LoRa messages over UDP to a router/broker service.</li>
+  <li>The Things Network Router, or private routings; the TTN network is black-box service which receives UDP messages from gateways and forwards these messages to subscribed program(s) of the user. This service consists of at least 2 steps:
+    <ul>
+      <li>Receive and decode UDP messages from gateways and publish these (after some work) to a MQTT broker</li>
+    </ul>
+  </li>
+  <li>Application Handlers</li>
+</ul>
+<p>TTN uses a more complex model of brokers, routers and handlers for its services. However, not all of these &quot;modules&quot; are available for private use (yet) and the way these services are implemented may not be of interest.</p>
+<h2>LoRa devices</h2>
+<p>The design of LoRa devices (motes) is explained in the hardware guide</p>
+<h2>Gateways</h2>
+<p>Most Gateways receive messages from LoRa devices and have the possibility to forward these messages to multiple&nbsp;Routers. The gateway uses a UDP &quot;connection&quot; to send the received LoRa messages to the router/broker backend.&nbsp;Most commonly port 1700 is used for this purpose.</p>
+<p>&nbsp;</p>
+<h2>Router/Broker</h2>
+<p>This function will receive UDP datagram messages from Gateways and transform these to MQTT messages.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</body>
+</html>
