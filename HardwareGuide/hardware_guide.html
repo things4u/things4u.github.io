@@ -2,15 +2,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>Hardware Guide</title>
-</head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"></head>
 
-<body>
+<body tracingsrc="../illustration Maarten-In.jpg" tracingopacity="10">
 
 <h1>Hardware Guide</h1>
 <h4>Version: 1.0.1<br>
   Date: March 2016
 </h4>
-<p>This page deals with the various types of Nodes (hardware) that we connected to the LoRa network. For each project I try to document the design decisions I have taken (if any), document pin-outs etc. and publish some pictures of the project in its various stages of development.</p>
+<p>This page deals with the various types of Nodes (hardware)  connected to the LoRa network. For each project I try to document the design decisions I have taken (if any), document pin-outs etc. and publish some pictures of the project in its various stages of development.</p>
 <h2>Structure of this document</h2>
 <p>This document is structured around hardware families for MCU that support thethingsnetwork.org. For every family one or more nodes and/or sensors based on these nodes are described. </p>
 <h2>Table of contents</h2>
@@ -28,6 +28,13 @@
         <ul>
           <li><a href="Arduino/Mini-Sensor-HTU21/mini-lora.html">Arduino Pro Mini minimal  node</a></li>
           <li><a href="Arduino/Mini-Sensor-HTU21/mini-lowpower.html">Arduino Pro Mini lowpower node</a></li>
+          <li>Arduino Pro-Mini OTAA mote</li>
+        </ul>
+      </li>
+      <li>Teensy
+        <ul>
+          <li>Teensy mote (no sensors)</li>
+          <li>Teenso GPS sensor node</li>
         </ul>
       </li>
       <li>Raspberry
@@ -59,6 +66,8 @@
   <li>Gateway
     <ul>
       <li><a href="Single-Channel-Gway/index.html">Single Channel Gateway</a> based on RaspberryPI and RFM95</li>
+      <li><a href="Single-Channel-Gway/ESP-Gateway.html">Single Channel Gateway based on ESP8266 board</a></li>
+      <li><a href="ic880-Gway/ic880_gateway.html">Build your own gateway with the IMST IC880</a></li>
     </ul>
   </li>
 </ul>
