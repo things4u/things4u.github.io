@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body>
+<h1>1-ch Gateway Testing</h1>
+<p>I have decided to write someting on 1-channel gateway testing. Not that I am hoping to be complete but more for myself to know what staging we have gone through during the development of the various versions.</p>
+<p>&nbsp;</p>
+<h2>Version 1</h2>
+<p>Version 1 was the first ESP8266 based version. It is obsolete by now. It did not offer a webserver, Wifi Manager or anything&nbsp;that would belp to monitor the gateway once it was started up. Results compared to an in-house Lorank-8 gateway indicated that the gateway would not loose a lot of packages for inhouse or devices that were relatively close to the nodes.</p>
+<h2>Version 2</h2>
+<p>Not much more testing has been done compared to version 1. measurements at the backend indicate that the operation is reliable in most cases and we did not detect&nbsp;a suspicious amount of missed messages using a normal range.</p>
+<h2>Version 3</h2>
+<p>Version 3.3 is the last version of the &quot;old&quot; 1-channel gateway design. It did not make use of interrupts by would periodically scan the received for incoming messages. This works quite well (!) and this&nbsp;version may or may not be equal in its performance to the new 4.x gateway that has CAD and HOP switched off.</p>
+<h2>Version 4</h2>
+<p>Version 4 of the gateway offered far more possibilities to setup the gateway and monitor its behaviour in real time using the web interface.&nbsp;Also this is the first version where we use interrupt handlers to detect incoming messages. Normally, this should be more reliabale than doing this in the loop() of the sketch. However, doing performance measurements is a difficult task: </p>
+<ul>
+  <li>The gateway should listen to almost every message but there is no guarantee that messages are received (or delivered) to a gateway.</li>
+  <li>There is no specification that tells us what&nbsp;% of messages we should receive </li>
+  <li>We have no idea whether&nbsp;Lorank8 or other gateways do the perfect job in receiving messages (could be they discard as well)</li>
+</ul>
+<p>Some things we can&nbsp;say about a gateway supporting CAD:<br />
+</p>
+<ul>
+  <li>CAD mode works on local rssi parameters. As&nbsp;the sx1276/rfm95 can received messages below the normal noise floor, rssi detection is unreliable once we reach that noise floor. </li>
+  <li>Probably if two messages with same SF arrive almost at the same moment it is unclear whether or not one of the nodes will wait for a clear &quot;channel&quot;.</li>
+</ul>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2>Todo</h2>
+<p>Do some proper range testing for all modes of the gateway including GPS coordinates etc.</p>
+</body>
+</html>
