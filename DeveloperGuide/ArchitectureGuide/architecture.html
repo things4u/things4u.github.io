@@ -12,7 +12,7 @@
 <p>The page will focus on the backend of LoRa network, thus not on LoRa devices and sensors but on the things needed to receive messages, hand-out OTAA id's, route messages to their destinations etc.</p>
 <h2>Main Components</h2>
 <p>According to the website of thethingsnetwork (http://thethingsnetwork.org) the following components are present in a LoRa network.</p>
-<p><img src="images/LoRa Architecture.png" width="737" height="342"></p>
+<p><img src="../images/LoRa Architecture.png" width="737" height="342"></p>
 <p>The following components are present:</p>
 <ul>
   <li>A so-called mote (IoT device) which is in most cases a combination of LoRa transceiver with a sensor</li>
@@ -66,6 +66,13 @@
 <p>In TTN the broker is the middle man between the router and the application handler. It must find that right handler for the device based on information registered with the handler. The registration might either be OTAA information or in case of ABP application - devices associations.</p>
 <h3>Handler</h3>
 <p>The handler will make deliver&nbsp;(MQTT) messages to subscribed applications. In order to perform this function, the handler must know which devices are registered to which applications.</p>
-<p>&nbsp;</p>
+<h3>Read More</h3>
+<p>The following sources of information will explain more about the LoRa architecture</p>
+<ul>
+  <li>LoRa sx127x datasheet</li>
+  <li>LoRa Gateway specification (Semtech)</li>
+  <li>TTN backend description</li>
+</ul>
+<p>Se the <a href="../DeveloperGuide.html">DeveloperGuide main page</a> for pointers to these documents.</p>
 </body>
 </html>
