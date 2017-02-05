@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>LamPI Architecture</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"></head>
+
+<body tracingsrc="../../illustration Maarten-In.jpg" tracingopacity="10">
+
+<h1>LoRa Message Format</h1>
+<h5>Version 1.2<br>
+  Date: October 8, 2016</h5>
+<h5>(c) M. Westenberg (2016)<br>
+</h5>
+<h2>Introduction</h2>
+<p>This page describes the format of messages exchanged between the various LoRa sensors and their Gateway. In today's world we often use JSON messages to code complex structure into readible format and exchange these messages over the internet. However, LoRa has different requirements. As LoRa nodes are not supposed to talk more than 1% of the time, sending messages as short as possible makes sense.</p>
+<p>So where we normally would send the temperature like this:</p>
+<p><code>{ &quot;temperature&quot;: &quot;20.41&quot;&nbsp;} </code></p>
+<p>it makes sense to shorten that message as much as possble so we can send more messages in the available 1% of time. So a better way would be:</p>
+<p><code>{&quot;t&quot;:&quot;20.41&quot;} </code></p>
+<p>And assuming we know that it is the temperature that we're receiving in 2 integers and a fraction of 2 digit, all would fit in 2 bytes:</p>
+<p> <code>&quot;0x14 0x29&quot;</code></p>
+<p>However, such shortcuts only work it both sender and receiver know what's coming and they will not send other messages for other sensor values. Because if they do, there is a need to make these messages a little more descriptive, yet as short as possible.</p>
+<p>&nbsp;</p>
+<h2>Sensor message Format</h2>
+<p>Although heavily discouraged by the community it is safe to assume that some messages will be JSON still, but preferrable we should code our messages such that they contain as less space as possible.</p>
+<ul>
+  <li>First header byte of a message must NOT be a &quot;{&quot; (code 123, 0x7D) therefore we start all messages with a 1bit (code 128)</li>
+  <li>Every Message starts with a '1' bit, followed by 6 length bits (max 1+63 bytes) and 1 parity bit</li>
+  <li>Every sensor field in the message starts with 1 byte: 6 id/opcode bits and 2 length bits: (id &amp; 0xFC) | (len-1 &amp; 0x3), </li>
+</ul>
+<table width="85%" border="1" cellpadding="2">
+  <tr>
+    <th colspan="3" scope="col">Header</th>
+    <th colspan="2" scope="col">Sensor values [1:n]</th>
+  </tr>
+  <tr>
+    <td width="11%">Start bit==1</td>
+    <td width="29%">Length of message including header</td>
+    <td width="12%">Parity bit</td>
+    <td width="13%">Opcode byte</td>
+    <td width="35%">Value Byte(s) [1:n]</td>
+  </tr>
+</table>
+<p>The parity bit is set after all sensors values are added to the message. We use even&nbsp;parity (in other words: the sum of all 1-bits in the message must be even). As LoRa itself uses error checking algorithms we decided not to add any more to the message by implementing a more sophysticated error checking and correcting scheme.</p>
+<p>The Sensor Values are encoded as follows:</p>
+<table width="85%" border="1" cellpadding="2">
+  <tr>
+    <th colspan="2" scope="col">OpCode Byte</th>
+    <th scope="col">Value Bytes [1:n}</th>
+  </tr>
+  <tr>
+    <td width="30%">6-bit ID</td>
+    <td width="19%">2-bit Length</td>
+    <td>1-4 byte value *</td>
+  </tr>
+</table>
+<p>(*) Some OpCodes such as GPS and MultiButton use more than 4 bytes to encode their value. In this case, the length field is not used (don't care) and the number of value bytes is defined completely by the opCode.</p>
+<p>Based on this format he following message types (Id's) are defined:</p>
+<blockquote>
+  <p><br>
+  </p>
+  <table width="88%" border="1" cellpadding="2">
+    <tr>
+      <th width="24%" scope="col">Sensor</th>
+      <th width="11%" scope="col">Id 6-bit</th>
+      <th width="15%" scope="col">Len 2-bit</th>
+      <th width="50%" scope="col">Encoding</th>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>Temperature (-100-150&nbsp;degrees C)</td>
+      <td>0b0000 01</td>
+      <td>0b01 (+1)</td>
+      <td><p>byte[0] = INT(t +100); byte[1]=2 digit fraction (00-99)</p>
+      <p>result = (byte[0]&nbsp;- 100) + (byte[1] / 100) </p></td>
+    </tr>
+    <tr>
+      <td>Humidity (0-100%)</td>
+      <td>0b0000 10</td>
+      <td>0b00 (+1)</td>
+      <td><p>byte[0] = INT(Humidity * 2)</p>
+      <p>result = byte[0] / 2 (as %)</p></td>
+    </tr>
+    <tr>
+      <td>Airpressure (800-1104 hPa)</td>
+      <td>0b0000 11</td>
+      <td>0b00 (+1)</td>
+      <td><p>byte[0] = (Airpressure in hPa - 850)</p>
+      <p>result = byte[0] + 850</p></td>
+    </tr>
+    <tr>
+      <td>GPS Short Info</td>
+      <td>0b0001 00</td>
+      <td>d.c.</td>
+      <td>byte[0-2] = LAT, byte[3-5]=LNG</td>
+    </tr>
+    <tr>
+      <td>GPS Long Info</td>
+      <td>0b0001 01</td>
+      <td>d.c.</td>
+      <td>byte[0-3] = LAT, <br>
+        byte[4-7] = LNG, <br>
+        byte[8-11]=ALT,<br>
+        byte[12-15] =UTime,<br>
+        byte[16] = nr of satellites</td>
+    </tr>
+    <tr>
+      <td>PIR</td>
+      <td>0b0001&nbsp;10</td>
+      <td>0b00 (+1)</td>
+      <td><p>byte[0]=0x00 off, 0x01 armed, 0x02 on, 0x03 sent</p>
+      <p>result = byte[0]</p></td>
+    </tr>
+    <tr>
+      <td>AirQuality</td>
+      <td>0b0001 11</td>
+      <td>0b01 (+1)</td>
+      <td><p>byte[0-1] = AQ (most signicicant byte first)</p>
+      <p>result = (byte[0] *256) + byte[1]</p></td>
+    </tr>
+    <tr>
+      <td>Real-Time Clock (RTC)</td>
+      <td>0b0010 00</td>
+      <td>0b11 (+1)</td>
+      <td>byte[0-[3] unsigned long value of secs since 1-1-1970</td>
+    </tr>
+    <tr>
+      <td>Compass Sensor (X,Y,Z)</td>
+      <td>0b0010 01</td>
+      <td>&nbsp;</td>
+      <td>t.b.d.</td>
+    </tr>
+    <tr>
+      <td>Multi-Button</td>
+      <td>0b0010 10</td>
+      <td>d.c.</td>
+      <td>byte[0-3] = Address<br>
+        byte[4-5] = Unit<br>
+        total 
+6 bytes: 4 bytes address and 2 byte unit code of button code activated</td>
+    </tr>
+    <tr>
+      <td>Moisture</td>
+      <td>0b0010 11</td>
+      <td>0b00</td>
+      <td>byte[0] = M / 4;<br>
+      One Byte moisture (value 0-1023) / 4. &nbsp;255 is dry, 0 is super wet.</td>
+    </tr>
+    <tr>
+      <td height="28">Luminescense</td>
+      <td>0b0011 00</td>
+      <td>0b01</td>
+      <td><p>      Two bytes with luminescense code. 0 is dark, 3999 is bright sunlight. </p>
+      <p>result = (byte[0]*256)+byte[1]) / 10 Lux</p></td>
+    </tr>
+    <tr>
+      <td height="28">Distance</td>
+      <td>0b001101</td>
+      <td>0b01</td>
+      <td><p>byte[0-1]=Distance 0-65,535</p>
+      <p>result = (byte[0] * 256) + byte[1] cm</p></td>
+    </tr>
+    <tr>
+      <td height="28">&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td height="28">Battery condition (0-12 V)</td>
+      <td>0b1000 00</td>
+      <td>0b00 (+1)</td>
+      <td><p>byte[0] = INT (V * 20)</p>
+      <p>result = byte[0] / 20 Volt</p></td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td><strong>User Codes</strong></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>General Integer</td>
+      <td>0b1000 01</td>
+      <td>0b00, <br>
+      0b01, <br>
+      0b11</td>
+      <td><code>uint8_t (1 byte), <br>
+      uint16_t (2 bytes), <br>
+      uint32_t&nbsp;(4 bytes)</code></td>
+    </tr>
+    <tr>
+      <td>General Character String</td>
+      <td>0b1000 10</td>
+      <td>0b00</td>
+      <td>byte[0] defines length of char string. Note: Total message size &lt;128 chars</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>Other ID's are free to use</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </table>
+</blockquote>
+<p><strong>Notes: </strong></p>
+<ul>
+  <li>Length bits 0x00 to 0x11 are converted to integers by adding 1 to the bit value.</li>
+  <li>The Id and length are combined together in one opCode byte as follows: opCode = : (Id&lt;&lt;2 | len &amp; 0x03)<br>
+  </li>
+  <li>d.c. (Don't care): The value of the 2 length bits in the opCode byte is not relevant.</li>
+  <li>GPS and GPSlong are multi-byte formats of 6 or even 17 bytes. The last 2 bits of the opCode byte are not used.</li>
+</ul>
+<p>&nbsp;</p>
+<h2>General notes</h2>
+<p>Where it makes sense, the two last bits of the opcode byte are used to express the number of bytes that represent the sensor value and that are following the opcode byte. For example: For humidity we use one byte to encode the sensor value. Therefore the last two bits of the opcode byte are 0x00 (+1 = 1 byte).</p>
+<p>For some sensors such as GPS we need more information than just the 3 bytes that can be coded in 2 bits.&nbsp;As we use fixed amount of fields and bytes to encode the GPS coordinates, this does not matter. So for these devices the amount of bytes needed is found in the table above.</p>
+<p>&nbsp;</p>
+<h2>Examples</h2>
+<p>This section contains a few examples that show how the lCode library encodes (and decodes) the various message formats.</p>
+<h3>Example 1</h3>
+<p>Imagine a simple sensor transmitting a battery value of 3.2Volt (float). The message payload sent by LoRa is coded in three bytes as follows:<br>
+  0x87 0x80 0x40 which is in binary format: 1000 0111 1000 0000 0100 0000<br>
+  <br>
+The start byte 0x87 consists of <br>
+</p>
+<ul>
+  <li>1 start bit with value 1, </li>
+  <li>6 length bits with value 000 011 (=0x03) indicating a message length of 3 bytes </li>
+  <li>1 parity bit, in this case with value 1</li>
+</ul>
+<p>The second opcode byte 0x80 has binary value 1000 0000, consisting of a command id of 100000 (O_BAT) and two length bits that are zero (0x00). As the length bits are zero this means that one byte value will follow for this sensor value.<br>
+  <br>
+  The third byte with value 0x40&nbsp;has decimal value 64. As the battery value was multiplied by 20 it means that the battery value measured was 3.2V.</p>
+<p>&nbsp;</p>
+<h3>Example 2</h3>
+<p>  Let's work the other way around and work out the following node message containing 3 sensor readings.</p>
+<p>&nbsp;</p>
+<h2>Encoding Library</h2>
+<p>For encoding sensor values in the LoRa payload, a simple set of library functions is developed that make adding values to the payload very easy. The libary LoRaCode contains 2 files: LoRaCode.h and LoRaCode.cpp.</p>
+<p>The following encoding functions are present in the Arduino LoRaCode library: (LoRaCode.h):</p>
+<p><code>  int		eTemperature(float val, byte *msg);<br>
+  int		eHumidity(float val, byte *msg);<br>
+  int		eAirpressure(float val, byte *msg);<br>
+  int		eGps(double lat, double lng, byte *msg);<br>
+  int		eGpsL(double lat, double lng, long alt, int sat, byte *msg);<br>
+  int		ePir(int val, byte *msg);<br>
+  int		eAirquality(int val, byte *msg);<br>
+  int		eMbuttons(byte val, unsigned long address, unsigned short channel, byte *msg);<br>
+  int		eMoist(int val, byte *msg);<br>
+  int		eLuminescense(int val, byte *msg);<br>
+  int		eBattery(float val, byte *msg);<br>
+</code></p>
+<p>Also, two supporting functions are defined. eMsg will analyse the message buffer after all sensors are added. It will compute the total length of the buffer and add parity bit when necessary. The lPrint function will print the buffer in hexadecimal format.</p>
+<p><code>  bool	eMsg(byte *msg, int len);<br>
+  void	lPrint(byte *msg, int len);<br>
+  <br>
+</code></p>
+<h2>Decoding functions</h2>
+<p>Decoding can be done for every language. We chose to decode in Node.js (JavaScript) which makes adding fields to an MQTT message very easy. Once all fields are decoded the resulting object can be sent with MQTT without problems (as a JSON object). Based on the node.js library it is easy to port this library to other languages.</p>
+<p>The dCode function in the lCode module will take care of the decoding of the lCode messages. The result returned by the dCode function is an object with fields that represent the sensor values that were present in the message and successfully decoded. The following fields can be added to the object (only the fields that are decoded will be present):</p>
+<p><code>var LoRaMsg			= require(par.homeDir+'/modules/lCode');</code></p>
+<p><code>var sensorData = LoRaMsg.dCode(DevAddr,dataRaw); </code></p>
+<p><code>// sensorData has several field after LoRaMsg.dCode() has finished<br>
+  sensorData = {<br>
+  &nbsp;&nbsp;
+  temperature: &lt;value&gt;,<br>
+  &nbsp; &nbsp;humidity: &lt;value&gt;,<br>
+  &nbsp;&nbsp; airpressure: &lt;value&gt;,<br>
+  &nbsp;&nbsp; gps: {<br>
+  &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;lat: &lt;value&gt;,<br>
+  &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;lng: &lt;value&gt;<br>
+  &nbsp;
+  &nbsp;&nbsp; },<br>
+  &nbsp;&nbsp;&nbsp;gps = {<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  lat: &lt;value&gt;,</code><code><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  lng: &lt;value&gt;,<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  alt: &lt;value&gt;,<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  sat: &lt;value&gt;<br>
+  &nbsp;&nbsp; }<br>
+  &nbsp; &nbsp;pir: &lt;value&gt;,<br>
+  &nbsp; &nbsp;airquality: &lt;value&gt;,<br>
+  &nbsp;&nbsp;
+  button: &lt;value&gt;,<br>
+  &nbsp; &nbsp; &nbsp; b_addr:&nbsp;&lt;value&gt;,	&nbsp;	&nbsp;	&nbsp;	// Only present for multi-button concentrator<br>
+  &nbsp; &nbsp; &nbsp; b_unit:&nbsp;&lt;value&gt; ,&nbsp; &nbsp; &nbsp; // idem</code><code><br>
+  &nbsp; &nbsp;moist: &lt;value&gt;,<br>
+  &nbsp;&nbsp; luminescense: &lt;value&gt;,</code><code><br>
+  &nbsp; &nbsp;battery: &lt;value&gt;<br>
+  };<br>
+  </code><br>
+</p>
+<p><br>
+</p>
+<h2>Conclusion</h2>
+<p>Although using this lCode message format does not result in the shortest messages one can send over LoRa, the overhead of one length byte per message and one ID byte per sensor value is low compared to the full message sent over the air (containing all sorts of header and address data as well).</p>
+<p>So therefore we will use this message format in most our Arduion/ESP8266 based sensor nodes as well as in our own node.js backend.</p>
+</body>
+</html>
