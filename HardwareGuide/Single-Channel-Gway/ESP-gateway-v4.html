@@ -7,16 +7,25 @@
 <body>
 
 <h1>ESP LoRa Gateway v4</h1>
-<p>Version: 4.0.1 version<br>
+<p>Version: 4.0.1 <br>
   date: January 25, 2017</p>
 <p>(c) Maarten Westenberg (mw12554@hotmail.com)</p>
-<p><img src="images/ComResult-2.jpg" width="600" height="450"></p>
+<p>&nbsp;</p>
+<table width="62%" border="1">
+  <tr>
+    <td><a href="images/ComResult-2.jpg"><img src="images/ComResult-2.jpg" width="600" height="450"></a></td>
+  </tr>
+  <tr>
+    <td><h4>Single Channel Gateway based on traditional PCB</h4></td>
+  </tr>
+</table>
 <h2>Introduction</h2>
-<p>This is the version 4.0 (and newer) version of the ESP8266 LoRa Gateway. The&nbsp;LoRa gateway based on the ESP8266 mcu has evolved a lot over the last year. Although all versions that&nbsp;I built are/were built using the Wemos D1-mini board that can be bought on Aliexperess amongst others, the system has changed. For the latest version of the gateway I make use of the PCB that has been designed and built by Charles Hallard (and can be bought from pcbs.io).</p>
-<p>Other PCB's work as well, but if you like to build a small gateway and&nbsp;keep as many GPIO pins available as well, the Hallard board is unbeatable. You have to remember though that dio0, dio1 and dio2 pins are multiplexed on the board using (very!) small diodes to GPIO pin 15 (D8).</p>
+<p>This is the version 4.0 (and newer) version of the ESP8266 LoRa Gateway. The&nbsp;LoRa gateway based on the ESP8266 mcu has evolved a lot over the last year. Although all versions that&nbsp;I built are/were built using the Wemos D1-mini board that can be bought on Aliexpress amongst others, the system has changed. For the latest version of the gateway I make use of the PCB that has been designed and built by Charles Hallard (and can be bought from pcbs.io). If you use the Hallard PCB, you have to remember though that DIO0, DIO1 and DIO2 pins are multiplexed on the board using (very!) small diodes to GPIO pin 15 (D8).</p>
+<p>Other PCB's work as well, but if you like to build a small gateway and&nbsp;keep as many GPIO pins available as well, the Hallard board is unbeatable. An alternative solution is the board made by Comresult. This PCB is larger than that of Hallard but can be put inside a standard IP56 box. Should you work with a more traditional PCB, make sure that at least DIO0 and DIO1 are connected to a pin on the Wemos. Such a board is shown above.</p>
+<p>Pins used MUST(!) be documented in the ESP-sc-gway.h file for the gateway to work.</p>
 <p>The project source code is found on&nbsp;the <a href="https://github.com/things4u/ESP-1ch-Gateway">Things4U github page</a>.</p>
 <h2>Limitations</h2>
-<p>A full-function gateway is capable of simultaneously receive several LoRa packets with various spreading factors on random channels. The 1-channel gateway does not have the performance to do all that. It is sort of compatible with the LoRa data format sent by sensors but it does not implement the &quot;support at least 3 frequencies&quot; pat of the LoRa specs and therefore is not compliant.<br>
+<p>A full-function gateway is capable of simultaneously receive several LoRa packets with various spreading factors on random channels. The 1-channel gateway does not have the performance to do all that. It is sort of compatible with the LoRa data format sent by sensors but it does not implement the &quot;support at least 3 frequencies&quot; part of the LoRa specs and therefore is not compliant.<br>
 The 1-channel gateway has the following limitations compared to its bigger brother:</p>
 <ol>
   <li>1-channel only: So 1 out of every 8 message on average is received. If you do not have any other gateways in production I advise you to use channel 0 for this purpose.</li>
@@ -45,65 +54,9 @@ The 1-channel gateway has the following limitations compared to its bigger broth
 <p>The pin-out of the ESP8266 is as follows (note: There are differences in pin-out between the various ESP8266 devices)</p>
 <p><a href="images/d1-mini-esp8266-board-sh_fixled.jpg"><img src="images/d1-mini-esp8266-board-smaller.jpg" width="600" height="262" hspace="10" vspace="10"></a></p>
 <p>&nbsp;</p>
-<h4>Connections</h4>
-<p>For the bare board solutions the connections that need&nbsp;to be made are as follows:</p>
-<table width="49%" border="1" cellpadding="3">
-  <tr>
-    <th scope="col">RFM95 pin</th>
-    <th scope="col">&nbsp;</th>
-    <th scope="col">ESP8266 pin</th>
-  </tr>
-  <tr>
-    <td>3.3V</td>
-    <td>VCC</td>
-    <td>3.3V</td>
-  </tr>
-  <tr>
-    <td>GND</td>
-    <td>&nbsp;</td>
-    <td>GND</td>
-  </tr>
-  <tr>
-    <td>MISO</td>
-    <td>&nbsp;</td>
-    <td>D6 GPIO12/MISO</td>
-  </tr>
-  <tr>
-    <td>MOSI</td>
-    <td>&nbsp;</td>
-    <td>D7 GPIO13/MOSI</td>
-  </tr>
-  <tr>
-    <td>SCK</td>
-    <td>&nbsp;</td>
-    <td>D5 GPIO14/CLK</td>
-  </tr>
-  <tr>
-    <td>NSS</td>
-    <td>&nbsp;</td>
-    <td>D8 GPIO15/CS</td>
-  </tr>
-  <tr>
-    <td>RESET</td>
-    <td>&nbsp;</td>
-    <td>*nc</td>
-  </tr>
-  <tr>
-    <td>DIO0</td>
-    <td>&nbsp;</td>
-    <td>D1, GPIO5</td>
-  </tr>
-  <tr>
-    <td>DIO1</td>
-    <td>&nbsp;</td>
-    <td>D2, GPIO4</td>
-  </tr>
-</table>
-<p>* The reset pin does not have to be connected so it seems. It is only used at setup to read the chip identification</p>
-<p>As you can see, both reset and GPIO0 of the ESP8266 are not used. Not connecting the last one makes the ESP8266 gateway more stable and the behavior between flash and normal mode is the same.</p>
-<h3>&nbsp;</h3>
+<h4>&nbsp;</h4>
 <h3>ComResult</h3>
-<p>The ComResult PCB is a next version of the Bare Board solution and uses the same pin definitions. Please make sure that you connect dio1 to D2 on the board with a wire (and connect dio2 to&nbsp;D3/GPIO3 in order to use the gateway as a node later).</p>
+<p>The ComResult PCB is a next version of the Bare Board solution and uses the same pin definitions. Please make sure that you connect dio1 to D2 on the board with a wire (and connect dio2 to&nbsp;D3/GPIO0 in order to use the gateway as a node later).</p>
 <p><a href="images/ComResult-1.jpg"><img src="images/ComResult-1.jpg" width="600" height="450"></a></p>
 <p>You see a picture above&nbsp;of one of the latest versions of the ComResult board. Please not the 2 wires that connect the D2 pin of the ESP8266 with the dio1 pin of the RFM95 and optionally the D3 pint with the dio2 pin.</p>
 <h4>Connections</h4>

@@ -179,6 +179,18 @@
       <p>result = byte[0] / 20 Volt</p></td>
     </tr>
     <tr>
+      <td>AD converter A0 (256 steps)</td>
+      <td>0b1000&nbsp;01</td>
+      <td>0b00</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>AD converter A1 (256 steps)</td>
+      <td>0b1000&nbsp;02</td>
+      <td>0b00</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
@@ -213,6 +225,48 @@
       <td>&nbsp;</td>
     </tr>
     <tr>
+      <td><strong>Downlink Codes</strong></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>Status</td>
+      <td>0b1100 00</td>
+      <td>0b00</td>
+      <td>Ask for status of the node</td>
+    </tr>
+    <tr>
+      <td>SF</td>
+      <td>0b1100 01</td>
+      <td>0b00</td>
+      <td>One byte is spreading factor 0x07 - 0x0C</td>
+    </tr>
+    <tr>
+      <td>Timing for messages</td>
+      <td>0b1100 10</td>
+      <td>0b01</td>
+      <td>2 bytes timing in seconds</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
       <td>Other ID's are free to use</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
@@ -222,7 +276,7 @@
 </blockquote>
 <p><strong>Notes: </strong></p>
 <ul>
-  <li>Length bits 0x00 to 0x11 are converted to integers by adding 1 to the bit value.</li>
+  <li>Length bits 0x00 to 0x11 are converted to integers by adding 0x01 to the bit value.</li>
   <li>The Id and length are combined together in one opCode byte as follows: opCode = : (Id&lt;&lt;2 | len &amp; 0x03)<br>
   </li>
   <li>d.c. (Don't care): The value of the 2 length bits in the opCode byte is not relevant.</li>
@@ -250,10 +304,41 @@ The start byte 0x87 consists of <br>
   <br>
   The third byte with value 0x40&nbsp;has decimal value 64. As the battery value was multiplied by 20 it means that the battery value measured was 3.2V.</p>
 <p>&nbsp;</p>
-<h3>Example 2</h3>
-<p>  Let's work the other way around and work out the following node message containing 3 sensor readings.</p>
+<h3>Example 2, Downlink messages</h3>
+<p>  This second example handles downlink messages. Just like uplink messages that are sent by the node containing sensor data, ownlink messages contain commands and information from the LoRa server (/router).</p>
+<p>1. Ask for node status: 0x84 0xC0&nbsp; computed as follows: ( 0x80 | 0x02&lt;&lt; 1 )&nbsp; ; ( 0x03&lt;&lt;2 | 0x00 )</p>
+<p>2. Set the Spreading Factor: 0x86 0xC4 0x07</p>
+<p>3. Set the timing between messages: 0x8A 0x</p>
 <p>&nbsp;</p>
-<h2>Encoding Library</h2>
+<h2>Opcodes</h2>
+<p>The following opcodes are defined both for the node (IDE&nbsp;library) and for the backend:</p>
+<p><code>#define O_TEMP		0x01				// Temperature is a one-byte code<br>
+  #define O_HUMI		0x02				// Humidity is a one-byte code<br>
+  #define O_AIRP		0x03				// Air pressure is a one-byte code<br>
+  #define O_GPS		0x04				// Short version: ONLY 3 bytes LAT and 3 bytes LONG<br>
+  #define O_GPSL		0x05				// Long GPS<br>
+  #define O_PIR		0x06				// Movement, 1 bit (=1 byte)<br>
+  #define O_AQ		0x07				// Airquality<br>
+  #define O_RTC		0x08				// Real Time Clock<br>
+  #define O_COMPASS	0x09				// Compass<br>
+  #define O_MB		0x0A				// Multi Sensors 433<br>
+  #define O_MOIST 	0x0B				// Moisture	is one-byte<br>
+  #define O_LUMI  	0x0C				// Luminescense u16<br>
+  #define O_DIST		0x0D				// Distance is 2-byte<br>
+#define O_GAS		0x0E				// GAS</code></p>
+<p><code>/* 0x10 to 0x1F are free */</code></p>
+<p><code>#define O_BATT		0x20				// Internal Battery<br>
+  #define O_ADC0		0x21				// AD converter on pin 0<br>
+#define O_ADC1		0x22</code></p>
+<p><code>// Reserved for LoRa messages (especially downstream)<br>
+  #define O_STAT		0x30				// Ask for status message from node<br>
+  #define O_SF		0x31				// Spreading factor change OFF=0, values 7-12<br>
+  #define O_TIM		0x32				// Timing of the wait cyclus (20 to 7200 seconds)<br>
+  #define O_1CH		0x33				// Single channel ON=1, OFF==0<br>
+  #define O_LOC		0x34				// Ask for the location. Responds with GPS location (if available)</code><br>
+</p>
+<p>&nbsp;</p>
+<h2>Encoding/Decoding Library (C++)</h2>
 <p>For encoding sensor values in the LoRa payload, a simple set of library functions is developed that make adding values to the payload very easy. The libary LoRaCode contains 2 files: LoRaCode.h and LoRaCode.cpp.</p>
 <p>The following encoding functions are present in the Arduino LoRaCode library: (LoRaCode.h):</p>
 <p><code>  int		eTemperature(float val, byte *msg);<br>
@@ -262,18 +347,23 @@ The start byte 0x87 consists of <br>
   int		eGps(double lat, double lng, byte *msg);<br>
   int		eGpsL(double lat, double lng, long alt, int sat, byte *msg);<br>
   int		ePir(int val, byte *msg);<br>
-  int		eAirquality(int val, byte *msg);<br>
+int		eAirquality(int val, byte *msg);<br>
+int eRtc
+</code><code><br>
   int		eMbuttons(byte val, unsigned long address, unsigned short channel, byte *msg);<br>
   int		eMoist(int val, byte *msg);<br>
   int		eLuminescense(int val, byte *msg);<br>
-  int		eBattery(float val, byte *msg);<br>
+int		eBattery(float val, byte *msg);</code><code><br>
 </code></p>
+<p>Downlink messages are (de-)coded as follows:</p>
+<p>int LoRaCode::dMsg (byte *msg, byte *val, byte *mode) {}</p>
+<p>&nbsp;</p>
 <p>Also, two supporting functions are defined. eMsg will analyse the message buffer after all sensors are added. It will compute the total length of the buffer and add parity bit when necessary. The lPrint function will print the buffer in hexadecimal format.</p>
 <p><code>  bool	eMsg(byte *msg, int len);<br>
   void	lPrint(byte *msg, int len);<br>
   <br>
 </code></p>
-<h2>Decoding functions</h2>
+<h2>Decoding functions (Javascript)</h2>
 <p>Decoding can be done for every language. We chose to decode in Node.js (JavaScript) which makes adding fields to an MQTT message very easy. Once all fields are decoded the resulting object can be sent with MQTT without problems (as a JSON object). Based on the node.js library it is easy to port this library to other languages.</p>
 <p>The dCode function in the lCode module will take care of the decoding of the lCode messages. The result returned by the dCode function is an object with fields that represent the sensor values that were present in the message and successfully decoded. The following fields can be added to the object (only the fields that are decoded will be present):</p>
 <p><code>var LoRaMsg			= require(par.homeDir+'/modules/lCode');</code></p>
