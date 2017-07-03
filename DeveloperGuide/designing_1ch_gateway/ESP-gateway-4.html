@@ -8,8 +8,8 @@
 <body>
 <h1 dir="ltr" id="docs-internal-guid-8ff340d2-c1c9-78f0-295a-5c5cba894701">1-Channel Gateway with CAD (version 4.x)</h1>
 <h2 dir="ltr">Introduction</h2>
-<p dir="ltr">This is the 4th generation of software implementing LoRa gateway function on a platform consisting of an ESP8266 mcu and a sx1276 radio. Unlike the previsou vrsions of the gateway, this version will listen to all available Spreading Factors on a single frequency. However, the used must select the CAD mode&nbsp;manually either in the used interface or set the CAD mode in the ESP-sc-gway.h file</p>
-<p dir="ltr">Also, we have tried to intergate frequency hopping to this version of the gateway. However, this function is experimental at best and not ready for production. A lot of incoming messages are not noticed by the software. The problem is that the chip does have supporting interrupts and registers to spot activity on spreading factors for a given frequency but it does not have any tools to detect incoming messages on other frequencies. (read below for detailed analysis).</p>
+<p dir="ltr">This is the 4th generation of software implementing LoRa gateway function on a platform consisting of an ESP8266 mcu and a sx1276 radio. Unlike the previous efforts, this version will listen to all available Spreading Factors on a single frequency. However, the used must select the CAD mode&nbsp;manually either in the used interface or set the CAD mode in the ESP-sc-gway.h file</p>
+<p dir="ltr">Also, we have tried to intergate frequency hopping to this version of the gateway. However, this functionality is experimental at best and not ready for production as a lot of incoming messages are not noticed. The problem is that the chip does have supporting interrupts and registers to spot activity on spreading factors for a given frequency but, it does not have any tools to detect incoming messages on other frequencies. (read below for detailed analysis).</p>
 <p dir="ltr"><a href="../../HardwareGuide/Single-Channel-Gway/images/ComResult-1.jpg"><img src="../../HardwareGuide/Single-Channel-Gway/images/ComResult-1.jpg" width="600" height="450" /></a></p>
 <h3 dir="ltr">Change History</h3>
 <p dir="ltr">Version 4.x of this single channel gateway had a number of changes compared to version 3:</p>
@@ -18,17 +18,17 @@
   <li>The webserver supports configuration and dynamic setting of parameters.</li>
   <li>SPIFFS file system is used to store important configuration data</li>
 </ol>
-<h3>Known issues</h3>
+<h3>Known Issues</h3>
 <ol>
-  <li>The gateway acting as a sensor node is working for non critical back ends systems. Backends that expect valid MIC data will discard the sensor data transmitted by the gateway.</li>
-  <li>The WifiManager functionality does not always work as expected</li>
-  <li>We are close to being out of memory in some situaties. Although the amount of RAM is already better than all of its competitors, still it is possible to use all memory by setting too many statistics and debux options in the user interface. If you experience strange behaviour of the gateway try setting the amount of history lower or set the debug parameter to 1 for example.</li>
+  <li>The gateway acting as a sensor node is working for non-critical backend systems. Backends that expect valid MIC data will discard the sensor data transmitted by the gateway.</li>
+  <li>The Wifi-Manager functionality does not always work as expected</li>
+  <li>We are close to being out of memory in some situaties. Although the amount of RAM is already better than all of its competitors, still it is possible to use up all of the memory by setting too many statistics and debug options in the user interface. For example, if you experience strange behaviour of the gateway try setting the amount of history lower or set the debug parameter to 1.</li>
 </ol>
 <h3>Gateway Components</h3>
 <p>The gateway sketch consists of multiple components&nbsp;that are found in several files. These are:</p>
 <ul>
-  <li>ESP-sc-gway-4.ino; This is the main sketch of the gateway. It does contain the setup() and loop(0 functions and does the most important functions (that are found in other files)</li>
-  <li>ESP-sc-gway.h; This file contains most if not all configurable parameters and settings of the program. It allows the user to include functionality in the code at compile time (or omit functions if not necessary) and it allows user to set parameters that control the behavior of the gateway at runtime.</li>
+  <li>ESP-sc-gway-4.ino; This is the main sketch of the gateway. It contains the setup(), loop() functions and other most important functions (which are also found in other files)</li>
+  <li>ESP-sc-gway.h; This file contains most, if not all, configurable parameters and settings of the program. It allows the user to include functionality in the code at compile time (or omit functions if not necessary) and it allows user to set parameters that control the behavior of the gateway at runtime.</li>
   <li>_loraModem.ino; This file contains all the relevant radio functions of the gateway. This includes the interrupt handlers for sx1276 DIO pins and transmit and receive functions</li>
   <li>loraModem.h; Contains all the definitions of interrupts, state, registers etc. that are used by the _loraModem.ino functions</li>
   <li>_sensor.ino; Contains code to let the gateway behave as a sensor node as well. This function is particularly useful to receive real-time operating parameters from the gateway</li>
