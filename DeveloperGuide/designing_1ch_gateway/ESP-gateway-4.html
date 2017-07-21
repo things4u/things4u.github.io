@@ -2,14 +2,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Untitled Document</title>
+<title>1-ch Gateway v4</title>
 </head>
 
 <body>
 <h1 dir="ltr" id="docs-internal-guid-8ff340d2-c1c9-78f0-295a-5c5cba894701">1-Channel Gateway with CAD (version 4.x)</h1>
 <h2 dir="ltr">Introduction</h2>
-<p dir="ltr">This is the 4th generation of software implementing LoRa gateway function on a platform consisting of an ESP8266 mcu and a sx1276 radio. Unlike the previsou vrsions of the gateway, this version will listen to all available Spreading Factors on a single frequency. However, the used must select the CAD mode&nbsp;manually either in the used interface or set the CAD mode in the ESP-sc-gway.h file</p>
-<p dir="ltr">Also, we have tried to intergate frequency hopping to this version of the gateway. However, this function is experimental at best and not ready for production. A lot of incoming messages are not noticed by the software. The problem is that the chip does have supporting interrupts and registers to spot activity on spreading factors for a given frequency but it does not have any tools to detect incoming messages on other frequencies. (read below for detailed analysis).</p>
+<p dir="ltr">This is the 4th generation of software implementing LoRa gateway function on a platform consisting of an ESP8266 mcu and a sx1276 radio. Unlike the previsou vrsions of the gateway, this version will listen to all available Spreading Factors on a single frequency. </p>
+<h3 dir="ltr">CAD</h3>
+<p dir="ltr">Herewith we make used of the CAD (Channel Activity Detection) functions that are described below. The CAD mode can be configured by the user, but  the user must select the CAD mode&nbsp;manually either in the used interface or set the CAD mode in the ESP-sc-gway.h file</p>
+<h3 dir="ltr">HOP</h3>
+<p dir="ltr">Also, we have tried to integrate frequency hopping to this version of the gateway. However, this function is experimental at best and not ready for production. A lot of incoming messages are not noticed by the software. The problem is that the chip does have supporting interrupts and registers to spot activity on spreading factors for a given frequency but it does not have any tools to detect incoming messages on other frequencies (read below for detailed analysis).</p>
 <p dir="ltr"><a href="../../HardwareGuide/Single-Channel-Gway/images/ComResult-1.jpg"><img src="../../HardwareGuide/Single-Channel-Gway/images/ComResult-1.jpg" width="600" height="450" /></a></p>
 <h3 dir="ltr">Change History</h3>
 <p dir="ltr">Version 4.x of this single channel gateway had a number of changes compared to version 3:</p>
@@ -17,12 +20,15 @@
   <li>The system does support CAD mode (see below)</li>
   <li>The webserver supports configuration and dynamic setting of parameters.</li>
   <li>SPIFFS file system is used to store important configuration data</li>
+  <li>The webinterface allows setting of Debug mode, Gateway Sensor, Refresh webpage, reset Boot&nbsp;etc.</li>
+  <li>Memory usage is significantly reduced</li>
+  <li>Several bug fixes that lead to exception were integrated</li>
+  <li>Over the air upadtes through the IDE/USB are now possible</li>
 </ol>
 <h3>Known issues</h3>
 <ol>
-  <li>The gateway acting as a sensor node is working for non critical back ends systems. Backends that expect valid MIC data will discard the sensor data transmitted by the gateway.</li>
+  <li>The gateway acting as a sensor node is working for all backend systems. However, this function (scheduled every 60 seconds) might interfere with regular sensor values received over the air (interrupt basis)</li>
   <li>The WifiManager functionality does not always work as expected</li>
-  <li>We are close to being out of memory in some situaties. Although the amount of RAM is already better than all of its competitors, still it is possible to use all memory by setting too many statistics and debux options in the user interface. If you experience strange behaviour of the gateway try setting the amount of history lower or set the debug parameter to 1 for example.</li>
 </ol>
 <h3>Gateway Components</h3>
 <p>The gateway sketch consists of multiple components&nbsp;that are found in several files. These are:</p>
@@ -34,14 +40,17 @@
   <li>_sensor.ino; Contains code to let the gateway behave as a sensor node as well. This function is particularly useful to receive real-time operating parameters from the gateway</li>
   <li>_loraFiles.ino; Implements LoRa file operation functions</li>
   <li>_wwwServer.ino; This important file contains the web server component of the gateway. All webserver layout and control options are found in this file</li>
+  <li>_otaServer.ino; This file deals with all OTA (over the air) update functions</li>
 </ul>
 <h3>Documentation</h3>
-<p>There are (at least) two seperate documents that apply to this transceiver:</p>
+<p>There are (at least) two seperate documents that apply to this gateway:</p>
 <ul>
   <li>The RFM95 datasheet made by HopeRF</li>
-  <li><a href="https://www.google.fr/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;ved=0ahUKEwjOvbn4wNnUAhWGcRQKHTkuAjUQFggmMAA&amp;url=http%3A%2F%2Fwww.semtech.com%2Fimages%2Fdatasheet%2Fsx1276_77_78_79.pdf&amp;usg=AFQjCNFxkfmyuNwFCcaP_-dWGKdmskNKBQ&amp;cad=rja">The SX1276 datasheet made by Semtech</a></li>
+  <li><a href="https://www.google.fr/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;ved=0ahUKEwjOvbn4wNnUAhWGcRQKHTkuAjUQFggmMAA&amp;url=http%3A%2F%2Fwww.semtech.com%2Fimages%2Fdatasheet%2Fsx1276_77_78_79.pdf&amp;usg=AFQjCNFxkfmyuNwFCcaP_-dWGKdmskNKBQ&amp;cad=rja">The SX1276 datasheet made by Semtech</a> (this one is better than the HopeRF)</li>
+  <li><a href="../LoRa documents/LoRa gateway to network server interface definition.pdf">Semtech ANNWS.01.2.1.W.SYS, 
+  Gateway to Server Interface</a></li>
 </ul>
-<p>Both datasheets should be the same. However, teh HopRF documnt dontains confusing information especially in the register are where RSSI for example (regaister 0x1B ?) is concerned.</p>
+<p>Datasheets for RFM95 and SX1276 should be the same. However, the HopeRF document dontains confusing information especially in the registers description are where RSSI for example (regaister 0x1B ?) is concerned.</p>
 <h2 dir="ltr">Gateway modes of operation</h2>
 <p dir="ltr">The gateway knows 3 modes of operation:</p>
 <ol>
@@ -89,10 +98,27 @@
 <p>In the sx1276 datasheet we find that DIO 0 and DIO 1 are used to handle CAD interrupts and for message reception. So where we would only use dio0 in the version&nbsp; 3.x of the gateway, we now use dio0 AND dio1 in order to detect CAD  and RX Timeout evemts. This also means for users that the have to modify their gateway and set the pins correctly in the loraModem.h file.</p>
 <h3>Hallard</h3>
 <p>This code assumes that we map all DIO lines onto GPIO15. The code &quot;sees&quot; this when dio0 and dio1 have the same value set. It then assumes that we du multiplexing of interrupts&nbsp; and it will do the appropriate initialisation in setup(). This can only be done by connecting the DIO 0, 1 and if necessary DIO 2 to the GPIO15 pin with a diode and this is how the Hallard PCB does it's multiplexing.</p>
-<p>&lt;picture to follow&gt;</p>
+<table width="57%" border="1">
+  <tr>
+    <td><a href="../../HardwareGuide/Single-Channel-Gway/images/hallard_2.jpg"><img src="../../HardwareGuide/Single-Channel-Gway/images/hallard_2.jpg" alt="../../HardwareGuide/Single-Channel-Gway/images/hallard_1.jpg" width="400" height="300" /></a></td>
+  </tr>
+  <tr>
+    <td>1-ch Gateway made with Hallard PCB</td>
+  </tr>
+</table>
 <p>The advantage fo this interrupt sharing approach is that only one GPO line less is used  leaving more GPIO pins on the ESP8266 for connecting sensors.</p>
 <h3>ComResult</h3>
-<p>Another PCB has been defined by ComResult. Actually, at least 2 version have been defined. Multiple people in the Apeldoorn (NL) area have built this gateway.</p>
+<p>Another PCB is made by ComResult. Actually, at least 2 version have been defined. Multiple people in the Apeldoorn (NL) area have built this gateway.</p>
+<p>&nbsp;</p>
+<table width="57%" border="1">
+  <tr>
+    <td><a href="../../HardwareGuide/Single-Channel-Gway/images/ComResult-1.jpg"><img src="../../HardwareGuide/Single-Channel-Gway/images/ComResult-1.jpg" alt="../../HardwareGuide/Single-Channel-Gway/images/ComResult-2.jpg" width="400" height="300" /></a></td>
+  </tr>
+  <tr>
+    <td>1-ch Gateway made with the Comresult PCB</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
 <p>&nbsp;</p>
 <h2>  Parameter Setting</h2>
 <p>The operation mode of the gateway and most of its settings can be controlled by the user</p>
@@ -112,7 +138,6 @@
   <li><code>WIFIMANAGER 0; Set to OFF by default. If you like to use WiFi manager, please set it to 1</code></li>
   <li><code>AP_NAME &quot;&lt;Name your gateway accesspoint&gt;&quot;;</code></li>
   <li><code>AP_PASSWD &quot;&lt;Your AccessPoint password&gt;&quot;;</code></li>
-  <li></li>
   <li><code>GATEWAYMGT 1;</code></li>
   <li><code>CFG_sx1276_radio; Let this one be defined in this version. The code will support sx1272 with probably minor modifications as well, but this has not been tested. </code></li>
   <li><code>CONFIGFILE &quot;/gwayConfig.txt&quot;</code>; This parameter tells us the name of the SPIFFS&nbsp;file used to store the configuration data.</li>
@@ -124,6 +149,8 @@
 <ul>
   <li><code>_TTNPORT 1700</code></li>
   <li><code>_TTNSERVER &quot;router.eu.thethings.network&quot;</code></li>
+</ul>
+<ul>
   <li><code> _THINGPORT &lt;Your Port&gt;; Second backend server to send messages to. Leave undefined (comment #define out) if not used</code></li>
   <li><code>_THINGSERVER &quot;&lt;Your Backend DNS name&gt;&quot;; Second backend server to send messages to. Leave undefined (comment #define out) if not used</code></li>
 </ul>
@@ -146,11 +173,10 @@
 </ul>
 <ul>
   <li><code>A_SERVER 1; Enable the webserver. Do not touch unless you know what you are doing</code></li>
+  <li><code>A_REFRESH </code>&lt;seconds&gt;<code>&nbsp;&nbsp; //seconds between webpage refresh. 0 stops automatic refresh</code></li>
   <li><code>A_SERVERPORT 80</code></li>
-  <li><code>A_MAXBUFSIZE 192</code></li>
-</ul>
-<ul>
-  <li><code>_BAUDRATE 115200; Do not touch</code></li>
+  <li><code>A_MAXBUFSIZE 192</code>  </li>
+  <li><code>_BAUDRATE 115200&nbsp;&nbsp;&nbsp;&nbsp; // Do not touch</code></li>
 </ul>
 <p>Most parameters starting with a &quot;_&quot; are parameters only. Please only change these if you know what you are doing. If the parameter contains a &quot;&lt;xxx&gt;&quot; it means that you have to put your own values there. After all, it does not make sense to put my email address or&nbsp;GPS data in your configuration.</p>
 <p>The remaning part of the #define settings should be to include or not include certain parts of the code based on your own preference.</p>

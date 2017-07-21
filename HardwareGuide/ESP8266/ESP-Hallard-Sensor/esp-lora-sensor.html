@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>ESP8266 433 to 868 convertor</title>
+</head>
+
+<body>
+<h1>ESP8266 / RMF95w converter for 433MHz sensors</h1>
+<h2>Introduction</h2>
+<p>This document describes how to use the Hallard board for a sensor node. In this document, instead of using the diodes recommended by Hallard, we use hard wiring. This means that we connect dio0 with D8/GPIO15 at the back side of the PCB&nbsp;and we connect dio1 with D</p>
+<p>The code of the ESP8266 can easily be extended to turn the ESP into a sensor node for temperature for example. In order to do so, connect the DIO4 pin to the data pin of the 433MHz receiver and load the necessary software</p>
+<h2>Connections Wemos D1-mini to RFM95</h2>
+<p>These connections must be made as a minimum to get the ESP8266 work with the RFM95 and the LMIC software. The software will probably also work on other ESP866 nodeMCU based boards, but pay attention as their pin layout might be different.</p>
+<table width="78%" border="1">
+  <tr>
+    <th width="15%" scope="col">RFM95</th>
+    <th width="16%" scope="col">LMIC</th>
+    <th width="18%" scope="col">ESP8266 pins</th>
+    <th width="51%" scope="col">NOTEs</th>
+  </tr>
+  <tr>
+    <td>DIO5</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>Leave open</td>
+  </tr>
+  <tr>
+    <td>DIO4</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>Leave open</td>
+  </tr>
+  <tr>
+    <td>DIO3</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>Leave open</td>
+  </tr>
+  <tr>
+    <td>DIO2</td>
+    <td>.dio[2]</td>
+    <td bgcolor="#FFFF00">&nbsp;</td>
+    <td><p>Does not work standalone as D3 is used to select boot=up. Only works with UART connected and flashing. Leave open!<br />
+    </p></td>
+  </tr>
+  <tr>
+    <td>DIO1</td>
+    <td>.dio[1]</td>
+    <td>D2, GPIO4</td>
+    <td>Must be connected</td>
+  </tr>
+  <tr>
+    <td>DIO0</td>
+    <td>.dio[0]</td>
+    <td>D8, GPIO15</td>
+    <td>Must be connected</td>
+  </tr>
+  <tr>
+    <td><p>MISO</p></td>
+    <td>miso</td>
+    <td>D6, GPIO12</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td><p>MOSI</p></td>
+    <td>mosi</td>
+    <td>D7, GPIO13</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>SCK</td>
+    <td>clock</td>
+    <td>D5, GPIO14, CLK</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>NSS</td>
+    <td>.nss</td>
+    <td>D0, GPIO16</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>RESET</td>
+    <td>.rst</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td bgcolor="#FFFF00">D3, GPIO3</td>
+    <td><p>D3 is used to select boot-up. Only works with UART connected and flashing. Probably leave open!<br />
+      </p></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>D4, GPIO2</td>
+    <td>Connected to Data line of 433 Heterodyne receiver</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<h2>Connecting the 433 MHz convertor</h2>
+<p>The Dallas DS18B20 sensor is connected to the OneWire bus. The bus is available for the ESP8266 but due to different word size of Arduino and the ESP8266 a dedicated library is made fo rthe ESP8266. It is found on github (see software section below).</p>
+<p>&nbsp;</p>
+<p>The sensor itself comes in several packages, the cheapest one is a transistor-like device with only 3 pins. It is the cheapest variant. The sensor that I use most often is a waterpoof package that sells for about $1.50 a piece on ebay&nbsp;(package of 5) and it has a 1&nbsp;meter hookup cable which makes it ideal for outdoor experiments etc.</p>
+<h1>Software</h1>
+<p>The sketch software to run the ESP8266 temperature node is found <a href="https://github.com/things4u/LoRa-Thing/tree/master/esp-lmic-v">&lt;HERE&gt;</a> on github. </p>
+<p>NOTE: Please make sure to copy the <a href="https://github.com/things4u/LoRa-Thing/tree/master/libraries/lmic-v1.5">lmic-1.5 library</a> and the <a href="https://github.com/things4u/LoRa-Thing/tree/master/libraries/OneWireESP">OneWireESP</a> from the <a href="https://github.com/things4u/LoRa-Thing/tree/master/libraries">libraries</a> directory as well, as they is used by this sketch.<br />
+</p>
+<h2>Links</h2>
+ <ul>
+   <li>Wemos D1-mini documentation <a href="http://www.wemos.cc/wiki/doku.php?id=en:d1_mini">on their website</a></li>
+   <li>http://esp8266.com/wiki/doku.php?id=nodemcu</li>
+   <li><a href="http://www.esp8266.com/wiki/doku.php?id=esp8266_gpio_pin_allocations">ESP8266 pin allocations (esp8266.com)</a></li>
+ </ul>
+<p>&nbsp;</p>
+</body>
+</html>
