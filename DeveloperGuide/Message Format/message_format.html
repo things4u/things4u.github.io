@@ -307,8 +307,8 @@ The start byte 0x87 consists of <br>
 <h3>Example 2, Downlink messages</h3>
 <p>  This second example handles downlink messages. Just like uplink messages that are sent by the node containing sensor data, ownlink messages contain commands and information from the LoRa server (/router).</p>
 <p>1. Ask for node status: 0x84 0xC0&nbsp; computed as follows: ( 0x80 | 0x02&lt;&lt; 1 )&nbsp; ; ( 0x03&lt;&lt;2 | 0x00 )</p>
-<p>2. Set the Spreading Factor: 0x86 0xC4 0x07</p>
-<p>3. Set the timing between messages: 0x8A 0x</p>
+<p>2. Set the Spreading Factor to 7: 0x86 0xC4 0x07</p>
+<p>3. Set the timing between messages to 32 seconds: 0x88 0xc8 0x00 0x20</p>
 <p>&nbsp;</p>
 <h2>Opcodes</h2>
 <p>The following opcodes are defined both for the node (IDE&nbsp;library) and for the backend:</p>
