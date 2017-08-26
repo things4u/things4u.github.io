@@ -206,8 +206,10 @@ The 1-channel gateway has the following limitations compared to its bigger broth
 <h3>OLED</h3>
 <p>Over the last months, several people have tried to convince me of the value of having OLED support </p>
 <p><img src="images/OLED_2b.JPG" width="270" height="200"></p>
-<p>Although I'm not always convinced of its use, I have included the OLED code in gateway software. At the moment, at run-time and after initialisation the code is executed in the _loraModem.ini file. As such, it is called directly when receiving a message over the air. This makes it respond quick to incoming messages but at the same time it will make execution time in interrupt longer which may lead to unexpected Exception/wtachdog resets.</p>
+<p>Although I'm not always convinced of its use, I have included the OLED code in gateway software. At the moment, at run-time and after initialisation the code is executed in the _loraModem.ini file. As such, it is called directly when receiving a message over the air. This makes it respond quick to incoming messages but at the same time it will make execution time in interrupt longer which may lead to unexpected Exception/watchdog resets.</p>
 <p>Should such occur, consider filling the statistics buffer only and get the latest value in the loop() function in user time.</p>
+<p>The pin's used for OLED are pin4/D2 for SCL and pin5/D1 for SDA. These pin's are free to use for the Hallard configuration.</p>
+<p>These pins are in use for the Comresult board. For this configuration alternate pin's must be used which means that no pins are left over for other work such as sensors. D0 and D4 may be used (Not tried, so use at your own risk).</p>
 <h1>Links</h1>
 <p>The following links contain useful information for this project.</p>
 <ul>
