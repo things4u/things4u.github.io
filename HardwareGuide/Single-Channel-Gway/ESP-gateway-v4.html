@@ -195,7 +195,9 @@ The 1-channel gateway has the following limitations compared to its bigger broth
 <p>&nbsp;</p>
 <h1>Software</h1>
 <p>The software is currently, and will probably always be, under development. Several additions have been made to the RaspberryPI version in order to make this ESP version more reliable and workable. However, there are still some functions that can be included such as&nbsp;setting the SSID and password dynamically&nbsp;(The ESP will act as an access point so that your PC can connect to it, and set SSID and Password).</p>
-<p>It is expected that TTN (and others) will release low priced full Lora Gateways somewhere in the 2017/2018 timeframe. Until then&nbsp;a Single Channel Gateway will offer a lot of benefits for those that like to have a Gateway at home for testing or demonstration. The user interface of the Gateway will make it even more useful. After all, most full Lora Gateways have very limited debug value for those of us that have no Linux or similar background.</p>
+<p>It is expected that TTN (and others) will release low priced full Lora Gateways somewhere in the 2017/2018 timeframe. Until then&nbsp;a Single Channel Gateway will offer a lot of benefits for those that like to have a Gateway at home for testing or demonstration. </p>
+<h3>WifiManager</h3>
+<p>The user interface of the Gateway will make it even more useful. After all, most full Lora Gateways have very limited debug value for those of us that have no Linux or similar background.</p>
 <p>Please find the software on <a href="http://github.com/things4u">github</a></p>
 <h3>DNS</h3>
 <p>The ESP libraries support DNS hostnames out of the box. As apparently DNS functions are hard on the mcu, and may cause  crashes and watchdog resets, I have decided to only once get the IP address of the LoRa router and from that moment on use that IP address in the program.</p>
@@ -204,19 +206,32 @@ The 1-channel gateway has the following limitations compared to its bigger broth
 <h3>Webserver </h3>
 <p>As the ESP8266 is not a Linux machine, so it has no local disk storage, at least not out of the box. It also lacks the possibility to make a SSH connection as you can with a RaspberryPI for example. Still we would like to know how the device is doing, and how long it is operating without any problems. The latter is easy to measure if we look at the time that the gateway is operational. If that time is after the moment we plugged the gateway in, it probably suffered from a Watchdog reset and has restarted since.</p>
 <h3>OLED</h3>
-<p>Over the last months, several people have tried to convince me of the value of having OLED support </p>
+<p>Over the last months, several people have tried to convince me of the value of having OLED support in the single channel gateway. So I built support for the OLED  as of sofwtare version 4.0.8 of the gateway.</p>
 <p><img src="images/OLED_2b.JPG" width="270" height="200"></p>
-<p>Although I'm not always convinced of its use, I have included the OLED code in gateway software. At the moment, at run-time and after initialisation the code is executed in the _loraModem.ini file. As such, it is called directly when receiving a message over the air. This makes it respond quick to incoming messages but at the same time it will make execution time in interrupt longer which may lead to unexpected Exception/watchdog resets.</p>
+<p>So although I'm not always convinced of its use, I have included the OLED code in gateway software. At the moment, at run-time and after initialisation the code is executed in the _loraModem.ini file. As such, it is called directly when receiving a message over the air. This makes it respond quick to incoming messages but at the same time it will make execution time in interrupt longer which may lead to unexpected Exception/watchdog resets.</p>
+<p>&nbsp;</p>
+<table width="56%" border="1">
+  <tr>
+    <td><img src="images/OLED_1.JPG" width="400" height="300"></td>
+  </tr>
+  <tr>
+    <td><blockquote>
+      <h5>(not all text is readible due to refresh rate of the OLED)</h5>
+    </blockquote></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
 <p>Should such occur, consider filling the statistics buffer only and get the latest value in the loop() function in user time.</p>
 <p>The pin's used for OLED are pin4/D2 for SCL and pin5/D1 for SDA. These pin's are free to use for the Hallard configuration.</p>
-<p>These pins are in use for the Comresult board. For this configuration alternate pin's must be used which means that no pins are left over for other work such as sensors. D0 and D4 may be used (Not tried, so use at your own risk).</p>
+<p><a href="images/OLED_3.JPG"><img src="images/OLED_3.JPG" width="400" height="300"></a></p>
+<p>These pins are in use for the Comresult board. For this configuration alternate pin's must be used which means that no pins are left over for other work such as sensors. D0 and D4 may be used (Not tried yet, so use at your own risk).</p>
 <h1>Links</h1>
 <p>The following links contain useful information for this project.</p>
 <ul>
   <li><a href="https://github.com/things4u/ESP-1ch-Gateway-v3.0">The source code for this gateway on the Things4U github page</a></li>
   <li><a href="http://forum.thethingsnetwork.org/t/single-channel-gateway/798">The forum of thethingsnetwork.org on this subject</a></li>
   <li><a href="https://oshpark.com/shared_projects/36EsiJqR">Here you can order adapter boards for connecting RFM95 to RaspberryPI</a> or you can make those yourself (I did)</li>
-  <li>Order your RFM95 chips on Aliexpress.com (about $8.00-8.50) or buy it at Ideetron.nl</li>
+  <li>Order your RFM95 chips on Aliexpress.com (about $8.00-8.50) or buy them at Ideetron.nl</li>
   <li><a href="http://pcbs.io">Buy the Hallard board on pcbs.io</a></li>
   <li><a href="https://oshpark.com/shared_projects/3Cg38FFD">OshParkESP8266 PCB</a></li>
 </ul>
@@ -256,6 +271,6 @@ The 1-channel gateway has the following limitations compared to its bigger broth
 </ul>
 <p>&nbsp;</p>
 <h1>Pictures</h1>
-<p>&nbsp;</p>
+<p>This chapter is reserved for displaying some more pictures (if available).</p>
 </body>
 </html>
