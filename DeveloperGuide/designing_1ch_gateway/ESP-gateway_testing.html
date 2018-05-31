@@ -8,14 +8,13 @@
 <body>
 <h1>1-ch Gateway Testing</h1>
 <p>I have decided to write someting on 1-channel gateway testing. Not that I am hoping to be complete but more for myself to know what staging we have gone through during the development of the various versions.</p>
-<p>&nbsp;</p>
 <h2>Version 1</h2>
-<p>Version 1 was the first ESP8266 based version. It is obsolete by now. It did not offer a webserver, Wifi Manager or anything&nbsp;that would belp to monitor the gateway once it was started up. Results compared to an in-house Lorank-8 gateway indicated that the gateway would not loose a lot of packages for inhouse or devices that were relatively close to the nodes.</p>
+<p>Version 1 was the first ESP8266 based version. It is obsolete by now. It did not provide webserverfunctions, nor Wifi Manager or anything&nbsp;that would belp to monitor the gateway once it was started up. Results compared to an in-house Lorank-8 gateway indicated that the gateway would not loose a lot of packages for inhouse or devices that were relatively close to the nodes.</p>
 <h2>Version 2</h2>
 <p>Not much more testing has been done compared to version 1. measurements at the backend indicate that the operation is reliable in most cases and we did not detect&nbsp;a suspicious amount of missed messages using a normal range.</p>
 <h2>Version 3</h2>
 <p>Version 3.3 is the last version of the &quot;old&quot; 1-channel gateway design. It did not make use of interrupts by would periodically scan the received for incoming messages. This works quite well (!) and this&nbsp;version may or may not be equal in its performance to the new 4.x gateway that has CAD and HOP switched off.</p>
-<h2>Version 4</h2>
+<h1>Version 4</h1>
 <p>Version 4 of the gateway offered far more possibilities to setup the gateway and monitor its behaviour in real time using the web interface.&nbsp;Also this is the first version where we use interrupt handlers to detect incoming messages. Normally, this should be more reliabale than doing this in the loop() of the sketch. However, doing performance measurements is a difficult task: </p>
 <ul>
   <li>The gateway should listen to almost every message but there is no guarantee that messages are received (or delivered) to a gateway.</li>
@@ -28,9 +27,12 @@
   <li>CAD mode works on local rssi parameters. As&nbsp;the sx1276/rfm95 can received messages below the normal noise floor, rssi detection is unreliable once we reach that noise floor. </li>
   <li>Probably if two messages with same SF arrive almost at the same moment it is unclear whether or not one of the nodes will wait for a clear &quot;channel&quot;.</li>
 </ul>
+<h2>Test Setup</h2>
+<p>In 2017 I built 8 single channel gateways and tested versions 4.0.8 and higher on these devices. Some were installed with lower versions of the software, some would run the latest versions of the software and some with OLED functions etc etc. the goal was to find out which setting woud cause unexpected watchdog resets and what settings would be resistent.</p>
+<h3>OLED</h3>
+<p>It turned out that for example OLED enabled did not have a significant impact on the performance, other than claim I2C memory on the heap. Hoewever, OLED once present would make the gateway less selective. It appears that gateways will not detect all messages once OLED is activated in the message detection functions. This will mean that I might opt to send OLED its message in the loop() function only.</p>
 <p>&nbsp;</p>
-<p>&nbsp;</p>
-<h2>Todo</h2>
+<h1>Todo</h1>
 <p>Do some proper range testing for all modes of the gateway including GPS coordinates etc.</p>
 </body>
 </html>
