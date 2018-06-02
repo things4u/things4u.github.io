@@ -18,7 +18,7 @@
 </ol>
 <p>In order to avoid having to use both options, we try to make most settings availble on both interfaces. But in practise the .h file is used to make configuration changes that are more permanent and the user interface is used to set everyday parameters and things that change more often.</p>
 <h2>&nbsp;</h2>
-<h2>Editing the ESP-sc-gway.h file</h2>
+<h2>1. Editing the ESP-sc-gway.h file</h2>
 <p>Most parameters that can be set are compile-time directives so that code is compiled or not based on the value of the directive in the ESP-sc-gateway.h file. This way, the code base can be kept small when functions are not used. Example: Support for Wifi Manager can be turned ON or OFF based on the setting of WIFIMANAGER in the ESP-sc-gway.h file.</p>
 <p><code>#define WIFIMANAGER 0</code></p>
 <p>By changing the definition to &quot;1&quot; the complete functionality to use Wifi Manager is included in the code and compiled. By using &quot;0&quot; all functions relating to this functionality is excluded from the gateway code.</p>
@@ -113,7 +113,7 @@
 <p>The remaning part of the #define settings should be to include or not include certain parts of the code based on your own preference.</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
-<h2>Using the GUI to set&nbsp;parameters</h2>
+<h2>2. Using the GUI to set&nbsp;parameters</h2>
 <p>This part describes the GUI and how to set parameters. And of course my advise what parameters to set :-).</p>
 <p>First of all: Determine the IP address of your single channel gateway. It can be that you set a fixed address in your router, but it could also be tat the router hands out addresses based on its own preference. Should you not know what addres is assigned by the router, remember that the single channel gateway will output the IP address and other important settings over USB during boot-up. So looking at the output on USB is a simple way to get the IP address (and it may be the only way for you).</p>
 <p>When starting your GUI this is the first screen you will see.</p>
@@ -139,12 +139,12 @@
 <h3 dir="ltr">Message History</h3>
 <p dir="ltr">This section shows the last 20 messages received by the gateway. Of every message we record the time that it was received, the sebsir ID, the channel and the spreading factor used for sending the message etc.</p>
 <h3 dir="ltr">Gateway Settings</h3>
-<table width="90%" border="1">
+<table width="94%" border="1">
   <tr>
-    <td width="14%"><strong>Parameter</strong></td>
-    <td width="12%"><strong>Allowed Values</strong></td>
+    <td width="16%"><strong>Parameter</strong></td>
+    <td width="15%"><strong>Allowed Values</strong></td>
     <td width="11%"><strong>Default Value</strong></td>
-    <td width="63%"><strong>Description</strong></td>
+    <td width="58%"><strong>Description</strong></td>
   </tr>
   <tr>
     <td>CAD</td>
@@ -162,7 +162,7 @@
     <td>SF</td>
     <td>7 to 12</td>
     <td>9</td>
-    <td>Spreading Factor setting. If CAD is enabled (see above) the Spreading Factor is automatically set (AUTO)</td>
+    <td>Spreading Factor setting SF7 to SF12. If CAD is enabled (see above) the Spreading Factor is automatically set (AUTO)</td>
   </tr>
   <tr>
     <td>Channel</td>
@@ -173,8 +173,50 @@
   <tr>
     <td>Debug Level</td>
     <td>0 to 3</td>
+    <td>1</td>
+    <td><p>The debug level specifies what debugging info is output to the USB Console and what info not. With debug level 0, almost no messages are shon on the console. Debug level 1 displays a minimal (essential set) without influencing the performance of the gateway. Debug levels 2 and up should only be used for debugging</p></td>
+  </tr>
+  <tr>
+    <td>Debug Pattern</td>
+    <td>SCN, CAD, RX, TX, PRE,MAI, GUI, RDIO buttons</td>
+    <td>All Off</td>
+    <td>The buttons allow use to specify which section is activated for sending debugging info to the Console.</td>
+  </tr>
+  <tr>
+    <td>Usb Debug</td>
+    <td>&nbsp;</td>
+    <td>1</td>
+    <td>This is the value of DUSB (see ESP-sc-gway.h file)</td>
+  </tr>
+  <tr>
+    <td>WWW Refresh</td>
+    <td>ON or OFF</td>
+    <td>OFF</td>
+    <td>By setting this parameter to ON, the&nbsp;Webserver will every 60 seconds renew the page.</td>
+  </tr>
+  <tr>
+    <td>Update Firmware</td>
+    <td>--</td>
+    <td>&nbsp;</td>
+    <td>-- Not used at the moment --</td>
+  </tr>
+  <tr>
+    <td>Format SPIFFS</td>
+    <td>--</td>
+    <td>&nbsp;</td>
+    <td>By pressing the button the user can format the filesystem at any time.</td>
+  </tr>
+  <tr>
+    <td>Statistics</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
+    <td>This parameter defines what kind of statistcis info is gathered and computed by the gateway system.</td>
+  </tr>
+  <tr>
+    <td>Boots and Resets</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>The number of times the system was rebooted. This can be a &quot;on purpose&quot; boot or due to an error for example. The number of boots is shown, vy pressing RESET the user can reset the counter.</td>
   </tr>
   <tr>
     <td>&nbsp;</td>
