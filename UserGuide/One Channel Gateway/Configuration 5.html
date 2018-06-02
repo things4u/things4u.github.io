@@ -22,12 +22,44 @@
 <p>Most parameters that can be set are compile-time directives so that code is compiled or not based on the value of the directive in the ESP-sc-gateway.h file. This way, the code base can be kept small when functions are not used. Example: Support for Wifi Manager can be turned ON or OFF based on the setting of WIFIMANAGER in the ESP-sc-gway.h file.</p>
 <p><code>#define WIFIMANAGER 0</code></p>
 <p>By changing the definition to &quot;1&quot; the complete functionality to use Wifi Manager is included in the code and compiled. By using &quot;0&quot; all functions relating to this functionality is excluded from the gateway code.</p>
-<p>Several parameters or compiler directives can be set in the .h file such as:</p>
+<p>Several parameters or #define compiler directives can be set in the ESP-sc-gway.h file such as:</p>
+<h3>DEBUG</h3>
+<p> The value of DEBUG determines whether some parts of code get compiled or not.  Also this is the initial value of the debug parameter. As the value can be changed using the admin webserver, leave it to the value set to 1, but for fFor operational use, better set initial DEBUG vaulue 0.<br />
+  Note: You can still set a higher value for the debug variable in the Webserver GUI&nbsp;(As long as DUSB is set to 1).</p>
+<h3>DUSB</h3>
+<p>DUSB sets the debugging/Output for the SerialUSB port. If DUSB is set to 0, minimal (almost 0) output should be sent to the Serial Port. I like to switch off ANY communictation to the USB port if DUSB is set to 0 (ans will probably).<br />
+  If DUSB is set to 1, it will allow any USB communciation which is permitted by the debug level set in the Webserver GUI.
+</p>
+<h3>SPIFF_FORMAT</h3>
+<p>If this variable is set,&nbsp;the SPIFFS firlesystem of the ESP chip is formatted before use. This way the user can force (!) the filesystem to be reset before operation and clean corrupt files of empty the memory (if it is full).</p>
+<h3>_SPREADING</h3>
+<p>This parameter sets the initial value for the Spreading Factor (SF) which i used in STD mode of operation, If _CAD is enabled the value of _SPREADING is not of use anymore.</p>
+<h3>_CAD</h3>
+<p>Set the paramet Channel Activity Detection and the corresponding mode of operation of the Single Channel Gateway. In CAD mode the gateway is set to one frequency (mostly 0) and listens to all Spreading Factor messages of coming in on that frequency/</p>
+<h3>A_SERVER</h3>
+<p>Specify whether or not to use the Webserver for this Single Channel Gateway. Although it is possible to switch the Webserver off, for example for security reasons, I recommend to use it as it provides good information on the Gateway operation and the setting of all parameters.</p>
+<h3>A_REFRESH</h3>
+<p>This parameter determines whethe rthe Webserver should refresh every XX seconds. At this moment the Webserver will refresh everay 60 seconds by default (It is possible to set other values). It may be possibel that you miss some LoRa packages as the Webserver takes some time and compute power, but for debugging a Single Channel Gateway it is a nice feature to have.</p>
+<h3>A_SERVERPORT</h3>
+<p>Leave at 80 (The standard Wevserver port).</p>
+<h3>A_MAXBUFFERSIZE</h3>
+<p>This should be the maximum size of a message going up. Standard value is 192 and should not be changed.</p>
+<h3>A_OTA</h3>
+<p>_PIN_OUT</p>
+<p>STATISTICS</p>
+<p>MAX_STAT</p>
+<p>STRICT_CH</p>
+<p>WIFIMANAGER</p>
+<p>AP_NAME</p>
+<p>AP_PASSWD</p>
+<p>REPEATER</p>
+<p>MUTEX</p>
+<p>OLED</p>
+<p>GATEWAYMGT</p>
+<p>STAT_LOG</p>
+<p>CONFIGFILE</p>
 <ul>
-  <li><code>DEBUG 1; Initial value of the debug variable. </code></li>
-  <li><code>_STRICT_CH 0; Leave this parameter on 0 unless you like to correct the frequency/sf set by the backend.</code></li>
-  <li><code>_CAD</code></li>
-  <li><code>STATISTICS 1; This parameter detemines whether or not the gateway will report statistics on its use. This like total messages received etc. will or will not be reported. If you set this parameter to 2, it will gather statistics on SF of messages received and report through the web interface.</code></li>
+  <li></li>
   <li><code>MAX_STAT&nbsp;20; Sets the number of lines in the web interface and records that are kept in memory of the last messages sucessfully received.</code></li>
 </ul>
 <ul>
@@ -72,8 +104,11 @@
   <li><code>A_REFRESH </code>&lt;seconds&gt;<code>&nbsp;&nbsp; //seconds between webpage refresh. 0 stops automatic refresh</code></li>
   <li><code>A_SERVERPORT 80</code></li>
   <li><code>A_MAXBUFSIZE 192</code></li>
-  <li><code>_BAUDRATE 115200&nbsp;&nbsp;&nbsp;&nbsp; // Do not touch</code></li>
 </ul>
+<h3><code>_BAUDRATE</code></h3>
+<p><code>The value of BAUDRATE 115200&nbsp;&nbsp;&nbsp;&nbsp; // Do not touch<br />
+  Do not touch this valyue, it seems to be a working value.
+</code></p>
 <p>Most parameters starting with a &quot;_&quot; are parameters only. Please only change these if you know what you are doing. If the parameter contains a &quot;&lt;xxx&gt;&quot; it means that you have to put your own values there. After all, it does not make sense to put my email address or&nbsp;GPS data in your configuration.</p>
 <p>The remaning part of the #define settings should be to include or not include certain parts of the code based on your own preference.</p>
 <p>&nbsp;</p>
