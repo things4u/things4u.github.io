@@ -8,7 +8,7 @@
 <body>
 <h1 dir="ltr" id="docs-internal-guid-8ff340d2-c1c9-78f0-295a-5c5cba894701">1-Channel Gateway with CAD (version 4.x)</h1>
 <h2 dir="ltr">Introduction</h2>
-<p dir="ltr">This is the 4th generation of software implementing LoRa gateway function on a platform consisting of an ESP8266 mcu and a sx1276 radio. Unlike the previsou vwrsions of the gateway, this version will listen to all available Spreading Factors on a single frequency. </p>
+<p dir="ltr">This is the 5th generation of software implementing LoRa gateway function on a platform consisting of an ESP8266 mcu and a sx1276 radio. Unlike the previous versions of the gateway, this version will listen to all available Spreading Factors on a single frequency. </p>
 <h3 dir="ltr">CAD</h3>
 <p dir="ltr">For this we make used of the CAD (Channel Activity Detection) functions that are described below. The CAD mode can be configured by the user, but  the user must select the CAD mode&nbsp;manually either in the used interface or set the CAD mode in the ESP-sc-gway.h file</p>
 <h3 dir="ltr">HOP</h3>
@@ -59,7 +59,7 @@
   <li>CAD; the system uses one frequency but is able to receive all spreading factors.</li>
   <li>HOP; reserved for frequency Hopping (experimental)</li>
 </ol>
-<p><img src="images/gwayv4_cad_hop/Dia2.PNG" width="640" height="360" /></p>
+<p><img src="images/Dia2.PNG" width="960" height="480" /></p>
 <h2>1. STD Mode</h2>
 <p>In single channel gateway standard mode, the user can select the frequency and the&nbsp;spreading factor to use for reception of messages. the Gateway will behave like a real single channel gateway; just one frequency and one spreading factor can be set.</p>
 <p>the advantage of the STD mode is, that as we know on what frequency and spreading factor we listen for new messages to arrive, the whole configuration is tuned towards this use. For example: We can receive message with a very low RSSI (-120dB or lower), something that is not possible with CAD mode of operation. Also, this mode may be a little more reliable&nbsp;although we have no indication that the system will miss more messages when in CAD mode.</p>
@@ -198,10 +198,6 @@
   <li>Reset statistics</li>
   <li>etc etc</li>
 </ol>
-<p>&nbsp;</p>
-<h1>Issues Encountered, and hopefully Solved</h1>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
 <p>&nbsp;</p>
 <h2>ToDo</h2>
 <p>bnot all combinations of parameters set are tested. There is simply not enough time to test every combination. However, when users find irritating errors in the code the corresponding files are updated and a new version is published on hithub as soon as possible.<br />
