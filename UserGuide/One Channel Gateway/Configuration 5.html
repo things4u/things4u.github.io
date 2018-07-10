@@ -8,19 +8,13 @@
 <body>
 <h1 dir="ltr" id="docs-internal-guid-8ff340d2-c1c9-78f0-295a-5c5cba894701">1-Channel Gateway Configuration</h1>
 <h2 dir="ltr">Introduction</h2>
-<p dir="ltr">This is the 5th generation of software implementing LoRa gateway function on a platform consisting of an ESP8266 mcu and a sx1276 radio. Unlike the previous versions of the gateway, this version will listen for all available Spreading Factors on a single frequency. </p>
+<p dir="ltr">This is the 5th generation of software implementing LoRa gateway function on a platform consisting of an ESP8266 mcu and a sx1276 radio. Unlike the previous versions of the gateway, this version will listen for all available Spreading Factors on a single frequency. Also for well know nodes it will show the name instead of its DevAddr and if condfigured it will also decode messages coming from these well-known sensor&nbsp;nodes.</p>
 <p dir="ltr"><a href="../../HardwareGuide/Single-Channel-Gway/images/ComResult-1.jpg"><img src="../../HardwareGuide/Single-Channel-Gway/images/ComResult-1.jpg" alt="Comresult" width="600" height="450" hspace="10" vspace="10" /></a></p>
 <h2 dir="ltr">QuickStart</h2>
-<p dir="ltr">This section describes the first important decisions you have to take with your Gateway and how to configure the gateway so that it operates. By no means this chapter is meant to be exchaustive, detailed or complete, it merely gives a hint how to start and go from here. The reader is advised to read the rest of this chapter and finish the configuration after reading it.</p>
+<p dir="ltr">This section describes the first important decisions you have to take with your Gateway and how to configure the gateway to get you going. By no means this chapter is meant to be exchaustive, detailed or complete, it merely gives a hint how to start and go from here. The reader is advised to read the rest of this chapter and finish the configuration after reading it.</p>
 <ol>
   <li>ESP8266 or ESP32. Based upon the board you have you MUST edit the ESP-sc-gw.h file and edit _PIN_OUT</li>
   <li>433MHz or 868MHz. Based upon the board frequency, set _FREQ</li>
-</ol>
-<h2 dir="ltr">Setting the configuration</h2>
-<p dir="ltr">There are two major ways to set the configuration of the Gateway:</p>
-<ol>
-  <li>Set configuration parameters in ESP-sc-gway.h file</li>
-  <li>Use the GUI&nbsp;to set parameters</li>
   <li>Does your board have a fixed IP address given by your router?
     <ol>
       <li>If so, set the AP_NAME and AP_PASSWD to the SSID and password of your router</li>
@@ -33,7 +27,12 @@
 </ol>
 <p>All other parameters in the ESP-sc-gway.h file can be left to their default values initially. Please connect to the USB port and look at the console. It will show at what IP address the sensor node connects. You can then open that IP address in your browser and manage the gateway through the webbrowser.</p>
 <p>In order to avoid having to use both options, we try to make most settings availble on both interfaces. But in practise the .h file is used to make configuration changes that are more permanent and the user interface is used to set everyday parameters and things that change more often.</p>
-<h2>&nbsp;</h2>
+<h2 dir="ltr">Setting the configuration</h2>
+<p dir="ltr">There are two major ways to set the configuration of the Gateway:</p>
+<ol>
+  <li>Set configuration parameters in ESP-sc-gway.h file</li>
+  <li>Use the GUI&nbsp;to set parameters</li>
+</ol>
 <h2>1. Editing the ESP-sc-gway.h file</h2>
 <p>Most parameters that can be set are compile-time directives so that code is compiled or not based on the value of the directive in the ESP-sc-gateway.h file. This way, the code base can be kept small when functions are not used. Example: Support for Wifi Manager can be turned ON or OFF based on the setting of WIFIMANAGER in the ESP-sc-gway.h file.</p>
 <p><code>#define WIFIMANAGER 0</code></p>
@@ -270,7 +269,7 @@
 <p dir="ltr">The Gateway program enables use of sensors that are connected to the gateway, but reported as if they are orininatin from an ordinary LoRa sensor. The gateway will fake in this case that the message is coming from a real sensor but measure the sensor vaues, encode them as a sensor node would do and sends them to the server backend (of TTN or example).</p>
 <p dir="ltr">Especially for Gateways based on the TTGOT-Beam board and others there are several on-board sensors such as GPS and local battery voltage that are very&nbsp;useful to report to the server. And also when debugging a LoRa environment it is good if there are sensors that canbe reported to the server without having the&nbsp;actual LoRa component and a sensor node involved: It enables you to check the gateway-server connection.</p>
 <h3 dir="ltr">The T-Bone sensors</h3>
-<p dir="ltr">The TTGO T-Bone board has both the possibility to use the local GPS as a sensor and send the voltage of the local battery to the server.The first is well documenten in the code.</p>
+<p dir="ltr">The TTGO T-Bone board has both the possibility to use the local GPS as a sensor and send the voltage of the local battery to the server. The first is well documenten in the code.</p>
 <p dir="ltr">For the battery voltage reporting the GPIO35 pin should&nbsp;be measured by the A0 analog pin and its value should be multiplied by 2 to get the accurate voltage of the battery. The sensor works between 3.5 and 4.2V battery power so reading the value of GPIO35 pin enables the user to receive&nbsp;information about the battery, indicating the USB power is lost, and repair power before it is too late.</p>
 <h2>Documentation</h2>
 <p>There are (at least) two y seperate documents that apply to this gateway:</p>
