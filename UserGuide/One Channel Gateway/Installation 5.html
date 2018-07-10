@@ -22,6 +22,7 @@
 <h2>Introduction</h2>
 <p>This document descibes version 5.0 (and newer)  of the ESP8266 LoRa Gateway. The&nbsp;LoRa gateway based on the ESP8266 mcu has evolved a lot over the last year. Although all versions that&nbsp;I built are/were built using the Wemos D1-mini board that can be bought on Aliexpress amongst others, the system has changed. For the latest version of the gateway I make use of the PCB that has been designed and built by Charles Hallard (and can be bought from pcbs.io). If you use the Hallard PCB, you have to remember though that DIO0, DIO1 and DIO2 pins are multiplexed on the board using (very!) small diodes to GPIO pin 15 (D8).</p>
 <p>Other PCB's work as well, but if you like to build a small gateway and&nbsp;keep as many GPIO pins available as well, the Hallard board is unbeatable. An alternative solution is the board made by Comresult. This PCB is larger than that of Hallard but can be put inside a standard IP56 box. Should you work with a more traditional PCB, make sure that at least DIO0 and DIO1 are connected to a pin on the Wemos. Such a board is shown above.</p>
+<p>Note: RX and TX pins are used for the Serial (USB) communication. They can be used as data pins as well, but only is Serial communication is not used.</p>
 <p>Pins used MUST(!) be correctly configured as described in the ESP-sc-gway.h file for the gateway to work.</p>
 <p>The project source code is found on&nbsp;the <a href="https://github.com/things4u/ESP-1ch-Gateway">Things4U github page</a>.</p>
 <p>In order to build a working gateway, several steps need to be taken:</p>
@@ -78,7 +79,7 @@
   <tr>
     <th scope="col">RFM95 pin</th>
     <th scope="col">&nbsp;</th>
-    <th scope="col">ESP8266 pin</th>
+    <th scope="col">Wemos D1 mini pin</th>
   </tr>
   <tr>
     <td>3.3V</td>
@@ -133,10 +134,40 @@
 </table>
 <p>* The reset pin does not have to be connected so it seems. It is only used at setup to read the chip identification<br />
   ** This connection is not necessary for the current version of the gateway, but is more versatile for next versions or other use </p>
-<p>As you can see, both reset and GPIO0 of the ESP8266 are not used. Not connecting the last one makes the ESP8266 gateway more stable and the behavior between flash and normal mode is the same.</p>
+<p>As you can see, both reset of RFM95 and D3/GPIO0 of the ESP8266 are not used. Not connecting the last one makes the ESP8266 gateway more stable and the behavior between flash and normal mode is the same.</p>
+<p>In summary:  there are limited amount of extra pins available. D3/GPIO0 is available&nbsp;when carefully used, as well as D0/GPIO16 and D4/GPIO2. </p>
+<p>Optionally when using OLED, we use&nbsp;both D3 and D4 and therefore no other pin's are available.</p>
+<table width="49%" border="1">
+  <tr>
+    <td width="33%"><strong>OLED pin</strong></td>
+    <td width="15%">&nbsp;</td>
+    <td width="52%"><strong>Wemos D1 pin</strong></td>
+  </tr>
+  <tr>
+    <td>VCC</td>
+    <td>&nbsp;</td>
+    <td>3.3V</td>
+  </tr>
+  <tr>
+    <td height="29"><p>GND</p></td>
+    <td>&nbsp;</td>
+    <td>GND</td>
+  </tr>
+  <tr>
+    <td>SCL</td>
+    <td>&nbsp;</td>
+    <td>D3, GPIO0</td>
+  </tr>
+  <tr>
+    <td>SDA</td>
+    <td>&nbsp;</td>
+    <td>D4, GPIO2</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
 <p>&nbsp;</p>
 <h2>Using Hallard Adapter Board</h2>
-<p>Carles Hallard has designed a very small board that can be used to build your own gateway. The boards are available from pcbs.io abs will be shipped for free anywhere in the world in quantities of 5 pieces.</p>
+<p>Charles Hallard has designed a very small board that can be used to build your own gateway. The boards are available from pcbs.io abs will be shipped for free anywhere in the world in quantities of 5 pieces.</p>
 <p><a href="images/hallard_1.jpg"><img src="images/hallard_1.jpg" alt="" width="600" height="450" /></a></p>
 <p>&nbsp;</p>
 <p>On the top left you can see the place where to solder the 3 diodes which connect dio0, dio1 and dio2 to GPIO15.</p>
@@ -208,8 +239,15 @@
 <h3>Antenna</h3>
 <p>The antenna can be a piece of 8CM wire which works OK out of the box. However, spring antenna's which cost less than a EURO work better and are preferred for use with the ESP8266 based machines. Of course TTGO has an even better antenna option.</p>
 <p>&nbsp;</p>
-<h2>Using TTGO Board</h2>
+<h2>The TTGO Board (with or without OLED)</h2>
 <p>The TTGO board is a complete gateway board as you buy it.&nbsp;As it is based on the more powerful ESP32 chip it is a little bit more expensive than&nbsp;the ESP8266 based boards, but it does include the SX1272 LoRa chip and other goodies and it has two cores (which will prevent lock-ups and other nasty watchdog resets). The TTGO board often comes with its own OLED display as well.</p>
+<p>There are a number of different versions of the TTGO board, fortunately most are almost equal in pin-out:</p>
+<ol>
+  <li>TTGO Lora; I have two of these in EU433 MHz versions</li>
+  <li>TTGO LoRa32 V1 (I do have this one, without the OLED)</li>
+  <li>TTGO LoRa32 V2 (These have a micro SD card interface)</li>
+</ol>
+<p>The Heltec bvoards (white) are more or less the same. When programming the TTGO boards, use the Heltec</p>
 <p>&nbsp;</p>
 <p><img src="images/ttgo_1.jpg" width="500" height="333" /></p>
 <p>However, as this board is relatively new to the family not all libraries that are available for the ESP8266 are also available for the ESP32. Sometimes they work, but sometimes one must install alternate libraries and even call different functions to get the gateway to work.</p>
@@ -217,6 +255,12 @@
 <h3>Pin-Out</h3>
 <p>This is the pin-out for the TTGO board. Click on the image to enlarge.</p>
 <p><a href="images/ttgo_868_2.jpg"><img src="images/ttgo_868_2.jpg" width="750" height="415" hspace="5" vspace="5" /></a></p>
+<p>&nbsp;</p>
+<h2>The TTGO-T-Beam board</h2>
+<p>The T-Beam board is a special version of the TTGO ESP32 board. It contains a ESP32 chip, Antenna, GPS module and antenna and a battery holder for a 18600 battery. As far as the software is concerned its pin-out is the same as the other TTGO board.</p>
+<p><img src="images/T-Beam-1.jpg" width="500" height="500" /></p>
+<p>Only the DIO pin opf the SX-1276 chip is not connect. For that purpose, solder a small wire between the Lora-1 pin of the T-beam and pin 33/GPIO-33 of the ESP32 chip.</p>
+<p><a href="images/T-Beam-3.jpg"><img src="images/T-Beam-3.jpg" width="500" height="375" /></a></p>
 <p>&nbsp;</p>
 <h1>Software</h1>
 <p>The software is currently, and will probably always be, under development. So check back frequently to get the latest release. </p>
@@ -234,20 +278,18 @@
 <p>&nbsp;</p>
 <h3>2. Install the ESP8266 software (or ESP32)</h3>
 <p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<h3>Webserver </h3>
-<p>As the ESP8266 is not a Linux machine, so it has no local disk storage, at least not out of the box. It also lacks the possibility to make a SSH connection as you can with a RaspberryPI for example. Still we would like to know how the device is doing, and how long it is operating without any problems. The latter is easy to measure if we look at the time that the gateway is operational. If that time is after the moment we plugged the gateway in, it probably suffered from a Watchdog reset and has restarted since.</p>
-<h3>WifiManager</h3>
-<p>The user interface of the Gateway will make it even more useful. After all, most full Lora Gateways have very limited debug value for those of us that have no Linux or similar background.</p>
-<p>Please find the software on <a href="http://github.com/things4u">github</a></p>
-<h3>DNS</h3>
+<h3>4. Install the sketch software and bundled libraries</h3>
+<h4>4.1 DNS</h4>
 <p>The ESP libraries support DNS hostnames out of the box. As apparently DNS functions are hard on the mcu, and may cause  crashes and watchdog resets, I have decided to only once get the IP address of the LoRa router and from that moment on use that IP address in the program.</p>
 <p>For the ESP32, the DNS functions are not standard, that means you have to load the additional mDNS libraries (bundled with the sketch software)</p>
-<h3>Clock</h3>
+<h4>4.2 Webserver </h4>
+<p>As the ESP8266 is not a Linux machine, so it has no local disk storage, at least not out of the box. It also lacks the possibility to make a SSH connection as you can with a RaspberryPI for example. Still we would like to know how the device is doing, and how long it is operating without any problems. The latter is easy to measure if we look at the time that the gateway is operational. If that time is after the moment we plugged the gateway in, it probably suffered from a Watchdog reset and has restarted since.</p>
+<h3>4.3 WifiManager</h3>
+<p>The user interface of the Gateway will make it even more useful. After all, most full Lora Gateways have very limited debug value for those of us that have no Linux or similar background.</p>
+<p>Please find the software on <a href="http://github.com/things4u">github</a></p>
+<h3>4.4 Clock</h3>
 <p>The clock function is implemented using NTP. As soon as we have an IP connection we try to connect to a timeserver to get the current time. This way we know how long the unit is operational since we last powered it on, and can we time things if necessary.</p>
-<h3>&nbsp;</h3>
-<h3>OLED</h3>
+<h4>4.5 OLED</h4>
 <p>Over the last months, several people have tried to convince me of the value of having OLED support in the single channel gateway. So I built support for the OLED  as of software version 4.0.8 of the gateway.</p>
 <p><a href="images/OLED_2.jpg"><img src="images/OLED_2b.jpg" alt="" width="316" height="228" /></a></p>
 <p>So although I'm not always convinced of its use, I have included the OLED code in gateway software. At the moment, at run-time and after initialisation the code is executed in the _loraModem.ini file. As such, it is called directly when receiving a message over the air. This makes it respond quick to incoming messages but at the same time it will make execution time in interrupt longer which may lead to unexpected Exception/watchdog resets.</p>
@@ -264,9 +306,23 @@
 </table>
 <p>&nbsp;</p>
 <p>Should such occur, consider filling the statistics buffer only and get the latest value in the loop() function in user time.</p>
-<p>The pin's used for OLED are pin4/D2 for SDA and pin5/D1 for SCL. These pin's are free to use for the Hallard configuration.</p>
+<p>The pin's used for OLED are pin4/D2 for SDA and pin5/D1 for SCL. These pin's are free to use for the Hallard configuration. For Comresult and TTGO boards other pins are configured (see ESP-sc-gway.h file&nbsp;and OLED.h)</p>
 <p><a href="images/OLED_3.JPG"><img src="images/OLED_3.JPG" alt="" width="400" height="300" /></a></p>
 <p>These pins are in use for the Comresult board. For this configuration alternate pin's must be used which means that no pins are left over for other work such as sensors. D0 and D4 may be used (Not tried yet, so use at your own risk).</p>
+<p>&nbsp;</p>
+<h3>5. Install the necessary core libraries</h3>
+<p>Apart from the libraries that are not standard (or not the latest version) in the core release you may have to istall the remaining libraries&nbsp;for the core Arduino/ESP release. Some of these libraries can be installed through the IDE, but some need to&nbsp;be installed from github.</p>
+<p>- <a href="https://github.com/mikalhart/TinyGPSPlus/releases">TinyGPS++</a>. This library is not in the core library section of the IDE</p>
+<p>&nbsp;</p>
+<h3>6. Configue the gateway.</h3>
+<p>Please follow the steps in the Configuration manual section.</p>
+<p>&nbsp;</p>
+<h3>&nbsp;</h3>
+<h3>&nbsp;</h3>
+<h3>&nbsp;</h3>
+<h3>&nbsp;</h3>
+<h3>&nbsp;</h3>
+<h3>&nbsp;</h3>
 <h1>Links</h1>
 <p>The following links contain useful information for this project.</p>
 <ul>

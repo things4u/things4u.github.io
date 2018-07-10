@@ -10,12 +10,28 @@
 <h2 dir="ltr">Introduction</h2>
 <p dir="ltr">This is the 5th generation of software implementing LoRa gateway function on a platform consisting of an ESP8266 mcu and a sx1276 radio. Unlike the previous versions of the gateway, this version will listen for all available Spreading Factors on a single frequency. </p>
 <p dir="ltr"><a href="../../HardwareGuide/Single-Channel-Gway/images/ComResult-1.jpg"><img src="../../HardwareGuide/Single-Channel-Gway/images/ComResult-1.jpg" alt="Comresult" width="600" height="450" hspace="10" vspace="10" /></a></p>
+<h2 dir="ltr">QuickStart</h2>
+<p dir="ltr">This section describes the first important decisions you have to take with your Gateway and how to configure the gateway so that it operates. By no means this chapter is meant to be exchaustive, detailed or complete, it merely gives a hint how to start and go from here. The reader is advised to read the rest of this chapter and finish the configuration after reading it.</p>
+<ol>
+  <li>ESP8266 or ESP32. Based upon the board you have you MUST edit the ESP-sc-gw.h file and edit _PIN_OUT</li>
+  <li>433MHz or 868MHz. Based upon the board frequency, set _FREQ</li>
+</ol>
 <h2 dir="ltr">Setting the configuration</h2>
 <p dir="ltr">There are two major ways to set the configuration of the Gateway:</p>
 <ol>
   <li>Set configuration parameters in ESP-sc-gway.h file</li>
   <li>Use the GUI&nbsp;to set parameters</li>
+  <li>Does your board have a fixed IP address given by your router?
+    <ol>
+      <li>If so, set the AP_NAME and AP_PASSWD to the SSID and password of your router</li>
+    </ol>
+  </li>
+  <li>Does youtr board have an OLED display? If so, set the OLED parameter</li>
+  <li>Are you interested in a few well-known LoRa nodes and are they yours? Define a nice name for these nodes in the file &quot;sensor.h&quot;.</li>
+  <li>Do you need to know the message that your LoRa nodes send to the gateway (and possibly other gateways?). If so, set _LOCALSERVER to 1 and set the parameters in &quot;sensor.h&quot; and fill in the NwkSKey and AppSKey for these nodes, and the system will decode these messages</li>
+  <li>If necessary modify the _TTNSERVER if you connect to TTN, and/or #define&nbsp;the _THINGSERVER if you have another provider</li>
 </ol>
+<p>All other parameters in the ESP-sc-gway.h file can be left to their default values initially. Please connect to the USB port and look at the console. It will show at what IP address the sensor node connects. You can then open that IP address in your browser and manage the gateway through the webbrowser.</p>
 <p>In order to avoid having to use both options, we try to make most settings availble on both interfaces. But in practise the .h file is used to make configuration changes that are more permanent and the user interface is used to set everyday parameters and things that change more often.</p>
 <h2>&nbsp;</h2>
 <h2>1. Editing the ESP-sc-gway.h file</h2>
@@ -137,7 +153,9 @@
 <h3 dir="ltr">Counters</h3>
 <p dir="ltr">This section contains the statistical info of all the messages that have been received by the gateway. It displays per spreading factor and per channel how many messages were received and display the amount of messages processed per hour.</p>
 <h3 dir="ltr">Message History</h3>
-<p dir="ltr">This section shows the last 20 messages received by the gateway. Of every message we record the time that it was received, the sebsir ID, the channel and the spreading factor used for sending the message etc.</p>
+<p dir="ltr">This section shows the last 20 messages received by the gateway. Of every message we record the time that it was received, the sensor ID, the channel and the spreading factor used for sending the message etc. As of version 5.3.2 of the gateway another column can be added to this section: The data sent by sensors. When enabled in the ESP-sc-gway.h file with </p>
+<p dir="ltr">#define _LOCALSERVER 1</p>
+<p dir="ltr">It is possible to add NwkSKey and AppSKey in the loraSensor.h file and enable for some well known nodes the decoding of their data. With this, the sensors do the same thing as the TTN backend, but enable this ith the local GUI Webserver or through the local USB interface. Just enable GUI on the webserver to send output to the USB port.</p>
 <h3 dir="ltr">Gateway Settings</h3>
 <table width="94%" border="1">
   <tr>
@@ -154,7 +172,7 @@
   </tr>
   <tr>
     <td>HOP</td>
-    <td>yes or NO</td>
+    <td>Yes or No</td>
     <td>NO</td>
     <td>Specify whether frequency hopping should be enabled. Frequency hopping will make the gateway work on more than one channel. This mode is highly experimental and does not work correctly. the user is strongly advised NOT to use HOP.</td>
   </tr>
@@ -216,7 +234,7 @@
     <td>Boots and Resets</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
-    <td>The number of times the system was rebooted. This can be a &quot;on purpose&quot; boot or due to an error for example. The number of boots is shown, vy pressing RESET the user can reset the counter.</td>
+    <td>The number of times the system was rebooted. This can be a &quot;on purpose&quot; boot or can be due to an error for example. The number of boots is shown, by pressing RESET the user can reset the counter.</td>
   </tr>
   <tr>
     <td>&nbsp;</td>
@@ -232,16 +250,30 @@
   </tr>
 </table>
 <p dir="ltr">&nbsp;</p>
-<h3 dir="ltr">Wifi Config</h3>
-<p dir="ltr">&nbsp;</p>
+<h3 dir="ltr">WiFi Config</h3>
+<p dir="ltr">This section shows several WiFi parameters that are set by the gateway.</p>
+<ul>
+  <li>WiFi Host</li>
+  <li>SSID</li>
+  <li>IP Address</li>
+  <li>IP Gateway (connected to)</li>
+  <li>NTP Server</li>
+  <li>LoRa Router and Port</li>
+  <li>LoRa Router 2 and Port 2</li>
+  <li></li>
+</ul>
 <h3 dir="ltr">System Status</h3>
 <p dir="ltr">This section shows some system parameters. There is nothing to set here except when using an ESP8266 module, in this case the yser can set the system clock either to 80MHz or 160MHz.</p>
 <p dir="ltr">&nbsp;</p>
-<p dir="ltr">&nbsp;</p>
-<p dir="ltr"><a href="../../HardwareGuide/Single-Channel-Gway/images/ComResult-1.jpg"></a></p>
-<h3 dir="ltr">&nbsp;</h3>
-<h3>Documentation</h3>
-<p>There are (at least) two seperate documents that apply to this gateway:</p>
+<h2 dir="ltr">Using gWay Intenal Sensors</h2>
+<p dir="ltr"><a href="../../HardwareGuide/Single-Channel-Gway/images/ComResult-1.jpg"></a>This is&nbsp; feature not normally found on LoRa Gateways, but implemented for the Single Channel Gateway as a means to help with debugging LoRa sensors. </p>
+<p dir="ltr">The Gateway program enables use of sensors that are connected to the gateway, but reported as if they are orininatin from an ordinary LoRa sensor. The gateway will fake in this case that the message is coming from a real sensor but measure the sensor vaues, encode them as a sensor node would do and sends them to the server backend (of TTN or example).</p>
+<p dir="ltr">Especially for Gateways based on the TTGOT-Beam board and others there are several on-board sensors such as GPS and local battery voltage that are very&nbsp;useful to report to the server. And also when debugging a LoRa environment it is good if there are sensors that canbe reported to the server without having the&nbsp;actual LoRa component and a sensor node involved: It enables you to check the gateway-server connection.</p>
+<h3 dir="ltr">The T-Bone sensors</h3>
+<p dir="ltr">The TTGO T-Bone board has both the possibility to use the local GPS as a sensor and send the voltage of the local battery to the server.The first is well documenten in the code.</p>
+<p dir="ltr">For the battery voltage reporting the GPIO35 pin should&nbsp;be measured by the A0 analog pin and its value should be multiplied by 2 to get the accurate voltage of the battery. The sensor works between 3.5 and 4.2V battery power so reading the value of GPIO35 pin enables the user to receive&nbsp;information about the battery, indicating the USB power is lost, and repair power before it is too late.</p>
+<h2>Documentation</h2>
+<p>There are (at least) two y seperate documents that apply to this gateway:</p>
 <ul>
   <li>The RFM95 datasheet made by HopeRF</li>
   <li><a href="https://www.google.fr/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;ved=0ahUKEwjOvbn4wNnUAhWGcRQKHTkuAjUQFggmMAA&amp;url=http%3A%2F%2Fwww.semtech.com%2Fimages%2Fdatasheet%2Fsx1276_77_78_79.pdf&amp;usg=AFQjCNFxkfmyuNwFCcaP_-dWGKdmskNKBQ&amp;cad=rja">The SX1276 datasheet made by Semtech</a> (this one is better than the HopeRF)</li>
