@@ -78,8 +78,7 @@
 <p dir="ltr">Using CAD mode has several advantages over STD more. Selecting CAD makes the gateway a lot more versatle and it will receive message from SF7 to SF12. And although the reception will probably not be quite as sensitive as a &quot;real&quot; gateway for most applications it will do the job.</p>
 <p dir="ltr">&nbsp;</p>
 <h2 dir="ltr">3. HOP; Frequency Hopping mode (Experimental)</h2>
-<p dir="ltr">This mode is very experimental, and does not work yet the way it is intended.</p>
-<p dir="ltr">Using HOP mode, the system will have same functions as CAD mode&nbsp;but have the additional value of listening to messages on 3 frequencies as well.</p>
+<p dir="ltr">This mode is very experimental, and does not work yet the way it is intended.Using HOP mode, the system will have same functions as CAD mode&nbsp;but have the additional value of listening to messages on 3 frequencies as well. This ould mean that the sigl channel gateway will act as&nbsp;a full-blown gateway for three frequencies (which is the minimum according to spec).</p>
 <h3 dir="ltr">The HOP Problem</h3>
 <p dir="ltr">The frequency hopping function is more difficult to implement than the CAD funtion. This is because CAD does work more or less automatically for a given frequency and the receiver can wait for the CADDONE interrupt telling that there might be a message waiting on one of the spreading factors for that frequency.</p>
 <p dir="ltr">For frequency hopping this does not work as there is no mechanism that tells us that there might be a message arriving on another frequency than the one we're tuned in an the moment. So, if we want to implement a reliable frequency hopping function we must set a timer interrupt that fires once there is no incoing activity detected witin a certain time on the frequency.</p>
