@@ -48,23 +48,50 @@
 <h3>SPIFF_FORMAT</h3>
 <p>If this variable is set,&nbsp;the SPIFFS firlesystem of the ESP chip is formatted before use. This way the user can force (!) the filesystem to be reset before operation and clean corrupt files of empty the memory (if it is full).</p>
 <h3>_SPREADING</h3>
-<p>This parameter sets the initial value for the Spreading Factor (SF) which i used in STD mode of operation, If _CAD is enabled the value of _SPREADING is not of use anymore.</p>
+<p>This parameter sets the initial value for the Spreading Factor (SF) which i used in STD mode of operation, If _CAD is enabled the value of _SPREADING is not of use anymore. Valid choiced are SF7 - SF12.</p>
 <h3>_CAD</h3>
-<p>Set the paramet Channel Activity Detection and the corresponding mode of operation of the Single Channel Gateway. In CAD mode the gateway is set to one frequency (mostly 0) and listens to all Spreading Factor messages of coming in on that frequency/</p>
+<p>Set the paramet Channel Activity Detection and the corresponding mode of operation of the Single Channel Gateway. In CAD mode the gateway is set to one frequency (mostly 0) and listens to all Spreading Factor messages of coming in on that frequency.</p>
+<p>The default value fr this parameter is 1 (ON) and you are advised to&nbsp;keep CAD on since it does ot seem to be missing messages.</p>
 <h3>A_SERVER</h3>
 <p>Specify whether or not to use the Webserver for this Single Channel Gateway. Although it is possible to switch the Webserver off, for example for security reasons, I recommend to use it as it provides good information on the Gateway operation and the setting of all parameters.</p>
 <h3>A_REFRESH</h3>
-<p>This parameter determines whethe rthe Webserver should refresh every XX seconds. At this moment the Webserver will refresh everay 60 seconds by default (It is possible to set other values). It may be possibel that you miss some LoRa packages as the Webserver takes some time and compute power, but for debugging a Single Channel Gateway it is a nice feature to have.</p>
+<p>This parameter determines whether the Webserver should refresh every XX seconds. At this moment the Webserver will refresh every 60 seconds by default (It is possible to set other values). It may be possibel that you miss some LoRa packages as the Webserver takes some time and compute power, but for debugging a Single Channel Gateway it is a nice feature to have.</p>
 <h3>A_SERVERPORT</h3>
-<p>Leave at 80 (The standard Wevserver port).</p>
+<p>Leave at 80 (The standard Webserver port).</p>
 <h3>A_MAXBUFFERSIZE</h3>
 <p>This should be the maximum size of a message going up. Standard value is 192 and should not be changed.</p>
 <h3>A_OTA</h3>
-<p>_PIN_OUT</p>
-<p>STATISTICS</p>
-<p>MAX_STAT</p>
-<p>STRICT_CH</p>
-<p>WIFIMANAGER</p>
+<p>Over the air download of new gateway code is enabled by default. The download itself is not protected by passwords or so, but the SSID of the WiFi server is of-course so we expect that people that have access to the WiFi environment will also be able to download new software versions to the gateway.</p>
+<h3>_PIN_OUT</h3>
+<p>This defines the pin-out for the gateway device we use. At this moment there are a few standard gateway boards defined:</p>
+<ol>
+  <li>Hallard</li>
+  <li>Comresult</li>
+  <li>ESP32 development boards</li>
+  <li>ESP TTGO board</li>
+</ol>
+<h3>STATISTICS</h3>
+<p>Specify whether you want the gateway to gather statics information. There are three values possible:</p>
+<ul>
+  <li>0; No statistics</li>
+  <li>1; Limited</li>
+  <li>2; Gather also statistics for a maximum of MAX_STAT messages received by the gateway.</li>
+</ul>
+<h3>MAX_STAT</h3>
+<p>&nbsp;</p>
+<h3>STRICT_1CH</h3>
+<p>The STRICT 1-CHANNEL configuration parameter&nbsp;determines the behaviour of the gateway during downstream messaging. The downstream messaging protocol is descripbed in the docuentation, but where necessary important parts are discussed here as well.</p>
+<p>For CLASS A devices  the downstream messages are sent by the gateway upon receiving a message from a mote. For regular messages, two timeslots are available for sending downstream messages, and for JOIN messages another two are defined.</p>
+<ol>
+  <li>RX1, This timeslots opens 1 second AFTER the messages has been recived from the Mote (tmst is set in the message). RX_DELAY1 is 1 second.</li>
+  <li>RX2, This timeslot opens 2 seconds AFTER the last message has been received from the mote. The timing is relative to the tmst parameter specified by the mote.</li>
+  <li>JOIN1, this timeslot starts at 5 seconds als lasts 1 second</li>
+  <li>JOIN2, this timeslot starts at 6 seconds and lasts 1 second.</li>
+</ol>
+<p>Note, that the timslots start after the last byte has been received from the mote, so the mote must determine and send its tmst values as late as possible.</p>
+<h3>WIFIMANAGER</h3>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
 <p>AP_NAME</p>
 <p>AP_PASSWD</p>
 <p>REPEATER</p>

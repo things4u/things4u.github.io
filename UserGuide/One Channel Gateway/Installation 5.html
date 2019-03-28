@@ -259,7 +259,11 @@
 <h2>The TTGO-T-Beam board</h2>
 <p>The T-Beam board is a special version of the TTGO ESP32 board. It contains a ESP32 chip, Antenna, GPS module and antenna and a battery holder for a 18600 battery. As far as the software is concerned its pin-out is the same as the other TTGO board.</p>
 <p><img src="images/T-Beam-1.jpg" width="500" height="500" /></p>
-<p>Only the DIO pin opf the SX-1276 chip is not connect. For that purpose, solder a small wire between the Lora-1 pin of the T-beam and pin 33/GPIO-33 of the ESP32 chip.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>Only the DIO pin opf the SX-1276 chip is not connected. For that purpose, solder a small wire between the Lora-1 pin of the T-beam and pin 33/GPIO-33 of the ESP32 chip.</p>
+<p>Also, if you want to use the GPS, you need not to do enything, and if you like to report the battery voltage (which tells you if the USB power is connected or not and the condition of the battery) you do not have to connect any wires as the pin GPIO33 is internally connected to the battery through a voltage divider of 100K&nbsp;Ohms.</p>
 <p><a href="images/T-Beam-3.jpg"><img src="images/T-Beam-3.jpg" width="500" height="375" /></a></p>
 <p>&nbsp;</p>
 <h1>Software</h1>
