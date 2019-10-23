@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>1-ch Gateway v4</title>
+</head>
+
+<body>
+<h1 dir="ltr" id="docs-internal-guid-8ff340d2-c1c9-78f0-295a-5c5cba894701">1-Channel Gateway (page 2)</h1>
+<h2 dir="ltr">Web Interface Introduction</h2>
+<p dir="ltr">For this sixth version of the user interface for the single channel gateway we focus on the&nbsp;web interface. Thsi document deals with the web interface only.There are several sections to discuss:</p>
+<ol>
+  <li>How does the web interface look like</li>
+  <li>Whare parameters can be set ove rthe web interface</li>
+  <li>Files involved in the configuration&nbsp;of teh singkle channel interface.</li>
+</ol>
+<p>Sectionf of the web interface</p>
+<p>When starting the web interface the following sections are found:</p>
+<ol>
+  <li>ESP Gateway Config</li>
+  <li>Package&nbsp;Statistics</li>
+  <li>Message History</li>
+</ol>
+<p>In the next sections we focus on each of the screen headline&nbsp;separately.</p>
+<p>&nbsp;</p>
+<h2>ESP Gateway Config</h2>
+<p>The first section looks like this:</p>
+<p><img src="images/Web_1_ESP_Gateway_Config.jpg" alt="" width="978" height="166" /></p>
+<p>The ESP Gateway Config part consists of eh following components:</p>
+<ol>
+  <li>Version Information</li>
+  <li>Live Information</li>
+  <li>Time Info</li>
+  <li>Buttons (3x) to select window behaviour:
+    <ul>
+      <li>Documentation</li>
+      <li>Mode (Basic or Expert)</li>
+      <li>Log Files</li>
+    </ul>
+  </li>
+</ol>
+<p>&nbsp;</p>
+<h2>Package Statistics</h2>
+<p>The package statistics section contains for each configured channel and for each configure Spreading Factor the number of messages received in the past time period.&nbsp;It also contains the number of downlink messages adn for each Sprrading Factor the percentage of that SF in the total of messages received.</p>
+<p><img src="images/Web_2_ESP_Package_Statistics.JPG" width="829" height="287" /></p>
+<p>&nbsp;</p>
+<h2>Message History</h2>
+<p>The Message History section contains an overview of the last message received by the gateway. Of every message the following data is stored:</p>
+<ul>
+  <li>Date and time of reception</li>
+  <li>Node IP, or if configured the Node Name</li>
+  <li>If configured the Data of the node</li>
+  <li>Channel; The CH tell us at which channel the message was received</li>
+  <li>Frequency;</li>
+  <li>SF; Spreading Factor</li>
+  <li>RSSI; This tell how strong the received signal is. The larger, the stronger the signal.</li>
+</ul>
+<p dir="ltr">&nbsp;</p>
+<p dir="ltr"><img src="images/Web_3_ESP_Message_History.JPG" width="830" height="519" /></p>
+<p dir="ltr">&nbsp;</p>
+<h2 dir="ltr">Gateway Settings</h2>
+<p dir="ltr">This screen is very important as it lets us configure a lot of the settings. The settings are the following:</p>
+<ul>
+  <li>CAD; This is the setting for Channel Activiy Detection. When set, it monitors in the channel all Spreading Factors for incoming messages. The CAD setting should normally be on.</li>
+  <li>HOP;</li>
+  <li>SF-Setting; When CAD is on, the setting is set on automatic&nbsp;(AUTO). If CAD is off, if allows the user to set the Spreading Factor manually.</li>
+  <li>Channel; When HOP is on,&nbsp;it is set to &quot;AUTO&quot;. When HOP is off, it allow the user to set the channel. Only three channels can be active.</li>
+  <li>Debug level; Depending on the debug level selected&nbsp;certain code checks may or may not be executed and some messages may or may not hit the screen.</li>
+  <li>Debug Pattern; The code of the gateway is divided into &quot;Screen&quot;, &quot;CAD&quot;, &quot;Receive&quot;, Transmit&quot;, &quot;Pre&quot;, &quot;Main&quot;, &quot;Gui&quot;, &quot;Radio&quot; pieces of code. If the patterns are selected, the correcsponding debug code will be executed.</li>
+  <li>WWW Refresh; When this function isselected, this screen will be updated automatically every 60 seconds with the latest information..</li>
+  <li>Update Firmware; (Not used yet)</li>
+  <li>Format SPIFFS; This is a very dangerous setting. If formats the filesystem&nbsp;of the gateway and detrois its contents. Sometimes it is nenecessary to format as the system will not function normally. Be careful&nbsp;though.</li>
+  <li>Statistics;</li>
+  <li>Boot and Resets; Number of times that the machine was reset. Use the RESET button to reset the counter back to 0.</li>
+</ul>
+<p dir="ltr"><img src="images/Web_4_ESP_Gateway_Settings.JPG" width="829" height="410" /></p>
+<p dir="ltr">&nbsp;</p>
+<h2 dir="ltr">Wifi Config (Expert)</h2>
+<p dir="ltr">The SiFi Config screen is only shown in the &quot;Expert&quot; section</p>
+<p dir="ltr"><img src="images/Web_5_ESP_WiFi_Config.JPG" width="832" height="293" /></p>
+<p dir="ltr">&nbsp;</p>
+<p dir="ltr">&nbsp;</p>
+<h2 dir="ltr">System Status (Expert)</h2>
+<p dir="ltr">This screen is only visible in Expert mode. It does show some system specific settings related to the gateway.</p>
+<p dir="ltr"><img src="images/Web_6_ESP_System_Status.JPG" width="831" height="206" /></p>
+<p dir="ltr">&nbsp;</p>
+<h2 dir="ltr">System State and Interrupt</h2>
+<p dir="ltr">&nbsp;</p>
+<p dir="ltr"><img src="images/Web_7_ESP_System_State_and_Interrupt.JPG" width="829" height="285" /></p>
+<p dir="ltr">&nbsp;</p>
+<p dir="ltr"><br />
+</p>
+</body>
+</html>
