@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>1ch gateway</title>
+</head>
+
+<body>
+
+<h1>The ESP 1 Channel Gateway</h1>
+<p>Version: 1.1.0 First version<br>
+  date: 
+April 12, 2016</p>
+<p>(c) Maarten Westenberg (mw12554@hotmail.com)</p>
+<p>&nbsp;</p>
+<p><a href="images/DSCN3046.JPG"><img src="images/DSCN3046.JPG" width="645" height="414"></a></p>
+<h2>Introduction</h2>
+<p>After building the first 1-channel Gateway based on&nbsp;a raspberry with a RFM95 transceiver I asked myself whether it would be possible to make an even cheaper 1-channel gateway. If we would be satisfied with WiFi network support only, then the ESP8266 mcu would be a good candidate for such a gateway.</p>
+<p>Now most of us know that the ESP8266 is a difficult animal to play with. As the ESP8266 divides its time between the IDE program and its internal WiFi support system, we will get watchdog reset problems really soon if we do not allow the background processes to deal with WiFi on a very regular basis.</p>
+<p>The project source code is found on&nbsp;the <a href="https://github.com/things4u/ESP-1ch-Gateway">Things4U github page</a> as well.</p>
+<h2>Limitations</h2>
+<p>A full-function gateway is capable of simultaneously receive several LoRa packets with various spreading factors on random channels. The 1-channel gateway does not have the performance to do that. It is sort of compatible with the LoRa data format sent by sensors but it does not implement the rest of the LoRa specs and therefore is not compliant.<br>
+The 1-channel gateway has the following limitations compared to its bigger brother:</p>
+<ol>
+  <li>1-channel only: So 1 out of every 8 message on average is received. If you do not have any other gateways in production I advise you to use channel 0 for this purpose.</li>
+  <li>Works with one Spreading Factor mode only (SF7 is activated by default at the moment).</li>
+</ol>
+<h2>Building</h2>
+<p>As you can see on the picture above, the whole thing fits on a very small board. And as there are even less connections necessary as for the loRa node, this DIY project could be ready in a matter of hours. These are the steps:</p>
+<p>&nbsp;</p>
+<ul>
+  <li>The small white ESP adapter plate is too large for our purpose. One side is sticking out from the pins (this is the side WITHOUT the small resistors, right side on the picture). Take a small saw and cut away the piece of the board not needed. If necessary dry-fit the ESP95 module to see how much should be cut away. Make sure not to damage the RFM95 module.<br>
+    <br>
+    <img src="images/adapter-1.jpg" width="198" height="235"><br>
+    <br>
+  </li>
+  <li>Get rid of the 3 small resistors on the adapter plate (just hold your soldering iron to them for a second and swipe away a resistor)<br>
+    <br>
+  </li>
+  <li>Solder pin's to the Wemos D1-mini and the small white ESP adapter board.<br>
+    <br>
+    <a href="images/DSCN3055.JPG"><img src="images/DSCN3055.JPG" width="400" height="300"></a><br>
+    <br>
+  </li>
+  <li>push the ESP adapter board in one of those experiment bread boards (So it cools the pins when soldering)<br>
+    <br>
+  </li>
+  <li>Solder the RFM95 module to the adapter board. Be careful to not overheat the RFM95 module. The module should be located such that the side of the adapter that just has been cut is closest to the antenna pin of the RFM95(look at the picture above).<br>
+    <br>
+    <a href="images/DSCN3053.JPG"><img src="images/DSCN3053.JPG" width="400" height="300"></a><br>
+    <br>
+  </li>
+  <li>Use a piece of 4x6 cm glassfiber and layout both modules same way as in picture above.<br>
+    <br>
+  </li>
+  <li>Solder the antenna SMA connector close to the antenna pin and connect the center pin and the ground pins (bottom).<br>
+    <br>
+    <br>
+    <br>
+  </li>
+  <li>Connect the RFM and the ESP with small pieces of wire as indicated in the &quot;connections&quot; table below.</li>
+</ul>
+<p>I did not yet find a nice box to put the gateway in, but that will probably not last very long.</p>
+<h2>Pin Out</h2>
+<p>The pin out of the two devices on the gateway board are as follows:</p>
+<p><img src="../../Universal Sensor/HardwareGuide/images/rfm95w-1.jpg" width="538" height="344"></p>
+<p>The pin-out of the ESP8266 is as follows (note: There are differences in pin-out between the various ESP8266 devices)</p>
+<p><a href="images/d1-mini-esp8266-board-sh_fixled.jpg"><img src="images/d1-mini-esp8266-board-smaller.jpg" width="600" height="262" hspace="10" vspace="10"></a></p>
+<p>&nbsp;</p>
+<h2>Connections</h2>
+<p>Connections need&nbsp;to be made as follows:</p>
+<table width="49%" border="1" cellpadding="3">
+  <tr>
+    <th scope="col">RFM95 pin</th>
+    <th scope="col">&nbsp;</th>
+    <th scope="col">ESP8266 pin</th>
+  </tr>
+  <tr>
+    <td>3.3V</td>
+    <td>VCC</td>
+    <td>3.3V</td>
+  </tr>
+  <tr>
+    <td>GND</td>
+    <td>&nbsp;</td>
+    <td>GND</td>
+  </tr>
+  <tr>
+    <td>MISO</td>
+    <td>&nbsp;</td>
+    <td>D6 GPIO12/MISO</td>
+  </tr>
+  <tr>
+    <td>MOSI</td>
+    <td>&nbsp;</td>
+    <td>D7 GPIO13/MOSI</td>
+  </tr>
+  <tr>
+    <td>SCK</td>
+    <td>&nbsp;</td>
+    <td>D5 GPIO14/CLK</td>
+  </tr>
+  <tr>
+    <td>NSS</td>
+    <td>&nbsp;</td>
+    <td>D8 GPIO15/CS</td>
+  </tr>
+  <tr>
+    <td>RESET</td>
+    <td>&nbsp;</td>
+    <td>*nc</td>
+  </tr>
+  <tr>
+    <td>DIO0</td>
+    <td>&nbsp;</td>
+    <td>D1, GPIO5</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+<p>* The reset pin does not have to be connected so it seems. It is only used at setup to read the chip identification</p>
+<p>As you can see, both reset and GPIO0 of the ESP8266 are not used. Not connecting the last one makes the ESP8266 gateway more stable and the behavior between flash and normal mode is the same.</p>
+<h2>Software</h2>
+<p>The software is currently still under development. Several additions have been made to the RaspberryPI version in order to make this ESP version more reliable and workable. However, there are still some functions that can be included such as&nbsp;setting the SSID and password dynamically&nbsp;(The ESP will act as an access point so that your PC can connect to it, and set SSID and Password).</p>
+<h3>DNS</h3>
+<p>The ESP libraries support DNS hostnames out of the box. As apparently DNS functions are hard on the mcu, and may cause  crashes and watchdog resets, I have decided to only once get the IP address of the LoRa router and from that moment on use that IP address in the program.</p>
+<h3>Clock</h3>
+<p>The clock function is implemented using NTP. As soon as we have an IP connection we try to connect to a timeserver to get the current time. This way we know how long the unit is operational since we last powered it on, and can we time things if necessary.</p>
+<h3>Webserver </h3>
+<p>As the ESP8266 is not a Linux machine, so it has no local persistent storage (disk), at least not out of the box. It also lacks the possibility to make a SSH connection as you can with a RaspberryPI for example. Still we would like to know how the device is doing, and how long it is operating without any problems. The latter is easy to measure if we look at the time that the gateway is operational. If that time is after the moment we plugged the gateway in, it probably suffered from a Watchdog reset and has restarted since.</p>
+<p>Although watchdogs are not OK, they are an integral part of the ESP8266 design. The chip will reset in a very short amount of time so&nbsp;in principle we would not lose too many incoming packets (if any). However, since we will loose statistics data and probably the channel and WIFI setting as well if we make that dynamically, it would be better if we would not have ANY watchdog resets.</p>
+<p>Over the last week, both gateways have been running fine without any resets. So I had to add a date field in the webserver as well, since &quot;started on Friday&quot; would not give enough information at all.</p>
+<p>I built following webserver to view statistics and control debug level, channel assignment (future) etc. You can easily invoke the webserver at the IP address of the Gateway as follows: http://&lt;IP Address of Gateway&gt;:8080. The output looks like this. The interface also allows some setting of debug levels and statistics. More to come..</p>
+<p><a href="images/webserver-1.JPG"><img src="images/ws-1-300.jpg" width="300" height="493" hspace="5" vspace="5" border="1"></a></p>
+<h4>Todo:</h4>
+<ul>
+  <li>Build function to assign the SSID and password dynamically (in progress)</li>
+  <li>Support a list of well-known SSID's (for example home, work and your Telephone) and switch between them if necessary</li>
+  <li>Dynamic channel assignment (listen for other gateways and choose a free channel)</li>
+  <li>Find a nice box/case for the board.</li>
+  <li>Find a really nice power adapter with 2 Meters of wire for little money</li>
+  <li>Battery power (probably not practical).</li>
+</ul>
+<h2>Costs</h2>
+<p>So what does it cost to build this LoRa gateway (all prices in $, amount in Euros is a little lower).</p>
+<table width="74%" border="1" cellpadding="2">
+  <tr>
+    <th width="9%" scope="col">Number</th>
+    <th width="79%" scope="col">Item</th>
+    <th width="12%" scope="col">Price/Piece</th>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>ESP8266 Wemos D1 Mini</td>
+    <td>3.50</td>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>Power Adapter with mini usb</td>
+    <td>5.00 (older)</td>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>RFM95 transceiver board</td>
+    <td>8.00</td>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>ESP8266 adapter board to get RFM95 to 2.54 mm pin spacing (sold per 10)</td>
+    <td><p>0.23</p></td>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>Piece of glassfiber perf board (sold per 10)</td>
+    <td>0.44</td>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>Antenna for 868MHz (sold per 10 for 17.60$)</td>
+    <td>1.76</td>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>SMA board connector (sold per 20)</td>
+    <td>0.16</td>
+  </tr>
+  <tr>
+    <td>0.5</td>
+    <td>meter UTP wire for hookup (stranded is best)</td>
+    <td>0.00</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><strong>Total</strong> including power supply)</td>
+    <td><strong>19.10 </strong></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>Just the Gateway</td>
+    <td>14.10</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<h2>Links</h2>
+<p>The following links contain useful information for this project.</p>
+<ul>
+  <li><a href="https://github.com/things4u/ESP-1ch-Gateway">The source code for this gateway on the Things4U github page</a></li>
+  <li><a href="https://github.com/tftelkamp/single_chan_pkt_fwd">Here is Thomas' github page where the RaspberryPI  code is located for a 1-channel gateway</a></li>
+  <li><a href="http://forum.thethingsnetwork.org/t/single-channel-gateway/798">The forum of thethingsnetwork.org on this subject</a></li>
+  <li><a href="https://oshpark.com/shared_projects/36EsiJqR">Here you can order adapter boards for connecting RFM95 to RaspberryPI</a> or you can make those yourself (I did)</li>
+  <li>Order your RFM95 chips on Aliexpress.com (about $8.00-8.50) or Ideetron.nl</li>
+  <li><a href="http://www.aliexpress.com/item/10Pcs-Double-Side-4x6-cm-Prototype-Universal-FR-4-Glass-Fiber-PCB-Board/32379317918.html">The glassfiber 4x6 cms board on Aliexpress</a></li>
+</ul>
+<p>&nbsp;</p>
+<h2>Questions</h2>
+<p>I think we all ask the same questions:</p>
+<ul>
+  <li>If we would build 10 of 1-channel gateways, would we then be able to effectively build the real 10-channel thing?<br>
+    <strong>Not really:</strong> As a real gateway has special processing on board to listen to several channels and spreading factors at the same time, the processing speed of the ESP8266 and/or the RFM95 is not enough to do that. However, as a real gateway is supposed to listen to at least three channels (including channel 0) we can have three of these devices working together to do that.<br>
+  </li>
+  <li>What functions are we missing apart from the multi-channel support<br>
+  <strong>Spreading Factor:</strong> and several others. Most importantly, the fact that a real gateway can switch between supported spreading factors and channels dynamically. </li>
+</ul>
+<h2>Notes</h2>
+<p>There are some things to remember however:</p>
+<ul>
+  <li>The antenna is the same as the antenna used for regular nodes (cheap) so possible the range is the same as well. For better results: Buy a better antenna.</li>
+  <li>Only one channel: Since nodes transmit on 10 channels and on a different channel every&nbsp;message this means that only one out of 10 messages is received using this gateway</li>
+  <li>In the software of Thomas, the host&nbsp;identification of croft is still a byte code (better allow hostname or DNS). The ESP version  does accept DNS host names.</li>
+</ul>
+<p>&nbsp;</p>
+</body>
+</html>

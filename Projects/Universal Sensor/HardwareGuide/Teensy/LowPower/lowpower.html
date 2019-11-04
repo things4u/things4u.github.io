@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body>
+<h1>LoPower Mote with Teensy LC mcu</h1>
+<p>As of TTN version 1.1 (beta) the Over The Air Activation function is more or less the standard to obtain an address. In principle this means that getting your motes to work has become a lot easier. You can make series of motes and&nbsp;use a secret and unique key that is stored in the mote. Upon when&nbsp;the mote is activated over the air, it is assigned a unique address but the key can still be used to read&nbsp;its messages.</p>
+<p>&nbsp;</p>
+<h2>Teensy LC</h2>
+<p>The Teensy LC board (LC is for Low-Cost) has the following pin-out (backside of board).</p>
+<p><img src="teensy-LC-1.png" width="632" height="477" /></p>
+<p>&nbsp;</p>
+<p>Each Teensy comes with a card which explains its pin-out.</p>
+<p><img src="teensylc_front_pinout.png" width="0" height="0" /></p>
+<h2>The RFM95 Pin-Out</h2>
+<p>The RFM95 is mounted on a converter board. The converter board is sold on Aliexpress.com for the ESP8266-12 but it works equally well on for the RFM95.</p>
+<p><img src="rfm95w-3.gif" width="483" height="344" />	</p>
+<p>&nbsp;</p>
+<h2>Wiring</h2>
+<p>Wiring the RFM95 to the TeensyLC is simple and straightforward, And with the TeensyLC most pins we use are on one side of the board; only pin&nbsp;13 (CK) and 3.3V need be connetced on the other side.</p>
+<p>&nbsp;</p>
+<table width="65%" border="1">
+  <tr>
+    <th width="16%" scope="col">TeensyLC</th>
+    <th width="13%" scope="col">Teensy Pin</th>
+    <th width="16%" scope="col">RFM95</th>
+    <th width="13%" scope="col">Color</th>
+    <th width="42%" scope="col">Comment</th>
+  </tr>
+  <tr>
+    <td><p>RX2</p></td>
+    <td>9</td>
+    <td>RESET</td>
+    <td>--</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>VCC</td>
+    <td>&nbsp;</td>
+    <td>3.3V</td>
+    <td>red</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>GND</td>
+    <td>&nbsp;</td>
+    <td>GND</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>D2</td>
+    <td>2</td>
+    <td>DIO0</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>D5</td>
+    <td>7</td>
+    <td>DIO1</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>D6</td>
+    <td>8</td>
+    <td>DIO2</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>3</td>
+    <td>--</td>
+    <td>&nbsp;</td>
+    <td>DS18B20 data pin (optional)</td>
+  </tr>
+  <tr>
+    <td>TX2</td>
+    <td>10</td>
+    <td>NSS</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>MOSI0</td>
+    <td>11</td>
+    <td>MOSI</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>MISO0</td>
+    <td>12</td>
+    <td>MISO</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>SCK0</td>
+    <td>13</td>
+    <td>SCK</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</body>
+</html>

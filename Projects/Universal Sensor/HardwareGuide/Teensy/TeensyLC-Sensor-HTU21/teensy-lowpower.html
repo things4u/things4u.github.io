@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Mini Sensor</title>
+</head>
+
+<body>
+<h1>Mini Lowpower Sensor</h1>
+<p>This page describes how to modify the hardware and software of the Mini LoRa Node so that we can connect I2C bus sensor(s). The HTU21 is such a sensor and it measures temperature and humidity and therefore is our ideal candidate.</p>
+<p>Apart from adding this hardware to the node, we also need to make some modifications to the sketch code in order to support the 1-Wire bus and the LowPower functions..</p>
+<p>&nbsp;</p>
+<h2>Hardware version 1.1</h2>
+<p>How to make the node itself is described on the first page. Please read the page &lt;<a href="../../../../../HardwareGuide/Arduino/Copy of Mini-Sensor-HTU21/mini-lora.html">HERE</a>&gt;</p>
+<p><a href="../../../../../HardwareGuide/Arduino/Copy of Mini-Sensor-HTU21/images/MiniLora_1.jpg"><img src="../../../../../HardwareGuide/Arduino/Copy of Mini-Sensor-HTU21/images/MiniLora_1.jpg" width="400" height="300" hspace="10" vspace="10" /></a></p>
+<p>So the following connections need be made, please clic on the pincture to enlarge the image.</p>
+<p><a href="../../../../../HardwareGuide/Arduino/Copy of Mini-Sensor-HTU21/images/architecture.gif"><img src="../../../../../HardwareGuide/Arduino/Copy of Mini-Sensor-HTU21/images/architecture.gif" width="480" height="360" hspace="10" vspace="10" /></a></p>
+<h2>Software</h2>
+<p>The sketch for running the Mini Node and Sensor can be found <a href="https://github.com/things4u/LoRa-Thing">on Github</a>.</p>
+<p>&nbsp;</p>
+<h2>I2C Bus</h2>
+<p>The I2C bus is standard on Arduino devices. Devices on the bus are connected by 4 wires: Vcc, Gnd, SDA and SCL. The SDA pin is connected to pin A4 on the Arduino and SCL on pin A5&nbsp;(Please note A4 is the Analog pin 4!). </p>
+<p>In principle, multiple devices can be connected to the bus, which means we can daisy chain the devices and we do not need more pin's but all are connected to SAD/A4 and SCL/A5</p>
+<p>&nbsp;</p>
+<h2>Sleep</h2>
+<p>The RFM95 uses 1.8mA in normal mode of operation. The machine is then always ready to transmit and receive messages. As we like to operate our node on batteries, best is to NOT receive any messages and only report/transmit sensor values every once in a while. Therefore there are two things we need to do:</p>
+<ul>
+  <li>Put the Arduino processor in sleep mode while waiting for the next transmit window. When using the Lowpower lib (included in the libraries directory on github) we can use a special sleep delay instead of the normal delay() function which will lower power consumption considerably.</li>
+  <li>We also need to put the RFM95 to sleep between transmissions. The best way is to write the sleep command to the RFM95 register just before the Arduino goes to its long sleep (typical, 1 minute or more).<br />
+    On my multi-meter the power use drops from around 1.8mA to 10uA during these sleep periods.
+  </li>
+</ul>
+<p>&nbsp;</p>
+<h1>Wishlist</h1>
+<p>There is always room for improvement:</p>
+<ul>
+  <li>Make power reporting by using Arduino pin A0 as a reference sensor for battery power.</li>
+  <li>Modify software sketch to report Battery value either every time or only when it drops below a certain predefined value.</li>
+</ul>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</body>
+</html>

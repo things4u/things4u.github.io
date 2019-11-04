@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Mini Node</title>
+</head>
+
+<body>
+<h1>Teensy LoRa Sensor</h1>
+<p>The Arduino Nano and Arduino Pro-Mini cheap yet well known candidates for building your own sensors. However, the reference implementations of LoRa stack for the RFM95 do not fit in the memory (yet). </p>
+<p>So either we strip the software or we get an Arduino-like MCU which contains more memory such as the Mega-2560. However, the RFM95 only works on 3.3Vdc so either use a level converter or use&nbsp;yet another memober of the Arduino family.</p>
+<h2>Teensy LoRa</h2>
+<p>So let's make our own  node based on a cheap TeensyLCi MCU ($ 12.00 PJRC.com), a HopeRF95 ($8.00), a HTU21d temperature/humidity sensor ($4.00) and some resistors. Based on the LoRaWAN software and library sketches it should be possible to make your own &quot;Thing&quot;. </p>
+<p><img src="../../images/rfm95w-1.jpg" width="538" height="344" /></p>
+<p>And the Arduino Pro-Mini looks like this. It's pin out is clearly marked on the outside of the board (that is, until I start to solder pin's to it). </p>
+<p>The pin-out of a TeensyLC using the LMIC stack is documented on the forum.thethingsnetwork.org. Pin-out for use with an Teensy (Arduino IDE).</p>
+<table width="65%" border="1">
+  <tr>
+    <th width="16%" scope="col">TeensyLC</th>
+    <th width="13%" scope="col">Teensy Pin</th>
+    <th width="16%" scope="col">RFM95</th>
+    <th width="13%" scope="col">Color</th>
+    <th width="42%" scope="col">Comment</th>
+  </tr>
+  <tr>
+    <td><p>RX2</p></td>
+    <td>9</td>
+    <td>RESET</td>
+    <td>--</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>VCC</td>
+    <td>&nbsp;</td>
+    <td>3.3V</td>
+    <td>red</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>GND</td>
+    <td>&nbsp;</td>
+    <td>GND</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>D2</td>
+    <td>2</td>
+    <td>DIO0</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>D5</td>
+    <td>5</td>
+    <td>DIO1</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>D6</td>
+    <td>6</td>
+    <td>DIO2</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;- Connected to VCC as well --</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>3</td>
+    <td>--</td>
+    <td>&nbsp;</td>
+    <td>DS18B20 data pin</td>
+  </tr>
+  <tr>
+    <td>TX2</td>
+    <td>10</td>
+    <td>NSS</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>MOSI0</td>
+    <td>11</td>
+    <td>MOSI</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>MISO0</td>
+    <td>12</td>
+    <td>MISO</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>SCK0</td>
+    <td>13</td>
+    <td>SCK</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+<p>As you can see in the picture of the Arduino ProMini below (actual boards might differ a bit) we need pins at both sides of the board so left of right orientation of the RFM95 is less important. </p>
+<p>There are special adapter cards and boards available for tge RFM95w, but if we would wire&nbsp;and solder connections we need 10 wires.</p>
+<h2>breadboard</h2>
+<p>I soldered some jumpers (cut in half) to&nbsp;the RFM95 board to be able to test and experiment with the setup.</p>
+<p>&nbsp;</p>
+<p>I left enough wire to make connection to the breadboard simple. But it looks like **** and it did not take much time before I decided to cut the wires really short and solder them directly to an Arduino Pro-Mini.</p>
+<p>&nbsp;</p>
+<h2>Final Version</h2>
+<p>As you can see, it is possible to make a real small sensor. </p>
+<p>&nbsp;</p>
+<h1>Wishlist</h1>
+<p>If we would like to make a simple node that can report temperature and humidity and runs on normal batteries we need to do some special tings as well:</p>
+<ul>
+  <li>Make a low power version of this sensor (implementing sleep functions)</li>
+  <li>Change the sketch so that we can put the Arduino AND the RFM95 to sleep when necessary</li>
+</ul>
+<p>&nbsp;</p>
+</body>
+</html>

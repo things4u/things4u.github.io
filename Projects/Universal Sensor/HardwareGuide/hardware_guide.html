@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Hardware Guide</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"></head>
+
+<body tracingsrc="../../../illustration Maarten-In.jpg" tracingopacity="10">
+
+<h1>Hardware Guide</h1>
+<h4>Version: 1.0.1<br>
+  Date: March 2016
+</h4>
+<p>This page deals with the various types of Nodes (hardware)  connected to the LoRa network. For each project I try to document the design decisions I have taken (if any), document pin-outs etc. and publish some pictures of the project in its various stages of development.</p>
+<h2>Structure of this document</h2>
+<p>This document is structured around hardware families for MCU that support thethingsnetwork.org. For every family one or more nodes and/or sensors based on these nodes are described. </p>
+<h2>Table of contents</h2>
+<ul>
+  <li>MCU modules
+    <ul>
+      <li>ESP8266 Nodes
+<ul>
+          <li><a href="ESP8266/esp8266.html">ESP Family overview</a></li>
+          <li><a href="ESP8266/ESP-Sensor/esp-lora-sensor.html">ESP Sensor Node (simple)</a></li>
+          <li><a href="ESP8266/ESP-Sensor/esp-lora-sensor.html">ESP Sensor temperature sensor node</a></li>
+        </ul>
+      </li>
+      <li>Arduino
+        <ul>
+          <li><a href="Arduino/Mini-Sensor-HTU21/mini-lora.html">Arduino Pro Mini minimal  node</a></li>
+          <li><a href="Arduino/Mini-Sensor-HTU21/mini-lowpower.html">Arduino Pro Mini lowpower node</a></li>
+          <li>Arduino Pro-Mini OTAA mote</li>
+        </ul>
+      </li>
+      <li>Teensy
+        <ul>
+          <li>Teensy mote (no sensors)</li>
+          <li>Teensy GPS sensor node</li>
+        </ul>
+      </li>
+      <li>Raspberry
+        <ul>
+          <li><a href="../../SingleChannelGateway/HardwareHuide/Raspi-gateway.html">Single Channel Gateway</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Transceivers
+    <ul>
+      <li>RFM95w</li>
+      <li>sx1276</li>
+      <li>inAIR9</li>
+    </ul>
+  </li>
+  <li>Sensor modules
+    <ul>
+      <li>DS18B20 Temperature Sensor</li>
+      <li><a href="Arduino/Mini-Sensor-HTU21/mini-lora-1.51.html">HTU21d Temperature and Humidity Sensor</a></li>
+      <li>BMP180 Temperature and Airpressure Sensor</li>
+    </ul>
+  </li>
+  <li>GPS
+    <ul>
+      <li>NEO6 based GPS Sensor</li>
+    </ul>
+  </li>
+  <li>Gateway
+    <ul>
+      <li><a href="../../SingleChannelGateway/HardwareHuide/Raspi-gateway.html">Single Channel Gateway</a> based on RaspberryPI and RFM95</li>
+      <li><a href="../../SingleChannelGateway/HardwareHuide/ESP-gateway.html">Simple Single Channel Gateway based on ESP8266 board</a></li>
+      <li><a href="../../SingleChannelGateway/HardwareHuide/ESP-gateway-v3.html">ESP Gateway version 3.3</a></li>
+      <li><a href="../../SingleChannelGateway/HardwareHuide/ESP-gateway-v4.html">ESP Gateway version 4.x</a></li>
+      <li><a href="ic880-Gway/ic880_gateway.html">Build your own gateway with the IMST IC880</a></li>
+    </ul>
+  </li>
+</ul>
+<h2><a name="supported_devices"></a>Supported Devices</h2>
+<p>The following devices are tested with software on http://github.io/things4u</p>
+<ul>
+  <li>Mini Software (Minimal stack based on Nexus example of Ideetron)
+    <ul>
+      <li>Arduino Pro-Mini,  with HTU21d sensor</li>
+    </ul>
+  </li>
+  <li>LIRC-v1.5: 
+    <ul>
+      <li>Wemos D1-mini </li>
+      <li>Pro-Mini</li>
+      <li>Teensy LC<br>
+      </li>
+    </ul>
+  </li>
+</ul>
+</body>
+</html>
