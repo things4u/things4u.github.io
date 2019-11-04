@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body>
+<h1>Thing Backend Server Installation</h1>
+<h2>Introduction</h2>
+<p>This document describes how to setup a LoRa node on a RaspberryPI server. The simplest way of configuring the LoRa Things backend is by putting every backend server installation on a separate RaspberryPI system. However, apart from intensive disk I/O operation, the Raspberry system is powerful enough to be shared with several backend installations.</p>
+<h2>Installation Steps</h2>
+<p>The following steps are recognized when making a new server:</p>
+<ol>
+  <li>Install a RaspberryPI with a new image</li>
+  <li>Login to the RPI device and configure the system for timezone etc.. Also, make a new user for the new organization you want to host. After doing all the installation, reboot the system</li>
+  <li>Us an FTP tool (or a Shell script) and copy te PI-install script to the newly installed RPI in the home directory of the new user. Also copy the www, node and modules directories to the RPI, as well as the relevant params-xxx.js and databaes-xxx.cfg files for your environment</li>
+  <li>Remote login to the RPI and change the mode of the PI-install script to make it executable</li>
+  <li>Edit the /.profile file&nbsp;for the new user</li>
+  <li>Run the PI-install script and configure the RPI as master or slave. After that also init the mysql database. By default, the database name is the same as the username on the RPI.  </li>
+  <ul>
+    <li>The PI-install script will installa Raspberry packages</li>
+    <li>IIt will setup the node.js system and install npm packages</li>
+    <li>It will install and configure the apache2 webserver</li>
+    <li>It will install and configure mysql database</li>
+    <li>It will setup crontav for automatic system maintenance and restart of the scripts in case of failure.</li>
+  </ul>
+  <li>Go to the /etc/apache2/sites-available and check the setup.</li>
+  <li>Make sure that on your router remote access to the RPI is enabled: 
+  </li>
+  <ul>
+    <li>You need to enable a port for the www access. By default we choose the combination of&nbsp; &quot;80&quot; and the last 2 digits of the IP address. So for host 192.168.1.59 the www port would be 8059</li>
+    <li>You need to provide remote access to the websocket. By default we reserve a block of addresses that we use in the ${HOME}/config/params-${USER}.js file used by the backend and also in ${HOME}/www/config/params.js used by the webbrowser</li>
+  </ul>
+  <li>Configure your DNS server such that the subdomain is mapped on the IP address of the RPI with the correct portnumber. The portnumber is the same as used in the router above.</li>
+  <li>If all OK, you can run ~/scripts/PI-node on the Raspberry and access the system through teh browser.</li>
+</ol>
+<p>&nbsp;</p>
+<h2>1. Install&nbsp;a Raspberry system</h2>
+<p>After installing the Raspberry system with a Linux image, there is only one user defined: pi. </p>
+<p>&nbsp;</p>
+<h2>2. Add a new user to the system</h2>
+<p>Log in to the system as user pi and make a new user and add it to the sudoers file. For example, to add user monkey to the system do the following:</p>
+<p><code>&gt; sudo adduser monkey</code></p>
+<p><code>&gt; sudo adduser monkey sudo</code></p>
+<p>Not you have added the new user with the right permissions to instal te Things LoRa backend. For extra security, you can remove the user from the sudoers file after all installation as decsibed on this page has been done successfully.</p>
+<p>&nbsp;</p>
+<h2>3. Copy the LoRa-node images to the system</h2>
+<p>Copy the directory tree for LoRa to the system for the new user. The following directories need to be there for the installation to be successful.</p>
+<ul>
+  <li>config</li>
+  <li>www</li>
+  <li>node</li>
+  <li>modules</li>
+  <li>scripts</li>
+  <li>rrd</li>
+</ul>
+<p>If you use PI-install to do the installation,&nbsp;the directories be changed to have the right permissions and owner. You have to manually editthe following files in order to make a unique environment for the new user:</p>
+<ul>
+  <li>config/database-${USER}.cfg</li>
+  <li>config/params-${USER}</li>
+  <li>www/config/params.js</li>
+  <li>www/config/mparams.js</li>
+</ul>
+<p>&nbsp;</p>
+<h2>4. Change mode for PI-install</h2>
+<p>Assuming you like to&nbsp;use PI-install to&nbsp;further install the system for you, you have to change the mode for&nbsp; teh PI-install file and make it executable:</p>
+<p><code>&gt; sudo chmod 755 ~/PI-install</code></p>
+<h2>5. Edit  ~/.profile </h2>
+<p>Login to the raspberryPI system as the new user and add its /.profile file Make sure to add the &quot;scripts&quot; directory to the path&nbsp;and add the &quot;params-${USER}.js&quot; file to the environment</p>
+<h2>6. Apache2 setup</h2>
+<p>The apache2 webserver is configured by the PI-install ascript. However if you need to do this yourself please make the following changes to the system:</p>
+<ul>
+  <li>Add a file for the virtual host in /etc/apache2/sites-enabled<br />
+    <br />
+    <code>sudo nano /etc/apache2/sites-enabled/your.domain.com.conf</code><br />
+    <br />
+  </li>
+  <li>Enable the vertual host by running:<br />
+    <br />
+  <code>sudo a2ensite your.domain.com.conf</code><br />
+  <br />
+  </li>
+  <li>Restart the apache2 service by running:<br />
+    <br />
+    <pre>sudo service apache2 restart</pre>
+  </li>
+</ul>
+<h2>Automatic installation with PI-install</h2>
+<p>The code contains a PI-install script that must be made executable.<br />
+  <br />
+  sudo chmod 775 ~/PI-install
+</p>
+</body>
+</html>
