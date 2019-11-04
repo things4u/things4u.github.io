@@ -7,7 +7,7 @@
 
 <body>
 <h1 dir="ltr" id="docs-internal-guid-8ff340d2-c1c9-78f0-295a-5c5cba894701">Installing the Gateway</h1>
-<p>This document describes how to install the hard- and software of the single channel gateway.</p>
+<p>This document describes how to install the hard- and software of the single channel gateway (version 6).</p>
 <p>(c) Maarten Westenberg (mw12554@hotmail.com)</p>
 <p>&nbsp;</p>
 <table width="62%" border="1">
@@ -15,28 +15,19 @@
     <td><a href="images/ComResult-2.jpg"><img src="images/ComResult-2.jpg" alt="" width="600" height="450" /></a></td>
   </tr>
   <tr>
-    <td><h4>Single Channel Gateway based on traditional PCB</h4></td>
+    <td><h4>Single Channel Gateway based on Comresult board and traditional PCB</h4></td>
   </tr>
 </table>
 <p>&nbsp;</p>
 <h2>Introduction</h2>
-<p>This document descibes version 5.0 (and newer)  of the ESP8266 LoRa Gateway. The&nbsp;LoRa gateway based on the ESP8266 mcu has evolved a lot over the last year. Although all versions that&nbsp;I built are/were built using the Wemos D1-mini board that can be bought on Aliexpress amongst others, the system has changed. For the latest version of the gateway I make use of the PCB that has been designed and built by Charles Hallard (and can be bought from pcbs.io). If you use the Hallard PCB, you have to remember though that DIO0, DIO1 and DIO2 pins are multiplexed on the board using (very!) small diodes to GPIO pin 15 (D8).</p>
-<p>Other PCB's work as well, but if you like to build a small gateway and&nbsp;keep as many GPIO pins available as well, the Hallard board is unbeatable. An alternative solution is the board made by Comresult. This PCB is larger than that of Hallard but can be put inside a standard IP56 box. Should you work with a more traditional PCB, make sure that at least DIO0 and DIO1 are connected to a pin on the Wemos. Such a board is shown above.</p>
-<p>Note: RX and TX pins are used for the Serial (USB) communication. They can be used as data pins as well, but only is Serial communication is not used.</p>
-<p>Pins used MUST(!) be correctly configured as described in the ESP-sc-gway.h file for the gateway to work.</p>
+<p>This document descibes version 6.0 (and newer)  of the ESP8266 LoRa Gateway. The&nbsp;LoRa gateway based on the ESP8266 mcu has evolved a lot over the last year. Although all versions that&nbsp;I built are/were built using the Wemos D1-mini board that can be bought on Aliexpress amongst others, the system has changed. </p>
+<p>So other PCB's work as well, but if you like to build a small gateway and&nbsp;keep as many GPIO pins available as well, the Hallard board is unbeatable. An alternative solution is the board made by Comresult. This PCB is larger than that of Hallard but can be put inside a standard IP56 box. Should you work with a more traditional PCB, make sure that at least DIO0 and DIO1 are connected to a pin on the Wemos. Such a board is shown above.</p>
+<p>All pins used MUST(!) be correctly configured as described in the ESP-sc-gway.h file for the gateway to work.</p>
 <p>The project source code is found on&nbsp;the <a href="https://github.com/things4u/ESP-1ch-Gateway">Things4U github page</a>.</p>
-<p>In order to build a working gateway, several steps need to be taken:</p>
-<ol>
-  <li>Prepare your Wemos D1 Mini board, or buy yourself a TTGO ESP32 board. Hardware is desribed below.</li>
-  <li>Install and setup the IDE software for Arduino</li>
-  <li>Install the ESP8266 software in the &lt;File&gt;&lt;Preferences&gt; screen. In the additional Boards Manager URL's put: <em>http://arduino.esp8266.com/stable/package_esp8266com_index.json</em></li>
-  <li>Download the software from github, including the libraries</li>
-  <li>Make sure that you use the correct Sketchbook location in &lt;File&gt;&lt;Preferences&gt;. This is necessary to find the libraries during compilation.</li>
-  <li>Use the <a href="Configuration 5.html">Configuration Guide</a> and edit the ESP-sc-gway.h file</li>
-</ol>
+<p>Later versions of the gateway may also be based on the ESP32 chip with or without OLED display. The ESP32 mcu looks a lot like the ESP8266 chip but it has two cores and runs faster. The new boards also have LoRa hardware on-board which makes it simple to base a gateway bvoard on one of these modules.</p>
 <p>&nbsp;</p>
 <h1>Gateway Hardware</h1>
-<p>There are two families of gateway hardware supported:</p>
+<p>Liek described above, are two families of gateway hardware supported:</p>
 <ol>
   <li>ESP8266-based boards&nbsp;based on the Wemos D1-mini</li>
   <li>ESP32 based boards based on the TTGO development board (with or without OLED)</li>
@@ -44,7 +35,16 @@
 <p>This document describes how to get these two solutions working. It does however not say that other ESP826 or ESP32 based boards (or even completely different boards) to not work with this software. However, if you do so <strong>you are on your own</strong> and you will have to make the necessary connections, configuration changes etc. to get the software to work with that hardware.</p>
 <p>&nbsp;</p>
 <h2>ESP8266 Wemos D1-mini</h2>
-<p>First of all, if you want to do it all yourself, it is always possible to build your own gateway using a wemos D1 mini, a piece of board and a RFM95 chip with adapter board.</p>
+<p>First of all, if you want to do it all yourself, it is always possible to build your own gateway using a wemos D1 mini, a piece of board and a RFM95 chip with adapter board. In order to build a working gateway, several steps need to be taken:</p>
+<ol>
+  <li>Prepare your Wemos D1 Mini board, or buy yourself a TTGO ESP32 board. Hardware is desribed below.</li>
+  <li>Install and setup the IDE software for Arduino</li>
+  <li>Install the ESP8266 software in the &lt;File&gt;&lt;Preferences&gt; screen. In the additional Boards Manager URL's put: <em>http://arduino.esp8266.com/stable/package_esp8266com_index.json</em></li>
+  <li>Download the software from github, including the libraries</li>
+  <li>Make sure that you use the correct Sketchbook location in &lt;File&gt;&lt;Preferences&gt;. The location should point to the directory where the libraries are found and it is necessary to find the libraries during compilation.</li>
+  <li>Use the <a href="Configuration 6.html">Configuration Guide</a> and edit the ESP-sc-gway.h file</li>
+</ol>
+<p>Note: RX and TX pins are used for the Serial (USB) communication. They can be used as data pins as well, but only if Serial communication is not used.</p>
 <p><img src="images/DSCN3047.JPG" width="400" height="300" hspace="10" vspace="10" /></p>
 <p>As you can see on the picture above, the whole gateway fits on a very small board. And as there are even less connections necessary as for the loRa node, this DIY project could be ready in a matter of hours. These are the steps:</p>
 <h3>Bare Board<br />
@@ -167,6 +167,7 @@
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <h2>Using Hallard Adapter Board</h2>
+<p>For the latest ESP8266 version of the gateway I make use of the PCB that has been designed and built by Charles Hallard (and can be bought from pcbs.io).&nbsp; If you use the Hallard PCB, you have to remember though that DIO0, DIO1 and DIO2 pins are multiplexed on the board using (very!) small diodes to GPIO pin 15 (D8).</p>
 <p>Charles Hallard has designed a very small board that can be used to build your own gateway. The boards are available from pcbs.io abs will be shipped for free anywhere in the world in quantities of 5 pieces.</p>
 <p><a href="images/hallard_1.jpg"><img src="images/hallard_1.jpg" alt="" width="600" height="450" /></a></p>
 <p>&nbsp;</p>
@@ -257,7 +258,7 @@
 <p><a href="images/ttgo_868_2.jpg"><img src="images/ttgo_868_2.jpg" width="750" height="415" hspace="5" vspace="5" /></a></p>
 <p>&nbsp;</p>
 <h2>The TTGO-T-Beam board</h2>
-<p>The T-Beam board is a special version of the TTGO ESP32 board. It contains a ESP32 chip, Antenna, GPS module and antenna and a battery holder for a 18600 battery. As far as the software is concerned its pin-out is the same as the other TTGO board.</p>
+<p>The T-Beam board is a special version of the TTGO ESP32 board. It contains a ESP32 chip, Antenna, GPS module and antenna and a battery holder for a 18650 battery. As far as the software is concerned its pin-out is the same as the other TTGO board.</p>
 <p><img src="images/T-Beam-1.jpg" width="500" height="500" /></p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
@@ -275,7 +276,7 @@
   <li>Or Install the ESP32 environment</li>
   <li>Install the Sketch and the bundled libraries</li>
   <li>And install the corresponding libraries</li>
-  <li><a href="Configuration 5.html">Configure the gateway</a></li>
+  <li><a href="Configuration 6.html">Configure the gateway</a></li>
 </ol>
 <h3>1. Download the IDE software</h3>
 <p>You can download the IDE software on the Arduino website here: <a href="https://www.arduino.cc/en/Main/Software">https://www.arduino.cc/en/Main/Software</a></p>
