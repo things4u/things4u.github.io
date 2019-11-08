@@ -8,13 +8,13 @@
 <body>
 <h1 dir="ltr" id="docs-internal-guid-8ff340d2-c1c9-78f0-295a-5c5cba894701">1-Channel Gateway (page 2)</h1>
 <h2 dir="ltr">Web Interface Introduction</h2>
-<p dir="ltr">For this sixth version of the user interface for the single channel gateway we focus on the&nbsp;web interface. Thsi document deals with the web interface only.There are several sections to discuss:</p>
+<p dir="ltr">For this sixth version of the user interface for the single channel gateway we focus on the&nbsp;web interface. This document deals with the web interface only. There are several sections to discuss:</p>
 <ol>
-  <li>How does the web interface look like</li>
+  <li>Description of the user interface</li>
   <li>Whare parameters can be set ove rthe web interface</li>
-  <li>Files involved in the configuration&nbsp;of teh singkle channel interface.</li>
+  <li>Files involved in the configuration&nbsp;of the singkle channel interface.</li>
 </ol>
-<p>Sectionf of the web interface</p>
+<p>Sections of the web interface</p>
 <p>When starting the web interface the following sections are found:</p>
 <ol>
   <li>ESP Gateway Config</li>
@@ -25,7 +25,7 @@
 <p>&nbsp;</p>
 <h2>ESP Gateway Config</h2>
 <p>The first section looks like this:</p>
-<p><img src="images/Web_1_ESP_Gateway_Config.jpg" alt="" width="978" height="166" /></p>
+<p><img src="images/Web_1_ESP_Gateway_Config.jpg" alt="" width="978" height="166" border="2" /></p>
 <p>The ESP Gateway Config part consists of eh following components:</p>
 <ol>
   <li>Version Information</li>
@@ -42,7 +42,7 @@
 <p>&nbsp;</p>
 <h2>Package Statistics</h2>
 <p>The package statistics section contains for each configured channel and for each configure Spreading Factor the number of messages received in the past time period.&nbsp;It also contains the number of downlink messages adn for each Sprrading Factor the percentage of that SF in the total of messages received.</p>
-<p><img src="images/Web_2_ESP_Package_Statistics.JPG" width="829" height="287" /></p>
+<p><img src="images/Web_2_ESP_Package_Statistics.JPG" width="829" height="287" border="2" /></p>
 <p>&nbsp;</p>
 <h2>Message History</h2>
 <p>The Message History section contains an overview of the last message received by the gateway. Of every message the following data is stored:</p>
@@ -56,10 +56,13 @@
   <li>RSSI; This tell how strong the received signal is. The larger, the stronger the signal.</li>
 </ul>
 <p dir="ltr">&nbsp;</p>
-<p dir="ltr"><img src="images/Web_3_ESP_Message_History.JPG" width="830" height="519" /></p>
+<p dir="ltr"><img src="images/Web_3_ESP_Message_History.JPG" width="830" height="519" border="2" /></p>
 <p dir="ltr">&nbsp;</p>
 <h2 dir="ltr">Gateway Settings</h2>
-<p dir="ltr">This screen is very important as it lets us configure a lot of the settings. The settings are the following:</p>
+<p dir="ltr">This screen is very important as it lets us configure a lot of the settings. </p>
+<p dir="ltr"><img src="images/Web_4_ESP_Gateway_Settings.JPG" width="829" height="410" border="2" /></p>
+<p dir="ltr">&nbsp;</p>
+<p dir="ltr">The settings are the following:</p>
 <ul>
   <li>CAD; This is the setting for Channel Activiy Detection. When set, it monitors in the channel all Spreading Factors for incoming messages. The CAD setting should normally be on.</li>
   <li>HOP;</li>
@@ -73,21 +76,45 @@
   <li>Statistics;</li>
   <li>Boot and Resets; Number of times that the machine was reset. Use the RESET button to reset the counter back to 0.</li>
 </ul>
-<p dir="ltr"><img src="images/Web_4_ESP_Gateway_Settings.JPG" width="829" height="410" /></p>
 <p dir="ltr">&nbsp;</p>
 <h2 dir="ltr">Wifi Config (Expert)</h2>
-<p dir="ltr">The SiFi Config screen is only shown in the &quot;Expert&quot; section</p>
-<p dir="ltr"><img src="images/Web_5_ESP_WiFi_Config.JPG" width="832" height="293" /></p>
-<p dir="ltr">&nbsp;</p>
+<p dir="ltr">The WiFi Config screen is only shown in the &quot;Expert&quot; section. It contains the most important data used to connect the gateway to the internet.</p>
+<p dir="ltr"><img src="images/Web_5_ESP_WiFi_Config.JPG" width="832" height="293" border="2" /></p>
+<p dir="ltr">The following data is displayed:</p>
+<ul>
+  <li>WiFi Host; This is the name of the Gateway node (in the IDE system for example)</li>
+  <li>WiFi SSID; this is the SSID&nbsp;used by the gateway&nbsp;nodesto connect to the system.<br />
+    Please note that the WiFi Password is set in configNode.h
+  </li>
+  <li>IP Address; This is the most important addres, and it is used to display this setting.</li>
+  <li>IP Gateway; the router/gatway you connect to over WiFi</li>
+  <li>NTP Server; This is the server name of the router we use to set the time. As the gateway does not have a battery, <br />
+    time setting requires and external server. If we cannot connect to the server, it is displayed as an &quot;expert&quot; setting in the System State section.
+  </li>
+  <li>LoRa Router; This will in most cases be the TTN environment. If in doubt, DO NOT CHANGE</li>
+  <li>LoRa Router IP;</li>
+  <li>LoRa Router 2; Its is possible to send the nod data to two separate LoRa MQRR Networks, for example to The Things Network and a private network.</li>
+  <li>LoRa Router 2 IP; </li>
+</ul>
 <p dir="ltr">&nbsp;</p>
 <h2 dir="ltr">System Status (Expert)</h2>
 <p dir="ltr">This screen is only visible in Expert mode. It does show some system specific settings related to the gateway.</p>
-<p dir="ltr"><img src="images/Web_6_ESP_System_Status.JPG" width="831" height="206" /></p>
+<p dir="ltr"><img src="images/Web_6_ESP_System_Status.JPG" width="831" height="206" border="2" /></p>
 <p dir="ltr">&nbsp;</p>
 <h2 dir="ltr">System State and Interrupt</h2>
-<p dir="ltr">&nbsp;</p>
-<p dir="ltr"><img src="images/Web_7_ESP_System_State_and_Interrupt.JPG" width="829" height="285" /></p>
-<p dir="ltr">&nbsp;</p>
+<p dir="ltr">In this section some &quot;hidden&quot; parameters are shown. For the time correction the user can change their settings: However you are advised not to change it.</p>
+<p dir="ltr"><img src="images/Web_7_ESP_System_State_and_Interrupt.JPG" width="829" height="285" border="2" /></p>
+<p dir="ltr">The meaning of the parameters is as follows:</p>
+<ul>
+  <li>_state; This parameter defines the state the engine is in at the moment. BNormally the state changes VERY quickly and this parameter does not make sense. However, when the user interface is for reason locked this state can explain why.</li>
+  <li>_STRICT_1CH; This parameter defines whether we should not only&nbsp;receive but also send on the same channel as on which we receive a message. If the node(s) are strictly 1CH&nbsp;they will not notice a message coming in on another channel.</li>
+  <li>flags</li>
+  <li>mask</li>
+  <li>Re-entrat cntr</li>
+  <li>ntp call cntr; how many call were needed to </li>
+  <li>ntpErr cntr; How many error did we receive when trying to synchronize the clock.</li>
+  <li>Time Correction; This should normally be 0 micro Seconds.</li>
+</ul>
 <p dir="ltr"><br />
 </p>
 </body>
