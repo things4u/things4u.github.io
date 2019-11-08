@@ -13,31 +13,31 @@
 <h2 dir="ltr">QuickStart</h2>
 <p dir="ltr">This section describes the first important decisions you have to take with your Gateway and how to configure the gateway to get you going. By no means this chapter is meant to be exchaustive, detailed or complete, it merely gives a hint how to start and go from here. The reader is advised to read the rest of this chapter and finish the configuration after reading it.</p>
 <ol>
-  <li>ESP8266 or ESP32. Based upon the board you have you MUST edit the ESP-sc-gw.h file and edit _PIN_OUT</li>
+  <li>ESP8266 or ESP32. Based upon the board you have you MUST edit the configGway.h file and edit _PIN_OUT</li>
   <li>433MHz or 868MHz. Based upon the board frequency, set _FREQ</li>
   <li>Does your board have a fixed IP address given by your router?
     <ol>
-      <li>If so, set the AP_NAME and AP_PASSWD to the SSID and password of your router</li>
+      <li>If so, set the AP_NAME and AP_PASSWD to the SSID and password of your router in configNode.h</li>
     </ol>
   </li>
-  <li>Does youtr board have an OLED display? If so, set the OLED parameter</li>
-  <li>Are you interested in a few well-known LoRa nodes and are they yours? Define a nice name for these nodes in the file &quot;sensor.h&quot;.</li>
-  <li>Do you need to know the message that your LoRa nodes send to the gateway (and possibly other gateways?). If so, set _LOCALSERVER to 1 and set the parameters in &quot;sensor.h&quot; and fill in the NwkSKey and AppSKey for these nodes, and the system will decode these messages</li>
+  <li>Does youtr board have an OLED display? If so, set the OLED parameter in configGway.h</li>
+  <li>Are you interested in a few well-known LoRa nodes and are they yours? Define a nice name for these nodes in the file &quot;configNode.h&quot;.</li>
+  <li>Do you need to know the message that your LoRa nodes send to the gateway (and possibly other gateways?). If so, set _LOCALSERVER to 1 and set the parameters in &quot;confiigNode.h&quot; and fill in the NwkSKey and AppSKey for these nodes, and the system will decode these messages</li>
   <li>If necessary modify the _TTNSERVER if you connect to TTN, and/or #define&nbsp;the _THINGSERVER if you have another provider</li>
 </ol>
-<p>All other parameters in the ESP-sc-gway.h file can be left to their default values initially. Please connect to the USB port and look at the console. It will show at what IP address the sensor node connects. You can then open that IP address in your browser and manage the gateway through the webbrowser.</p>
+<p>All other parameters in the configGway.h file can be left to their default values initially. Please connect to the USB port and look at the console. It will show at what IP address the sensor node connects. You can then open that IP address in your browser and manage the gateway through the webbrowser.</p>
 <p>In order to avoid having to use both options, we try to make most settings availble on both interfaces. But in practise the .h file is used to make configuration changes that are more permanent and the user interface is used to set everyday parameters and things that change more often.</p>
 <h2 dir="ltr">Setting the configuration</h2>
 <p dir="ltr">There are two major ways to set the configuration of the Gateway:</p>
 <ol>
-  <li>Set configuration parameters in ESP-sc-gway.h file</li>
+  <li>Set configuration parameters in configGway.h file</li>
   <li>Use the GUI&nbsp;to set parameters</li>
 </ol>
-<h2>1. Editing the ESP-sc-gway.h file</h2>
-<p>Most parameters that can be set are compile-time directives so that code is compiled or not based on the value of the directive in the ESP-sc-gateway.h file. This way, the code base can be kept small when functions are not used. Example: Support for Wifi Manager can be turned ON or OFF based on the setting of WIFIMANAGER in the ESP-sc-gway.h file.</p>
+<h2>1. Editing the configGway.h file</h2>
+<p>Most parameters that can be set are compile-time directives so that code is compiled or not based on the value of the directive in the ESP-sc-gateway.h file. This way, the code base can be kept small when functions are not used. Example: Support for Wifi Manager can be turned ON or OFF based on the setting of WIFIMANAGER in the configGway.h file.</p>
 <p><code>#define WIFIMANAGER 0</code></p>
 <p>By changing the definition to &quot;1&quot; the complete functionality to use Wifi Manager is included in the code and compiled. By using &quot;0&quot; all functions relating to this functionality is excluded from the gateway code.</p>
-<p>Several parameters or #define compiler directives can be set in the ESP-sc-gway.h file such as:</p>
+<p>Several parameters or #define compiler directives can be set in the configGway.h file such as:</p>
 <h3>DEBUG</h3>
 <p> The value of DEBUG determines whether some parts of code get compiled or not.  Also this is the initial value of the debug parameter. As the value can be changed using the admin webserver, leave it to the value set to 1, but for fFor operational use, better set initial DEBUG vaulue 0.<br />
   Note: You can still set a higher value for the debug variable in the Webserver GUI&nbsp;(As long as DUSB is set to 1).</p>
@@ -179,9 +179,9 @@
 <h3 dir="ltr">Counters</h3>
 <p dir="ltr">This section contains the statistical info of all the messages that have been received by the gateway. It displays per spreading factor and per channel how many messages were received and display the amount of messages processed per hour.</p>
 <h3 dir="ltr">Message History</h3>
-<p dir="ltr">This section shows the last 20 messages received by the gateway. Of every message we record the time that it was received, the sensor ID, the channel and the spreading factor used for sending the message etc. As of version 5.3.2 of the gateway another column can be added to this section: The data sent by sensors. When enabled in the ESP-sc-gway.h file with </p>
+<p dir="ltr">This section shows the last 20 messages received by the gateway. Of every message we record the time that it was received, the sensor ID, the channel and the spreading factor used for sending the message etc. As of version 5.3.2 of the gateway another column can be added to this section: The data sent by sensors. When enabled in the configGway.h file with </p>
 <p dir="ltr">#define _LOCALSERVER 1</p>
-<p dir="ltr">It is possible to add NwkSKey and AppSKey in the loraSensor.h file and enable for some well known nodes the decoding of their data. With this, the sensors do the same thing as the TTN backend, but enable this ith the local GUI Webserver or through the local USB interface. Just enable GUI on the webserver to send output to the USB port.</p>
+<p dir="ltr">It is possible to add NwkSKey and AppSKey in the configNode.h file and enable for some well known nodes the decoding of their data. With this, the sensors do the same thing as the TTN backend, but enable this ith the local GUI Webserver or through the local USB interface. Just enable GUI on the webserver to send output to the USB port.</p>
 <h3 dir="ltr">Gateway Settings</h3>
 <table width="94%" border="1">
   <tr>
@@ -230,7 +230,7 @@
     <td>Usb Debug</td>
     <td>&nbsp;</td>
     <td>1</td>
-    <td>This is the value of DUSB (see ESP-sc-gway.h file)</td>
+    <td>This is the value of DUSB (see configGway.h file)</td>
   </tr>
   <tr>
     <td>WWW Refresh</td>

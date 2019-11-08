@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>1-ch Gateway v4</title>
+<title>1-ch Gateway v6</title>
 </head>
 
 <body>
 <h1 dir="ltr" id="docs-internal-guid-8ff340d2-c1c9-78f0-295a-5c5cba894701">1-Channel Gateway</h1>
 <h2 dir="ltr">Introduction</h2>
-<p dir="ltr">When the gateway is configured well, this is (part of) the screen that you will see on the browser. These documents will show you how to configure the software of the gateway in order to transfer incoming LoRa message.</p>
+<p dir="ltr">When the gateway is configured well, this is (part of) the screen that you will see on the browser. These documents will show you how to configure the software of the gateway in order to transfer incoming LoRa messages.</p>
 <p dir="ltr"><img src="images/Web_2_ESP_Package_Statistics.JPG" width="829" height="287" border="2" /></p>
 <p dir="ltr">This is the 6th generation of software implementing LoRa gateway function on a platform consisting of an ESP8266 mcu and a SX1276 radio. Unlike the previsous versions of the gateway, it will listen to all available Spreading Factors on a single frequency. </p>
 <p dir="ltr">The software does in principle support up to 3 multiple channels, but the HOP software to support this is not yet reliable. Also, the function to support downstream messages does not yet work  a 100%.</p>
@@ -87,18 +87,19 @@
 <ul>
   <li>Build&nbsp;something using the basic components such a the SX1276/RFM95, an ESP8266 chip and some other components</li>
   <li>Use a Wemos D1 mini board and a second board where the RFM95 chip is soldered on</li>
-  <li>Use a TTGO ESP32 board which contains all the components on the board.</li>
+  <li>Use a TTGO or Heltec ESP32 board which contains all the components on the board.</li>
 </ul>
 <p>You'll understand that the first option takes som more effort to get it working and the last option potentially contains only some software installation and configuration.</p>
-<p>However, please be warned that as of this moment there is no need to use more expensive options than just a Wemos D1 mini, a RFM95 and an adapter board. Anything less costs you more work and does not save you money, and everything more is a luxury but does not deliver performance that you need. IN principle the ESP8266 is perfectly capabl of running the singl channel software and with a low-cost adapter board and some soldering it is possible to build yourself a single channel gateway for less than $ 10.00 .</p>
+<p>However, please be warned that as of this moment there is no need to use more expensive options than just a Wemos D1 mini, a RFM95 and an adapter board. Anything less costs you more work and does not save you money, and everything more is a luxury but does not deliver performance that you need. In principle the ESP8266 is perfectly capable of running the single channel software and with a low-cost adapter board and some soldering it is possible to build yourself a single channel gateway for less than $ 10.00 .</p>
 <p>&nbsp;</p>
 <p dir="ltr"><a href="../HardwareHuide/images/ComResult-1.jpg"><img src="../HardwareHuide/images/ComResult-1.jpg" width="600" height="450" border="1" /></a></p>
 <h3 dir="ltr">&nbsp;</h3>
 <h3>Gateway Components</h3>
 <p>The gateway sketch consists of multiple components&nbsp;that are found in several files. These are:</p>
 <ul>
-  <li>ESP-sc-gway-4.ino; This is the main sketch of the gateway. It does contain the setup() and loop(0 functions and does the most important functions (that are found in other files)</li>
-  <li>ESP-sc-gway.h; This file contains most if not all configurable parameters and settings of the program. It allows the user to include functionality in the code at compile time (or omit functions if not necessary) and it allows user to set parameters that control the behavior of the gateway at runtime.</li>
+  <li>ESP-sc-gway.ino; This is the main sketch of the gateway. It does contain the setup() and loop(0 functions and does the most important functions (that are found in other files)</li>
+  <li>configGway.h; This file contains most if not all configurable parameters and settings of the program. It allows the user to include functionality in the code at compile time (or omit functions if not necessary) and it allows user to set parameters that control the behavior of the gateway at runtime</li>
+  <li>configNode.h; This file contains SSID, Passwords, Node info etc. that is user and environment specific..</li>
   <li>_loraModem.ino; This file contains all the relevant radio functions of the gateway. This includes the interrupt handlers for sx1276 DIO pins and transmit and receive functions</li>
   <li>loraModem.h; Contains all the definitions of interrupts, state, registers etc. that are used by the _loraModem.ino functions</li>
   <li>_sensor.ino; Contains code to let the gateway behave as a sensor node as well. This function is particularly useful to receive real-time operating parameters from the gateway</li>
@@ -118,12 +119,12 @@
   Gateway to Server Interface</a></li>
 </ul>
 <p>Datasheets for RFM95 and SX1276 should be the same. However, the HopeRF document dontains confusing information especially in the registers description are where RSSI for example (regaister 0x1B ?) is concerned.</p>
-<h2 dir="ltr">&nbsp;</h2>
-<p dir="ltr">&nbsp;</p>
+<p>&nbsp;</p>
 <h2 dir="ltr">RSSI</h2>
 <p dir="ltr">RSSI stands for Received Signal Strength Indicator is is measured on the receiver to determine the signal quality of the sender. Normal RSSI can be measured any time at the receiver side by reading regaister 0x1B. The SX1276/RFM95 transceiver contains a special register 0x1A that contains theaverage packet RSSI information.</p>
 <p dir="ltr">The RSSI function is used by CAD to determine if we have received a message. This is not as the RFM95 is designed, after all new messages might be received that are below the noise floor and this using RSSI is not the most reliable process.</p>
 <p dir="ltr">The correct RSSI sample can be computed (according to the RFM95 manual para 4.2.5.3) by adding TS_RE + TS_RSSI</p>
+<p dir="ltr">&nbsp;</p>
 <h2>DIO Pin-Out</h2>
 <p>In the sx1276 datasheet we find that DIO 0 and DIO 1 are used to handle CAD interrupts and for message reception. So where we would only use dio0 in the version&nbsp; 3.x of the gateway, we now use dio0 AND dio1 in order to detect CAD  and RX Timeout evemts. This also means for users that the have to modify their gateway and set the pins correctly in the loraModem.h file.</p>
 <h3>Hallard</h3>
