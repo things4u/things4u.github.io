@@ -6,7 +6,7 @@
 </head>
 
 <body>
-<h1 dir="ltr" id="docs-internal-guid-8ff340d2-c1c9-78f0-295a-5c5cba894701">1-Channel Gateway (page 2)</h1>
+<h1 dir="ltr" id="docs-internal-guid-8ff340d2-c1c9-78f0-295a-5c5cba894701">Usermanual Gateway Webserver</h1>
 <h2 dir="ltr">Web Interface Introduction</h2>
 <p dir="ltr">For this sixth version of the user interface for the single channel gateway we focus on the&nbsp;web interface. This document deals with the web interface only. There are several sections to discuss:</p>
 <ol>
@@ -59,7 +59,8 @@
 <p dir="ltr"><img src="images/Web_3_ESP_Message_History.JPG" width="830" height="519" border="2" /></p>
 <p dir="ltr">&nbsp;</p>
 <h2 dir="ltr">Gateway Settings</h2>
-<p dir="ltr">This screen is very important as it lets us configure a lot of the settings. </p>
+<p dir="ltr">This screen is very important as it lets us configure a lot of the settings. Almost all configurable setting are found in this section. It allows the gateway to be configured to the specific envirnment of the user, its frequency and the debug settings.</p>
+<p dir="ltr">Although the debug setting should in principal not influence the timing of the gateway, in practive it does. This parameter allows to adjust the timing in a temporary fashion to the settings used. When ( a lot) Serial communication is selected, the timing will in general be negative (-5000 to -15000.uSec). In some occaions the timing for (non debug) communication will be positive&nbsp;(about 500 to10000 uSec)</p>
 <p dir="ltr"><img src="images/Web_4_ESP_Gateway_Settings.JPG" width="829" height="410" border="2" /></p>
 <p dir="ltr">&nbsp;</p>
 <p dir="ltr">The settings are the following:</p>
@@ -74,7 +75,10 @@
   <li>Update Firmware; (Not used yet)</li>
   <li>Format SPIFFS; This is a very dangerous setting. If formats the file system&nbsp;of the gateway and destroys its contents. Sometimes it is ne necessary to format as the system will not function normally. Be careful&nbsp;though.</li>
   <li>Statistics;</li>
-  <li>Boot and Resets; Number of times that the machine was reset. Use the RESET button to reset the counter back to 0.</li>
+  <li>Boot and Resets; Number of times that the machine was reset. Use the RESET button to reset the counter back to 0.
+    <h3>      Expert</h3>
+  </li>
+  <li>Time Correction; This should normally be 0 micro Seconds (uSec). Its purpose however is to calibrate the sensor for downlink messages, Serial commnication can seriously disturb the timing and with this parameter the user can calibrate the setting for (usb) DEBUG</li>
 </ul>
 <p dir="ltr">&nbsp;</p>
 <h2 dir="ltr">Wifi Config (Expert)</h2>
@@ -113,7 +117,6 @@
   <li>Re-entrant cntr</li>
   <li>ntp call cntr; how many call were needed to </li>
   <li>ntpErr cntr; How many error did we receive when trying to synchronize the clock.</li>
-  <li>Time Correction; This should normally be 0 micro Seconds.</li>
 </ul>
 <p dir="ltr"><br />
 </p>

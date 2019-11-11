@@ -6,9 +6,9 @@
 </head>
 
 <body>
-<h1 dir="ltr" id="docs-internal-guid-8ff340d2-c1c9-78f0-295a-5c5cba894701">1-Channel Gateway with CAD (version 6.x)</h1>
+<h1 dir="ltr" id="docs-internal-guid-8ff340d2-c1c9-78f0-295a-5c5cba894701">Usermanual Gateway configGway.h</h1>
 <h2 dir="ltr">Introduction</h2>
-<p dir="ltr">This is the 6th generation of software implementing LoRa gateway function on a platform consisting of an ESP8266 mcu and a sx1276 radio. Unlike older versions of the gateway, this version will listen to all available Spreading Factors on a single frequency. The Gateway uses a display function (over Internet) that enables monitoring and configuration of the gateway. </p>
+<p dir="ltr">This is the 6th generation of software implementing LoRa gateway function on a platform consisting of an ESP8266/ESP32 mcu and a sx1276 radio. Unlike older versions of the gateway, this version will listen to all available Spreading Factors on a single frequency. The Gateway uses a display function (over Internet) that enables monitoring and configuration of the gateway. </p>
 <p dir="ltr"><img src="images/frontpage_1_v6.PNG" width="653" height="652" /></p>
 <p dir="ltr">The interface is described in more detail in <a href="UserManual 6b.html">a separate section of the user manual</a>. The user is advised to learn about the available functions there.</p>
 <p dir="ltr">The gateway, when connected with a  local OLED display, will show the WiFi address it is connected too (in this case 138) and enable following of its performance over internet.</p>
@@ -191,16 +191,17 @@
 <p>Most parameters starting with a &quot;_&quot; are parameters only. Please only change these if you know what you are doing. If the parameter contains a &quot;&lt;xxx&gt;&quot; it means that you have to put your own values there. After all, it does not make sense to put my email address or&nbsp;GPS data in your configuration.</p>
 <p>The remaning part of the #define settings should be to include or not include certain parts of the code based on your own preference.</p>
 <h2>Setting parameters through the webserver interface</h2>
-<p>Some other parameters can best be set using the webserver intrface. Exmples for this are the mode selection of CAD and HOP. The following settings cn be changed using the webserver:</p>
-<ol>
+<p>Some other parameters can best be set using the webserver intrface. Exmples for this are the mode selection of CAD and HOP. The following settings can be changed using the webserver:</p>
+<ul>
   <li>Debug settings. The webserver will enable selection  of 3 values for debug. If Debug is det to 2, 2 more debug setting will appear. These are only used for testing the interrupt machine and will probably disappear in a later stage&nbsp;(to minimize memory use).</li>
   <li>CAD On/Off setting</li>
   <li>HOP On/Off setting</li>
   <li>Spreading Factor setting, when CAD is Off</li>
   <li>Frequency setting, when HOP is Off</li>
   <li>Reset statistics</li>
+  <li>Timing for Downlink</li>
   <li>etc etc</li>
-</ol>
+</ul>
 <p><a href="UserManual 6b.html">Please read the webserver page</a></p>
 </body>
 </html>
