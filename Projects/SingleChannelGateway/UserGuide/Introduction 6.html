@@ -100,7 +100,7 @@
 <ul>
   <li>ESP-sc-gway.ino; This is the main sketch of the gateway. It does contain the setup() and loop(0 functions and does the most important functions (that are found in other files)</li>
   <li>configGway.h; This file contains most if not all configurable parameters and settings of the program. It allows the user to include functionality in the code at compile time (or omit functions if not necessary) and it allows user to set parameters that control the behavior of the gateway at runtime</li>
-  <li>configNode.h; This file contains SSID, Passwords, Node info etc. that is user and environment specific..</li>
+  <li>configNode.h; This file contains SSID, Passwords, Node info etc. that is user and environment specific information.&nbsp;This file should normally be adapted to your Wifi, user and password setting once.</li>
   <li>_loraModem.ino; This file contains all the relevant radio functions of the gateway. This includes the interrupt handlers for sx1276 DIO pins and transmit and receive functions</li>
   <li>loraModem.h; Contains all the definitions of interrupts, state, registers etc. that are used by the _loraModem.ino functions</li>
   <li>_sensor.ino; Contains code to let the gateway behave as a sensor node as well. This function is particularly useful to receive real-time operating parameters from the gateway</li>
@@ -125,34 +125,5 @@
 <p dir="ltr">RSSI stands for Received Signal Strength Indicator is is measured on the receiver to determine the signal quality of the sender. Normal RSSI can be measured any time at the receiver side by reading regaister 0x1B. The SX1276/RFM95 transceiver contains a special register 0x1A that contains theaverage packet RSSI information.</p>
 <p dir="ltr">The RSSI function is used by CAD to determine if we have received a message. This is not as the RFM95 is designed, after all new messages might be received that are below the noise floor and this using RSSI is not the most reliable process.</p>
 <p dir="ltr">The correct RSSI sample can be computed (according to the RFM95 manual para 4.2.5.3) by adding TS_RE + TS_RSSI</p>
-<p dir="ltr">&nbsp;</p>
-<h2>DIO Pin-Out</h2>
-<p>In the sx1276 datasheet we find that DIO 0 and DIO 1 are used to handle CAD interrupts and for message reception. So where we would only use dio0 in the version&nbsp; 3.x of the gateway, we now use dio0 AND dio1 in order to detect CAD  and RX Timeout evemts. This also means for users that the have to modify their gateway and set the pins correctly in the loraModem.h file.</p>
-<h3>Hallard</h3>
-<p>This code assumes that we map all DIO lines onto GPIO15. The code &quot;sees&quot; this when dio0 and dio1 have the same value set. It then assumes that we du multiplexing of interrupts&nbsp; and it will do the appropriate initialisation in setup(). This can only be done by connecting the DIO 0, 1 and if necessary DIO 2 to the GPIO15 pin with a diode and this is how the Hallard PCB does it's multiplexing.</p>
-<table width="45%" border="1">
-  <tr>
-    <td><a href="../HardwareHuide/images/hallard_2.jpg"><img src="../HardwareHuide/images/hallard_2.jpg" alt="../../HardwareGuide/Single-Channel-Gway/images/hallard_1.jpg" width="400" height="300" /></a></td>
-  </tr>
-  <tr>
-    <td>1-ch Gateway made with Hallard PCB</td>
-  </tr>
-</table>
-<p>The advantage fo this interrupt sharing approach is that only one GPO line less is used  leaving more GPIO pins on the ESP8266 for connecting sensors.</p>
-<p>The Hallard board for Wemos D1 mini can be found (and ordered) from http://pcbs.io</p>
-<h3>ComResult</h3>
-<p>Another PCB is made by ComResult. Actually, at least 2 versions have been defined. Multiple people in the Apeldoorn (NL) area have built this gateway.</p>
-<p>&nbsp;</p>
-<table width="44%" border="1">
-  <tr>
-    <td><a href="../HardwareHuide/images/ComResult-1.jpg"><img src="../HardwareHuide/images/ComResult-1.jpg" alt="../../HardwareGuide/Single-Channel-Gway/images/ComResult-2.jpg" width="400" height="300" /></a></td>
-  </tr>
-  <tr>
-    <td>1-ch Gateway made with the Comresult PCB</td>
-  </tr>
-</table>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<h1>&nbsp;</h1>
 </body>
 </html>

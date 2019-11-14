@@ -264,37 +264,58 @@
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p>Only the DIO pin opf the SX-1276 chip is not connected. For that purpose, solder a small wire between the Lora-1 pin of the T-beam and pin 33/GPIO-33 of the ESP32 chip.</p>
-<p>Also, if you want to use the GPS, you need not to do enything, and if you like to report the battery voltage (which tells you if the USB power is connected or not and the condition of the battery) you do not have to connect any wires as the pin GPIO33 is internally connected to the battery through a voltage divider of 100K&nbsp;Ohms.</p>
+<p>Also, if you want to use the GPS, you need not to do anything, and if you like to report the battery voltage (which tells you if the USB power is connected or not and the condition of the battery) you do not have to connect any wires as the pin GPIO33 is internally connected to the battery through a voltage divider of 100K&nbsp;Ohms.</p>
 <p><a href="images/T-Beam-3.jpg"><img src="images/T-Beam-3.jpg" width="500" height="375" /></a></p>
 <p>&nbsp;</p>
-<h1>Software</h1>
-<p>The software is currently, and will probably always be, under development. So check back frequently to get the latest release. </p>
+<h1>&nbsp;</h1>
+<h1>Complimg the code</h1>
+<p>This chapter contains the description how the IDE for Arduino should be configured in order for the compiler to work. This followin&nbsp;steps should be taken in order for the code to be compiled:</p>
+<p>The software is currently, and will probably always be, under development. So check back frequently to get your latest release. </p>
 <p>The following steps are at least necessary to get the software installed (and working)</p>
 <ol>
   <li>Download the IDE software (Windows/Apple or Linux)</li>
-  <li>Install the ESP8266 support environment</li>
-  <li>Or Install the ESP32 environment</li>
+  <li>Install the ESP8266 support environment, or Install the ESP32 environment</li>
   <li>Install the Sketch and the bundled libraries</li>
   <li>And install the corresponding libraries</li>
   <li><a href="Configuration 6.html">Configure the gateway</a></li>
 </ol>
-<h3>1. Download the IDE software</h3>
-<p>You can download the IDE software on the Arduino website here: <a href="https://www.arduino.cc/en/Main/Software">https://www.arduino.cc/en/Main/Software</a></p>
+<h2>1. Download the IDE software</h2>
+<p>You can download the IDE software on the Arduino website here: <a href="https://www.arduino.cc/en/Main/Software">https://www.arduino.cc/en/Main/Software</a>. For the record: I only worked with the PC software although I do have the software installed on my Apple environment as well.</p>
+<p>You need Arduino version 1.8.10 (or later)</p>
 <p>&nbsp;</p>
-<h3>2. Install the ESP8266 software (or ESP32)</h3>
+<h2>2. Install the ESP8266 IDE software (or ESP32)</h2>
+<p>The single channel gateway is only tested on two major pieces of software, the ESP8266 or the ESP32 based MCU hardware. You will find the screen at &lt;File&gt;&lt;Preferences&gt; on the &lt;Settings&gt; tab. Fill in the two lines below in the section: &lt;Additional Board Manager URLs:&gt;</p>
+<ul>
+  <li>http://arduino.esp8266.com/stable/package_esp8266com_index.json,</li>
+  <li>https://dl.espressif.com/dl/package_esp32_index.json</li>
+</ul>
+<p><img src="images/configurationInstallIDE.JPG" width="807" height="613" /></p>
 <p>&nbsp;</p>
-<h3>4. Install the sketch software and bundled libraries</h3>
-<h4>4.1 DNS</h4>
+<h2>4. Install the sketch software and bundled libraries</h2>
+<p>Use the &lt;File&gt;&lt;Open&gt; feature of the IDE to open the sketch nd load the software. Als use &lt;File&gt;&lt;Preferences&gt; as shown abobe to load the slsected location. The Library location should point to the library location as shipped with the gateway.</p>
+<p>Budled libraries are amongst others:</p>
+<ul>
+  <li>aes</li>
+  <li>gBase64</li>
+  <li>LoRaCode</li>
+  <li></li>
+</ul>
+<p>&nbsp;</p>
+<h2>5. Install the Core libraries</h2>
+<p>More and more liubraries are part of the IDE release itself and can be installed using the &lt;Sketch&gt;&lt;Install Library&gt; function,</p>
+<p>&nbsp;</p>
+<h2>6. Others to Install and Configure</h2>
+<h4>6.1 DNS</h4>
 <p>The ESP libraries support DNS hostnames out of the box. As apparently DNS functions are hard on the mcu, and may cause  crashes and watchdog resets, I have decided to only once get the IP address of the LoRa router and from that moment on use that IP address in the program.</p>
 <p>For the ESP32, the DNS functions are not standard, that means you have to load the additional mDNS libraries (bundled with the sketch software)</p>
-<h4>4.2 Webserver </h4>
-<p>As the ESP8266 is not a Linux machine, so it has no local disk storage, at least not out of the box. It also lacks the possibility to make a SSH connection as you can with a RaspberryPI for example. Still we would like to know how the device is doing, and how long it is operating without any problems. The latter is easy to measure if we look at the time that the gateway is operational. If that time is after the moment we plugged the gateway in, it probably suffered from a Watchdog reset and has restarted since.</p>
-<h3>4.3 WifiManager</h3>
+<h4>6.2 Webserver </h4>
+<p>As the gateway hardware is not a Linux machine, so it has no local disk storage, at least not out of the box. It also lacks the possibility to make a SSH connection as you can with a RaspberryPI for example. Still we would like to know how the device is doing, and how long it is operating without any problems. The latter is easy to measure if we look at the time that the gateway is operational. If that time is after the moment we plugged the gateway in, it probably suffered from a Watchdog reset and has restarted since.</p>
+<h3>6.3 WifiManager</h3>
 <p>The user interface of the Gateway will make it even more useful. After all, most full Lora Gateways have very limited debug value for those of us that have no Linux or similar background.</p>
 <p>Please find the software on <a href="http://github.com/things4u">github</a></p>
-<h3>4.4 Clock</h3>
+<h3>6.4 Clock</h3>
 <p>The clock function is implemented using NTP. As soon as we have an IP connection we try to connect to a timeserver to get the current time. This way we know how long the unit is operational since we last powered it on, and can we time things if necessary.</p>
-<h4>4.5 OLED</h4>
+<h4>6.5 OLED</h4>
 <p>Over the last months, several people have tried to convince me of the value of having OLED support in the single channel gateway. So I built support for the OLED  as of software version 4.0.8 of the gateway.</p>
 <p><a href="images/OLED_2.JPG"><img src="images/OLED_2b.jpg" alt="" width="316" height="228" /></a></p>
 <p>So although I'm not always convinced of its use, I have included the OLED code in gateway software. At the moment, at run-time and after initialisation the code is executed in the _loraModem.ini file. As such, it is called directly when receiving a message over the air. This makes it respond quick to incoming messages but at the same time it will make execution time in interrupt longer which may lead to unexpected Exception/watchdog resets.</p>
@@ -315,12 +336,11 @@
 <p><a href="images/OLED_3.JPG"><img src="images/OLED_3.JPG" alt="" width="400" height="300" /></a></p>
 <p>These pins are in use for the Comresult board. For this configuration alternate pin's must be used which means that no pins are left over for other work such as sensors. D0 and D4 may be used (Not tried yet, so use at your own risk).</p>
 <p>&nbsp;</p>
-<h3>5. Install the necessary core libraries</h3>
+<h2>7. Install the necessary core libraries</h2>
 <p>Apart from the libraries that are not standard (or not the latest version) in the core release you may have to istall the remaining libraries&nbsp;for the core Arduino/ESP release. Some of these libraries can be installed through the IDE, but some need to&nbsp;be installed from github.</p>
 <p>- <a href="https://github.com/mikalhart/TinyGPSPlus/releases">TinyGPS++</a>. This library is not in the core library section of the IDE</p>
 <p>&nbsp;</p>
-<h3>6. Configure the gateway.</h3>
-<p>Please follow the steps in the Configuration manual section.</p>
+<h3>&nbsp;</h3>
 <p>&nbsp;</p>
 <h3>&nbsp;</h3>
 <h3>&nbsp;</h3>
@@ -343,20 +363,7 @@
 <ul>
   <li>&nbsp;<a href="https://techtutorialsx.com/2017/01/21/esp8266-watchdog-functions/">Techtutorials on Watchdog</a></li>
 </ul>
-<h2>Questions</h2>
-<p>I think we all ask the same questions:</p>
-<ol>
-  <li>What mode of the Gateway to use for my application. Well in short:
-    <ul>
-      <li>Do NOT ue Hop mode (EVER!)</li>
-      <li>Do use CAD mode when you like to receive most traffic on one channel and long range is not your first priority</li>
-      <li>Use One Channel One SF mode when you use one Spreading Factor only and range is important for you.<br />
-  </li>
-    </ul>
-  </li>
-</ol>
-<ul>
-</ul>
+<h2>&nbsp;</h2>
 <h2>Notes</h2>
 <p>There are some things to remember however:</p>
 <ul>
