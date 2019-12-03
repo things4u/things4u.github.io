@@ -250,7 +250,7 @@
 </ol>
 <p>The Heltec bvoards (white) are more or less the same. When programming the TTGO boards, use the Heltec</p>
 <p>&nbsp;</p>
-<p><img src="images/ttgo_1.jpg" width="500" height="333" /></p>
+<p><img src="images/ttgo_1.jpg" width="500" height="333" border="1" /></p>
 <p>However, as this board is relatively new to the family not all libraries that are available for the ESP8266 are also available for the ESP32. Sometimes they work, but sometimes one must install alternate libraries and even call different functions to get the gateway to work.</p>
 <p>&nbsp;</p>
 <h3>Pin-Out</h3>
@@ -265,7 +265,7 @@
 <p>&nbsp;</p>
 <p>Only the DIO pin opf the SX-1276 chip is not connected. For that purpose, solder a small wire between the Lora-1 pin of the T-beam and pin 33/GPIO-33 of the ESP32 chip.</p>
 <p>Also, if you want to use the GPS, you need not to do anything, and if you like to report the battery voltage (which tells you if the USB power is connected or not and the condition of the battery) you do not have to connect any wires as the pin GPIO33 is internally connected to the battery through a voltage divider of 100K&nbsp;Ohms.</p>
-<p><a href="images/T-Beam-3.jpg"><img src="images/T-Beam-3.jpg" width="500" height="375" /></a></p>
+<p><a href="images/T-Beam-3.jpg"><img src="images/T-Beam-3.jpg" width="800" height="600" /></a></p>
 <p>&nbsp;</p>
 <h1>&nbsp;</h1>
 <h1>Complimg the code</h1>
@@ -298,13 +298,13 @@
   <li>aes</li>
   <li>gBase64</li>
   <li>LoRaCode</li>
-  <li></li>
+  <li><a href="https://github.com/mikalhart/TinyGPSPlus/releases">TinyGPS++</a>. This library is not in the core library section of the IDE</li>
 </ul>
 <p>&nbsp;</p>
 <h2>5. Install the Core libraries</h2>
 <p>More and more liubraries are part of the IDE release itself and can be installed using the &lt;Sketch&gt;&lt;Install Library&gt; function,</p>
 <p>&nbsp;</p>
-<h2>6. Others to Install and Configure</h2>
+<h2>6. Other Add-on's to Install and Configure</h2>
 <h4>6.1 DNS</h4>
 <p>The ESP libraries support DNS hostnames out of the box. As apparently DNS functions are hard on the mcu, and may cause  crashes and watchdog resets, I have decided to only once get the IP address of the LoRa router and from that moment on use that IP address in the program.</p>
 <p>For the ESP32, the DNS functions are not standard, that means you have to load the additional mDNS libraries (bundled with the sketch software)</p>
@@ -336,11 +336,10 @@
 <p><a href="images/OLED_3.JPG"><img src="images/OLED_3.JPG" alt="" width="400" height="300" /></a></p>
 <p>These pins are in use for the Comresult board. For this configuration alternate pin's must be used which means that no pins are left over for other work such as sensors. D0 and D4 may be used (Not tried yet, so use at your own risk).</p>
 <p>&nbsp;</p>
-<h2>7. Install the necessary core libraries</h2>
-<p>Apart from the libraries that are not standard (or not the latest version) in the core release you may have to istall the remaining libraries&nbsp;for the core Arduino/ESP release. Some of these libraries can be installed through the IDE, but some need to&nbsp;be installed from github.</p>
-<p>- <a href="https://github.com/mikalhart/TinyGPSPlus/releases">TinyGPS++</a>. This library is not in the core library section of the IDE</p>
 <p>&nbsp;</p>
-<h3>&nbsp;</h3>
+<h2>7. Compilling the Gateway code</h2>
+<p>Last subject in this chapter is compiling the gateware source code. So this is not about configuring the gateway, but to make sure that the source code is selected and compiled OK so it can be distributed later.</p>
+<p>&nbsp;</p>
 <p>&nbsp;</p>
 <h3>&nbsp;</h3>
 <h3>&nbsp;</h3>
@@ -351,10 +350,10 @@
 <h1>Links</h1>
 <p>The following links contain useful information for this project.</p>
 <ul>
-  <li><a href="https://github.com/things4u/ESP-1ch-Gateway-v3.0">The source code for this gateway on the Things4U github page</a></li>
+  <li><a href="https://github.com/things4u/ESP-1ch-Gateway-v6.0">The source code for this gateway on the Things4U github page</a></li>
   <li><a href="http://forum.thethingsnetwork.org/t/single-channel-gateway/798">The forum of thethingsnetwork.org on this subject</a></li>
   <li><a href="https://oshpark.com/shared_projects/36EsiJqR">Here you can order adapter boards for connecting RFM95 to RaspberryPI</a> or you can make those yourself (I did)</li>
-  <li>Order your RFM95 chips on Aliexpress.com (about $8.00-8.50) or buy them at Ideetron.nl</li>
+  <li><a href="http://www.aliexpress.com">Order your RFM95 chips on Aliexpress.com</a> (about $8.00-8.50) or buy them at Ideetron.nl</li>
   <li><a href="http://pcbs.io">Buy the Hallard board on pcbs.io</a></li>
   <li><a href="https://oshpark.com/shared_projects/3Cg38FFD">OshParkESP8266 PCB</a></li>
 </ul>

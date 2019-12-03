@@ -12,6 +12,12 @@
 <p dir="ltr"><a href="../HardwareHuide/images/ComResult-1.jpg"><img src="../HardwareHuide/images/ComResult-1.jpg" alt="Comresult" width="600" height="450" hspace="10" vspace="10" /></a></p>
 <h2 dir="ltr">QuickStart</h2>
 <p dir="ltr">This section describes the first important decisions you have to take with your Gateway and how to configure the gateway to get you going. By no means this chapter is meant to be exchaustive, detailed or complete, it merely gives a hint how to start and go from here. The reader is advised to read the rest of this chapter and finish the configuration after reading it. </p>
+<p dir="ltr">So&nbsp;what do you need:</p>
+<p dir="ltr">- ESP6288 including Comresult board or Halard board&nbsp;and a SX1276/RFP95 LoRa chip<br />
+ -&nbsp; OR a Heltec board with ESP32 and LoRa schip loaded<br />
+  - Computer with Arduino IDE Version 1.8.5 or later<br />
+- micro USB to USB cable for downloading the Gateway software to your node</p>
+<p dir="ltr">And to easy compile:</p>
 <ol>
   <li>ESP8266 or ESP32. Based upon the board you have you MUST edit the configGway.h file and edit _PIN_OUT</li>
   <li>433MHz or 868MHz. Based upon the board frequency, set _FREQ</li>
@@ -317,6 +323,29 @@
 <h2>DIO Pin-Out</h2>
 <p>In the sx1276 datasheet we find that DIO 0 and DIO 1 are used to handle CAD interrupts and for message reception. So where we would only use dio0 in the version&nbsp; 3.x of the gateway, we now use dio0 AND dio1 in order to detect CAD  and RX Timeout evemts. This also means for users that the have to modify their gateway and set the pins correctly in the loraModem.h file.</p>
 <h3>&nbsp;</h3>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h1>Types of&nbsp;Use</h1>
+<p>The are several ways you can use the single channel gateway:</p>
+<ul>
+  <li>As as single channel gateway (unattended)</li>
+  <li>A a debugging aid for sensors connecting</li>
+</ul>
+<h2>Single Channel Gateway Use</h2>
+<p>If teh conly thing you want is running it as just a (standalone) gateway, please keep the following things in mind:</p>
+<ol>
+  <li>Remove all USB debugging from the output</li>
+  <li>Remove the debugging parameter</li>
+  <li>Set the pattern to zero</li>
+  <li>And remove all the other #define's in configGway.h file where possible</li>
+</ol>
+<h2>Debugging Use</h2>
+<p>If you want to use the device for debugging of the gateway and sensor functiojn, please do teh following:</p>
+<ol>
+  <li>Set the USB debugging on (#define _DUSB 1)</li>
+  <li>Select the debug parameter in &quot;configGway.h&quot;</li>
+  <li>Specify the name of as many known sensors as possible in &quot;configNode.h&quot;</li>
+</ol>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p><br />

@@ -10,7 +10,7 @@
 <h2 dir="ltr">Introduction</h2>
 <p dir="ltr">When the gateway is configured well, this is (part of) the screen that you will see on the browser. These documents will show you how to configure the software of the gateway in order to transfer incoming LoRa messages.</p>
 <p dir="ltr"><img src="images/Web_2_ESP_Package_Statistics.JPG" width="829" height="287" border="2" /></p>
-<p dir="ltr">This is the 6th generation of software implementing LoRa gateway function on a platform consisting of an ESP8266 mcu and a SX1276 radio. Unlike the previsous versions of the gateway, it will listen to all available Spreading Factors on a single frequency. </p>
+<p dir="ltr">This is the 6th generation of software implementing LoRa gateway function on a platform consisting of an ESP8266 mcu and a SX1276 radio. Unlike the pervious versions of the gateway, it will listen to all available Spreading Factors on a single frequency. </p>
 <p dir="ltr">The software does in principle support up to 3 multiple channels, but the HOP software to support this is not yet reliable. Also, the function to support downstream messages does not yet work  a 100%.</p>
 <p dir="ltr">The single channel gateway can be used for multiple purposes:</p>
 <ol>
@@ -25,27 +25,33 @@
   <li><a href="Introduction 6.html">Introduction (This Document)</a>. This document describes the documentation and explains he LoRa environment.</li>
   <li><a href="Installation 6.html">Installation Guide</a>. The document describes how to install (make) the hardware and how to install the software.</li>
   <li><a href="Configuration 6.html">Configuration Guide</a>. The document describes how to set the parameters in the software to match the hardware.</li>
-  <li><a href="UserManual 6.html">User Manua configGway.hl</a>. The document describes how to manage the Gateway at run-time.</li>
-  <li><a href="UserManual 6b.html">User Manual Weserver</a>;&nbsp;How to configure with he webserver</li>
+  <li><a href="UserManual 6.html">User Manual configGway.hl</a>. The document describes how to manage the Gateway at run-time.</li>
+  <li><a href="UserManual 6b.html">User Manual Webserver</a>;&nbsp;How to configure with he webserver</li>
   <li><a href="PhotoBook 6.html">Photos, Example etc.</a></li>
 </ol>
 <p dir="ltr">Maybe we'll add a technical manual to explain why certain solutions or settings were chosen for the Single Channel Gateway.</p>
 <h1 dir="ltr">What is LoRa</h1>
-<p dir="ltr">LoRa stands for Long Range and is a next generation Internet of Things communicaion protocol to have &quot;Things&quot; communication with a backend over a long range and with low power too. This coms at a price however, the LoRa transceiver devices will only work over a long range if the devices (things) will transmit and receive short and simple messages and the freuency of this communication is kept low.</p>
+<p dir="ltr">LoRa stands for Long Range and is a next generation Internet of Things communication protocol to have &quot;Things&quot; communication with a backend over a long range and with low power too. This comes at a price however, the LoRa transceiver devices will only work over a long range if the devices (things) will transmit and receive short and simple messages and the frequency of this communication is kept low.</p>
 <h2 dir="ltr">Components of a LoRa Network</h2>
-<p dir="ltr">Although there are more components involved in the LoRa network, for simplicity we can divide the components into threee major catagories:</p>
+<p dir="ltr">Although there are more components involved in the LoRa network, for simplicity we can divide the components into three major categories:</p>
 <ol>
   <li>The sensors</li>
   <li>The Gateways</li>
   <li>Back-End</li>
 </ol>
-<p>LoRa sensors are mostly transmitters of simple messages. Several sensors are described on the documentation pages. Well known examples are temperature sensors, air pressure, humidity, distance, movement (PIR) etc. In itself single sensors might not be very interesting, however when there are lots of them for example reporting the humidity of soil every acre of farmgrounds, it enables effective water management for farmers.</p>
+<p>LoRa sensors are mostly transmitters of simple messages. Several sensors are described on the documentation pages. Well known examples are temperature sensors, air pressure, humidity, distance, movement (PIR) etc. In itself single sensors might not be very interesting, however when there are lots of them for example reporting the humidity of soil every acre of farm grounds, it enables effective water management for farmers.</p>
 <p>The backend receives the sensor messages and distributes them based on their idents and security parameters to one or several applications. These application turn the data of the sensors into information for the applications and as such they are maybe the most important component in the process. Applications might gather data and turn it into user information o GUI's, store in databases for later analysis etc.</p>
 <p>Gateways receive sensor data over the air, do some decoding and transport the data to the internet backend. As such they are a vital element in the chain but as they&nbsp;have no knowledge of the data content of the&nbsp;sensor messages their use is limited to transport only. Gateways can also send messages to sensors for example provide them with addresses in the network, activating sensors (similar to WiFi addresses being managed by Routers).</p>
-<h1 dir="ltr">Gateway modes of operation</h1>
-<p dir="ltr">The gateway desribed is not a full/standard LoRa Gateway. A compliants LoRa Gateway should support all Spreading Factors (SF7-SF12) and should support at least three freuencies. Our Single Channel Gateway does not do this. Instead it only sends and receives on one frequency (channel) like the name does suggest.</p>
-<p dir="ltr">The user hould therefore be well aware that unless the sensors will use the same one channel too, that the gateway will receive on average only one out of 8 messages. So it could be that the gateway does not receive ANY of the messages of a certain node although both the sensor and the single channel gateway are working perfectly.</p>
-<p dir="ltr">The sincgle channel gateway knows 3 modes of operation:</p>
+<p>There are three modes of operation for gateways:</p>
+<ul>
+  <li>Class&nbsp;A: SUPPORTED. This basic mode has been created for battery operated devices and it will send only once in a while and receive only when sending (to save power). This mode is most energy efficient.</li>
+  <li>Class B; This mode is NOT yet supported. The gateway send a beacon signal on a regular basis. Here the gateway provides a regular beacon signal that devices can  synchronize to in order that they may accurately schedule more receive  windows.</li>
+  <li>Class C; This mode is NOT yet supported.&nbsp;These devices receive continuously and only stop listening when transmitting. Mode C only works for&nbsp;gateways and devices that can afford to listen continuously.</li>
+</ul>
+<h1 dir="ltr">Gateway mode A  operation</h1>
+<p dir="ltr">The gateway described is not a full/standard LoRa Gateway. A compliant LoRa Gateway should support all Spreading Factors (SF7-SF12) and should support at least three frequencies. Our Single Channel Gateway does not do this. Instead it only sends and receives on one frequency (channel) like the name does suggest.</p>
+<p dir="ltr">The user should therefore be well aware that unless the sensors will use the same one channel too, that the gateway will receive on average only one out of 8 messages. So it could be that the gateway does not receive ANY of the messages of a certain node although both the sensor and the single channel gateway are working perfectly.</p>
+<p dir="ltr">The single channel gateway knows 3 modes of operation:</p>
 <ol>
   <li>STD; standard single channel operation, one one channel only and on one spreading factor. Both frequency and spreading factor can be changed using the web interface. Configuration values are written to the file system,</li>
   <li>CAD; the system uses one frequency but is able to receive all spreading factors. The CAD mode is the preferred mode of operation.</li>
@@ -62,68 +68,45 @@
 <p dir="ltr">Although CAD is designed to be used by nodes to detect other activity on a given frequency/spreading factor combination, it can be used by our single channel gateway as well. If the gateway can use CAD functionality to detect incoming messages on a given band, we can quickly set the receiver to that frequency and spreading factor and receive the incoming message.</p>
 <p dir="ltr">Now we have CAD mode with all its advantages, why would we ever use STD mode? The answer lies in the way we use the CAD functions in our gateway code. In our code we put the chip in CAD mode and set the interrupt so that we receive an CADDONE interrupt once the radio detects activity from other nodes. This tells us that someone is starting transmission on our current frequency. </p>
 <p dir="ltr">The radio will get this interrupt for its current frequency but it does not know on which spreading factor the remote node is going to send a message.</p>
-<p dir="ltr">So next we check on the rssi (signal strength), we use the normal rssi of the sx1276&nbsp;and subtract 157 for correction. The resulting number is the rssi of the receiver. (The package rssi (prssi) is another parameter that describes the rssi of the last package received, but it is not used in CAD mode). When we receivve a CADDONE interrupt with a high rssi, we probably will receive a message on that frequency soon. So we need to figure out at which spreading factor the sender is starting its tranmission. Therefore we will start with SF7 and move up to the next factor until we receive a CADDETECT interrupt on DIO1. The RSSI parameter that determines whether there could be a message arriving on the radio receiver can be configured in the loraModem.h file by setting the RSSI_LIMIT definition. The default value is 40, but it can be set to other values as well.</p>
-<p dir="ltr">Once we receive the CADDETECT interrupt on DIO 1 we know that there is a message coming on our currect frequency and spreading factor. We then put the radio&nbsp;in message receve mode and wait for the RXDONE interrupt that tells us that the complete messag ehas been received and is ready in the FIFO buffer.</p>
+<p dir="ltr">So next we check on the rssi (signal strength), we use the normal rssi of the sx1276&nbsp;and subtract 157 for correction. The resulting number is the rssi of the receiver. (The package rssi (prssi) is another parameter that describes the rssi of the last package received, but it is not used in CAD mode). When we receive a CADDONE interrupt with a high rssi, we probably will receive a message on that frequency soon. So we need to figure out at which spreading factor the sender is starting its transmission. Therefore we will start with SF7 and move up to the next factor until we receive a CADDETECT interrupt on DIO1. The RSSI parameter that determines whether there could be a message arriving on the radio receiver can be configured in the loraModem.h file by setting the RSSI_LIMIT definition. The default value is 40, but it can be set to other values as well.</p>
+<p dir="ltr">Once we receive the CADDETECT interrupt on DIO 1 we know that there is a message coming on our current frequency and spreading factor. We then put the radio&nbsp;in message receive mode and wait for the RXDONE interrupt that tells us that the complete message has been received and is ready in the FIFO buffer.</p>
 <p dir="ltr">Should for whatever reason no message arrive within a certain time, we will receive the RXTOUT (timeout) interrupt instead telling us that there was a timeout and no message has been received.</p>
-<p dir="ltr">If we have receive a message, we set the state variable so that in the next loop() iterration the message is read from the FIFO buffer.</p>
+<p dir="ltr">If we have receive a message, we set the state variable so that in the next loop() iteration the message is read from the FIFO buffer.</p>
 <p dir="ltr">Next, whether we receive a message or not, the mode is set to scanning again.</p>
+<h3 dir="ltr">RSSI</h3>
+<p dir="ltr">RSSI stands for Received Signal Strength Indicator is is measured on the receiver to determine the signal quality of the sender. Normal RSSI can be measured any time at the receiver side by reading register 0x1B. The SX1276/RFM95 transceiver contains a special register 0x1A that contains the average packet RSSI information.</p>
+<p dir="ltr">The RSSI function is used by CAD to determine if we have received a message. This is not as the RFM95 is designed, after all new messages might be received that are below the noise floor and this using RSSI is not the most reliable process.</p>
+<p dir="ltr">The correct RSSI sample can be computed (according to the RFM95 manual para 4.2.5.3) by adding TS_RE + TS_RSSI</p>
 <h3 dir="ltr">Advantages</h3>
-<p dir="ltr">Using CAD mode has several advantages over STD more. Selecting CAD makes the gateway a lot more versatle and it will receive message from SF7 to SF12. And although the reception will probably not be quite as sensitive as a &quot;real&quot; gateway for most applications it will do the job.</p>
+<p dir="ltr">Using CAD mode has several advantages over STD more. Selecting CAD makes the gateway a lot more versatile and it will receive message from SF7 to SF12. And although the reception will probably not be quite as sensitive as a &quot;real&quot; gateway for most applications it will do the job.</p>
 <p dir="ltr">&nbsp;</p>
 <h2 dir="ltr">3. HOP; Frequency Hopping mode (Experimental)</h2>
 <p dir="ltr">This mode is very experimental, and does not work yet the way it is intended.</p>
 <p dir="ltr">Using HOP mode, the system will have same functions as CAD mode&nbsp;but have the additional value of listening to messages on 3 frequencies as well.</p>
 <h3 dir="ltr">The HOP Problem</h3>
-<p dir="ltr">The frequency hopping function is more difficult to implement than the CAD funtion. This is because CAD does work more or less automatically for a given frequency and the receiver can wait for the CADDONE interrupt telling that there might be a message waiting on one of the spreading factors for that frequency.</p>
-<p dir="ltr">For frequency hopping this does not work as there is no mechanism that tells us that there might be a message arriving on another frequency than the one we're tuned in an the moment. So, if we want to implement a reliable frequency hopping function we must set a timer interrupt that fires once there is no incoing activity detected witin a certain time on the frequency.</p>
+<p dir="ltr">The frequency hopping function is more difficult to implement than the CAD function. This is because CAD does work more or less automatically for a given frequency and the receiver can wait for the CADDONE interrupt telling that there might be a message waiting on one of the spreading factors for that frequency.</p>
+<p dir="ltr">For frequency hopping this does not work as there is no mechanism that tells us that there might be a message arriving on another frequency than the one we're tuned in an the moment. So, if we want to implement a reliable frequency hopping function we must set a timer interrupt that fires once there is no incoming activity detected within a certain time on the frequency.</p>
 <p dir="ltr">So what is the ideal waiting period for the hopping mode, and how do we implement a timer.</p>
-<p dir="ltr">re 1. The timer period shoud be long enough to determine that there is no activity on that frequency. So we should only switch when state is S_SCAN. <br />
+<p dir="ltr">re 1. The timer period should be long enough to determine that there is no activity on that frequency. So we should only switch when state is S_SCAN. <br />
   re 2. It is possible to connect an external clock/timer and connect it's pin(s) to one of the free GPIO pin's of the ESP8266, or it's possible to use one of the internal timers for this purpose. The first one is an option but will make the code a lot more complex and add extra hardware to the gateway. The second option internal timer is an option but only if its use does not interfere with the internal administration functions of the ESP8266 (such as Wifi handling etc.). </p>
 <p dir="ltr">So taking both options into account it may be an option to just use the microsecond timer for his purpose yet do not use any interrupt processing, but instead use the loop() function itself. Timeout is about 2500 uSec before switching. </p>
 <h3 dir="ltr">Potential HOP Advantages</h3>
 <p dir="ltr">If the HOP mode works without problems, it makes our gateway more or less a &quot;real&quot; gateway that supports 3 frequencies and all Spreading Factors.</p>
-<h3 dir="ltr">&nbsp;</h3>
-<h1 dir="ltr">Gateway Hardware</h1>
-<p dir="ltr">It is possible to build a single channel gateway in several ways</p>
+<h2 dir="ltr">&nbsp;</h2>
+<h1 dir="ltr">Mode B Operation</h1>
+<p dir="ltr">As mentioned before, mode B (beacon) operation is not yet supported. The <a href="../../LoraAndTtnInfo/UserGuide/LoRa documents/lorawantm_specification_-v1.1.pdf">LoRa Specification 1.1</a> details the beaconing process used for Class B support. Please note that gateway support for Class B is optional. All Gateways joining in the support of Class B should synchronize their beacons (although the individual nodes should be able to deal with all beacon&nbsp;messages).</p>
+<p dir="ltr">Nodes should select the closest and strongest gateway available.</p>
+<h1 dir="ltr">Mode C Operation</h1>
+<p dir="ltr">As mentioned before, mode C (continuous) operation is not yet supported.</p>
+<p dir="ltr">&nbsp;</p>
+<h1 dir="ltr">References</h1>
 <ul>
-  <li>Build&nbsp;something using the basic components such a the SX1276/RFM95, an ESP8266 chip and some other components</li>
-  <li>Use a Wemos D1 mini board and a second board where the RFM95 chip is soldered on</li>
-  <li>Use a TTGO or Heltec ESP32 board which contains all the components on the board.</li>
-</ul>
-<p>You'll understand that the first option takes som more effort to get it working and the last option potentially contains only some software installation and configuration.</p>
-<p>However, please be warned that as of this moment there is no need to use more expensive options than just a Wemos D1 mini, a RFM95 and an adapter board. Anything less costs you more work and does not save you money, and everything more is a luxury but does not deliver performance that you need. In principle the ESP8266 is perfectly capable of running the single channel software and with a low-cost adapter board and some soldering it is possible to build yourself a single channel gateway for less than $ 10.00 .</p>
-<p>&nbsp;</p>
-<p dir="ltr"><a href="../HardwareHuide/images/ComResult-1.jpg"><img src="../HardwareHuide/images/ComResult-1.jpg" width="600" height="450" border="1" /></a></p>
-<h3 dir="ltr">&nbsp;</h3>
-<h3>Gateway Components</h3>
-<p>The gateway sketch consists of multiple components&nbsp;that are found in several files. These are:</p>
-<ul>
-  <li>ESP-sc-gway.ino; This is the main sketch of the gateway. It does contain the setup() and loop(0 functions and does the most important functions (that are found in other files)</li>
-  <li>configGway.h; This file contains most if not all configurable parameters and settings of the program. It allows the user to include functionality in the code at compile time (or omit functions if not necessary) and it allows user to set parameters that control the behavior of the gateway at runtime</li>
-  <li>configNode.h; This file contains SSID, Passwords, Node info etc. that is user and environment specific information.&nbsp;This file should normally be adapted to your Wifi, user and password setting once.</li>
-  <li>_loraModem.ino; This file contains all the relevant radio functions of the gateway. This includes the interrupt handlers for sx1276 DIO pins and transmit and receive functions</li>
-  <li>loraModem.h; Contains all the definitions of interrupts, state, registers etc. that are used by the _loraModem.ino functions</li>
-  <li>_sensor.ino; Contains code to let the gateway behave as a sensor node as well. This function is particularly useful to receive real-time operating parameters from the gateway</li>
-  <li>_loraFiles.ino; Implements LoRa file operation functions</li>
-  <li>loraFile.h</li>
-  <li>_oLED.ino</li>
-  <li>oLed.h</li>
-  <li>_wwwServer.ino; This important file contains the web server component of the gateway. All webserver layout and control options are found in this file</li>
-  <li>_otaServer.ino; This file deals with all OTA (over the air) update functions</li>
-</ul>
-<h2>Documentation</h2>
-<p>There are (at least) two seperate documents that apply to this gateway:</p>
-<ul>
-  <li>The RFM95 datasheet made by HopeRF</li>
   <li><a href="https://www.google.fr/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;ved=0ahUKEwjOvbn4wNnUAhWGcRQKHTkuAjUQFggmMAA&amp;url=http%3A//www.semtech.com/images/datasheet/sx1276_77_78_79.pdf&amp;usg=AFQjCNFxkfmyuNwFCcaP_-dWGKdmskNKBQ&amp;cad=rja">The SX1276 datasheet made by Semtech</a> (this one is better than the HopeRF)</li>
   <li><a href="../../../UserGuide/LoRa documents/LoRa gateway to network server interface definition.pdf">Semtech ANNWS.01.2.1.W.SYS, 
   Gateway to Server Interface</a></li>
 </ul>
-<p>Datasheets for RFM95 and SX1276 should be the same. However, the HopeRF document dontains confusing information especially in the registers description are where RSSI for example (regaister 0x1B ?) is concerned.</p>
+<p>Datasheets for RFM95 and SX1276 should be the same. However, the HopeRF document contains confusing information especially in the registers description are where RSSI for example (register 0x1B ?) is concerned.</p>
 <p>&nbsp;</p>
-<h2 dir="ltr">RSSI</h2>
-<p dir="ltr">RSSI stands for Received Signal Strength Indicator is is measured on the receiver to determine the signal quality of the sender. Normal RSSI can be measured any time at the receiver side by reading regaister 0x1B. The SX1276/RFM95 transceiver contains a special register 0x1A that contains theaverage packet RSSI information.</p>
-<p dir="ltr">The RSSI function is used by CAD to determine if we have received a message. This is not as the RFM95 is designed, after all new messages might be received that are below the noise floor and this using RSSI is not the most reliable process.</p>
-<p dir="ltr">The correct RSSI sample can be computed (according to the RFM95 manual para 4.2.5.3) by adding TS_RE + TS_RSSI</p>
+<h2 dir="ltr">&nbsp;</h2>
 </body>
 </html>
