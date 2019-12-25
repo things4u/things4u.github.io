@@ -13,7 +13,7 @@
 <p dir="ltr">The interface is described in more detail in <a href="UserManual 6b.html">a separate section of the user manual</a>. The user is advised to learn about the available functions there.</p>
 <p dir="ltr">The gateway, when connected with a  local OLED display, will show the WiFi address it is connected too (in this case 138) and enable following of its performance over internet.</p>
 <h3 dir="ltr">CAD</h3>
-<p dir="ltr">This gateway will listen on one channel by default, and on that channel listen to all available Spreading Factors. For this we make used of the CAD (Channel Activity Detection) functions that are described below. The CAD mode can be configured by the user, but  the user must select the CAD mode&nbsp;manually either in the used interface or set the CAD mode in the confiigGway.h file.</p>
+<p dir="ltr">This gateway will listen on one channel by default, and on that channel listen to all available Spreading Factors. For this we make used of the CAD (Channel Activity Detection) functions that are described below. The CAD mode can be configured by the user, but  the user must select the CAD mode&nbsp;manually either in the used interface or set the CAD mode in the configGway.h file.</p>
 <p dir="ltr">CAD is the standard receive mode and it does perform (almost) equal to the mode where we listen to one channel and one spreading factor only. So it is advised that the CAD function is enabled in the configuration file.</p>
 <h3 dir="ltr">HOP</h3>
 <p dir="ltr">Also, we have tried to integrate frequency hopping to this version of the gateway. However, this function is experimental at best and not ready for production. A lot of incoming messages are not noticed by the software. The problem is that the chip does have supporting interrupts and registers to spot activity on spreading factors for a given frequency but it does not have any tools to detect incoming messages on other frequencies (read below for detailed analysis).</p>
@@ -39,7 +39,7 @@
 <p>The gateway sketch consists of multiple components&nbsp;that are found in several files. These are:</p>
 <ul>
   <li>ESP-sc-gway-4.ino; This is the main sketch of the gateway. It does contain the setup() and loop(0 functions and does the most important functions (that are found in other files)</li>
-  <li>confiigGway.h; This file contains most if not all configurable parameters and settings of the program. It allows the user to include functionality in the code at compile time (or omit functions if not necessary) and it allows user to set parameters that control the behavior of the gateway at runtime.</li>
+  <li>configGway.h; This file contains most if not all configurable parameters and settings of the program. It allows the user to include functionality in the code at compile time (or omit functions if not necessary) and it allows user to set parameters that control the behavior of the gateway at runtime.</li>
   <li>_loraModem.ino; This file contains all the relevant radio functions of the gateway. This includes the interrupt handlers for sx1276 DIO pins and transmit and receive functions</li>
   <li>loraModem.h; Contains all the definitions of interrupts, state, registers etc. that are used by the _loraModem.ino functions</li>
   <li>_sensor.ino; Contains code to let the gateway behave as a sensor node as well. This function is particularly useful to receive real-time operating parameters from the gateway</li>
@@ -67,7 +67,7 @@
 <h2>1. STD Mode</h2>
 <p>In single channel gateway standard mode, the user can select the frequency and the&nbsp;spreading factor to use for reception of messages. the Gateway will behave like a real single channel gateway; just one frequency and one spreading factor can be set.</p>
 <p>the advantage of the STD mode is, that as we know on what frequency and spreading factor we listen for new messages to arrive, the whole configuration is tuned towards this use. For example: We can receive message with a very low RSSI (-120dB or lower), something that is not possible with CAD mode of operation. Also, this mode may be a little more reliable&nbsp;although we have no indication that the system will miss more messages when in CAD mode.</p>
-<p>The frequency and the spreading factor can be set as a default in the ESP-gway.h file or can be set (and changed) using the webserver interface.</p>
+<p>The frequency and the spreading factor can be set as a default in the configGway.h file or can be set (and changed) using the webserver interface.</p>
 <h2 dir="ltr">2. Channel Activity Detection (CAD)</h2>
 <p dir="ltr">Channel Activity Detection (CAD) is a function of the LoRa radio. It means that the radio detects whether another LoRa device in range is transmitting and when the receiver senses that, the device will not transmit on that channel or spreading factor to avoid a collision. During a short time before the actual transmission of data (payload) begins, each transmitter send out preamble signals indicating to other devices that a device is ready to transmit data.</p>
 <p dir="ltr">Although CAD is designed to be used by nodes to detect other activity on a given frequency/spreading factor combination, it can be used by our single channel gateway as well. If the gateway can use CAD functionality to detect incoming messages on a given band, we can quickly set the receiver to that frequency and spreading factor and receive the incoming message.</p>
@@ -128,26 +128,26 @@
 <h1>  Configuration Parameter Setting</h1>
 <p>The operation mode of the gateway and most of its settings can be controlled by the user. There are two ways to set operating parameters:</p>
 <ol>
-  <li>Setting and defining parameters in the configGay.h file</li>
+  <li>Setting and defining parameters in the configGway.h file</li>
   <li>Setting parameters using the Web interface</li>
 </ol>
-<p>Both methods live together for a great deal. However, sometimes values set in the configGway.h file make that the same settings will disappear on the web interface as well. This is especially true when setting the A_SERVER paraneter in the .h file is set to 0. In this case, the webserver is not defined and its code is not included in the executable.</p>
-<h2>Setting the directives in confiigGway.h</h2>
-<p>Most parameters that can be set are compile-time directives so that code is compiled or not based on the value of the directive in the ESP-sc-gateway.h file. This way, the code base can be kept small when functions are not used. Example: Support for Wifi Manager can be turned ON or OFF based on the setting of WIFIMANAGER in the confiigGway.h file.</p>
+<p>Both methods live together for a great deal. However, sometimes values set in the configGway.h file make that the same settings will disappear on the web interface as well. This is especially true when setting the A_SERVER parameter in the .h file is set to 0. In this case, the webserver is not defined and its code is not included in the executable.</p>
+<h2>Setting the directives in configGway.h</h2>
+<p>Most parameters that can be set are compile-time directives so that code is compiled or not based on the value of the directive in the configGway.h file. This way, the code base can be kept small when functions are not used. Example: Support for Wifi Manager can be turned ON or OFF based on the setting of WIFIMANAGER in the configGway.h file.</p>
 <p><code>#define WIFIMANAGER 0</code></p>
 <p>By changing the definition to &quot;1&quot; the complete functionality to use Wifi Manager is included in the code and compiled. By using &quot;0&quot; all functions relating to this functionality is excluded from the gateway code.</p>
 <p>Several parameters or compiler directives can be set in the .h file such as:</p>
 <ul>
-  <li><code>DEBUG 1; Initial value of the debug variable. </code></li>
+  <li><code>_DUSB 1; Initial value of the USB debug variable. </code></li>
   <li><code>_STRICT_CH 0; Leave this parameter on 0 unless you like to correct the frequency/sf set by the backend.</code></li>
   <li><code>_CAD</code></li>
-  <li><code>STATISTICS 1; This parameter detemines whether or not the gateway will report statistics on its use. This like total messages received etc. will or will not be reported. If you set this parameter to 2, it will gather statistics on SF of messages received and report through the web interface.</code></li>
-  <li><code>MAX_STAT&nbsp;20; Sets the number of lines in the web interface and records that are kept in memory of the last messages sucessfully received.</code></li>
+  <li><code>STATISTICS 1; This parameter determines whether or not the gateway will report statistics on its use. This like total messages received etc. will or will not be reported. If you set this parameter to 2, it will gather statistics on SF of messages received and report through the web interface.</code></li>
+  <li><code>MAX_STAT&nbsp;20; Sets the number of lines in the web interface and records that are kept in memory of the last messages successfully received.</code></li>
 </ul>
 <ul>
   <li><code>WIFIMANAGER 0; Set to OFF by default. If you like to use WiFi manager, please set it to 1</code></li>
   <li><code>AP_NAME &quot;&lt;Name your gateway accesspoint&gt;&quot;;</code></li>
-  <li><code>AP_PASSWD &quot;&lt;Your AccessPoint password&gt;&quot;;</code></li>
+  <li><code>AP_PASSWD &quot;&lt;Your Access Point password&gt;&quot;;</code></li>
   <li><code>GATEWAYMGT 1;</code></li>
   <li><code>CFG_sx1276_radio; Let this one be defined in this version. The code will support sx1272 with probably minor modifications as well, but this has not been tested. </code></li>
   <li><code>CONFIGFILE &quot;/gwayConfig.txt&quot;</code>; This parameter tells us the name of the SPIFFS&nbsp;file used to store the configuration data.</li>
@@ -189,11 +189,11 @@
   <li><code>_BAUDRATE 115200&nbsp;&nbsp;&nbsp;&nbsp; // Do not touch</code></li>
 </ul>
 <p>Most parameters starting with a &quot;_&quot; are parameters only. Please only change these if you know what you are doing. If the parameter contains a &quot;&lt;xxx&gt;&quot; it means that you have to put your own values there. After all, it does not make sense to put my email address or&nbsp;GPS data in your configuration.</p>
-<p>The remaning part of the #define settings should be to include or not include certain parts of the code based on your own preference.</p>
+<p>The remanding part of the #define settings should be to include or not include certain parts of the code based on your own preference.</p>
 <h2>Setting parameters through the webserver interface</h2>
-<p>Some other parameters can best be set using the webserver intrface. Exmples for this are the mode selection of CAD and HOP. The following settings can be changed using the webserver:</p>
+<p>Some other parameters can best be set using the webserver interface. Examples for this are the mode selection of CAD and HOP. The following settings can be changed using the webserver:</p>
 <ul>
-  <li>Debug settings. The webserver will enable selection  of 3 values for debug. If Debug is det to 2, 2 more debug setting will appear. These are only used for testing the interrupt machine and will probably disappear in a later stage&nbsp;(to minimize memory use).</li>
+  <li>Debug settings. The webserver will enable selection  of 3 values for debug. If Debug is set to 2, 2 more debug setting will appear. These are only used for testing the interrupt machine and will probably disappear in a later stage&nbsp;(to minimize memory use).</li>
   <li>CAD On/Off setting</li>
   <li>HOP On/Off setting</li>
   <li>Spreading Factor setting, when CAD is Off</li>

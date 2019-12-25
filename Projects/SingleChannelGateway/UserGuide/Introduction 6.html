@@ -94,9 +94,22 @@
 <p dir="ltr">If the HOP mode works without problems, it makes our gateway more or less a &quot;real&quot; gateway that supports 3 frequencies and all Spreading Factors.</p>
 <h2 dir="ltr">&nbsp;</h2>
 <h1 dir="ltr">Mode B Operation</h1>
-<p dir="ltr">As mentioned before, mode B (beacon) operation is not yet supported. The <a href="../../LoraAndTtnInfo/UserGuide/LoRa documents/lorawantm_specification_-v1.1.pdf">LoRa Specification 1.1</a> details the beaconing process used for Class B support. Please note that gateway support for Class B is optional. All Gateways joining in the support of Class B should synchronize their beacons (although the individual nodes should be able to deal with all beacon&nbsp;messages).</p>
-<p dir="ltr">Nodes should select the closest and strongest gateway available.</p>
+<p dir="ltr">(*** DRAFT ONLY ***)</p>
+<p dir="ltr">As mentioned before, mode B (beacon) operation is not yet supported. The <a href="../../LoraAndTtnInfo/UserGuide/LoRa documents/lorawantm_specification_-v1.1.pdf">LoRa Specification 1.1</a> details the beaconing process used for Class B support. Chapter 9 deals with the principles of Class B support.  Please note that gateway support for Class B is optional. All Gateways joining in the support of Class B should synchronize their beacons (although the individual nodes should be able to deal with all beacon&nbsp;messages). Nodes should select the closest and strongest gateway available.</p>
+<p dir="ltr">The 1.1 spec is divided in two sections: (1) One for the network/gateway and (2) a section for the end-nodes. We stick to the gateway in this document.</p>
+<p dir="ltr">We deal with individual end-nodes only (NO multicasts for the moment). It means that the end-node should communicate to the gateway the following information. The 1.1 specification mentions this is out-of-band communication (not standardized).:</p>
+<ul>
+  <li>The period that the pin-slot lasts for the device</li>
+  <li>The Ping-slot data rate</li>
+  <li>The Ping-slot channel</li>
+</ul>
+<p dir="ltr">When the gateway communicates a beacon to the end-nodes in contains information abount the timing. It will transmit information to the end-nodes during these &quot;pings&quot; and the devices should open a receive windows during this time to receive&nbsp;the information of the gateway/network,</p>
+<p dir="ltr">This will enable the end-nodes to receive infoamtion from the network even when it does not send information to the gateway itself. RTemember that receiving information is far less power-consuming that sending it to the network. So although receiving every two minutes will cost more power than receiving only after sending to the gateway (which may take hours) it will enable the end node to react on things&nbsp;(like expolicetly changing spreading factor for example).</p>
+<p dir="ltr">The gateway chosen by the network should communicate with the end-node on the opened ping slot. However, all gateway should be informed about thit communication and all should send out beacon. This will enable end-nodes to move around. It is not yet clear what the network will do als whether all networks will accept the Class B operation.</p>
+<p dir="ltr">As tousands of devices can connect to the gateway I do not assume that gateways will send out beacons for every connect end-device. So instead a multicast will probably be used with well-known parameters for frequency and speed&nbsp;and of course the ping-slot.</p>
+<h4 dir="ltr"><em>In order to not disturb the existing gateways in my surroundings, I will try on EU433 frequencies first.</em></h4>
 <h1 dir="ltr">Mode C Operation</h1>
+<p dir="ltr">(*** NOT SUPPORTED ***)</p>
 <p dir="ltr">As mentioned before, mode C (continuous) operation is not yet supported.</p>
 <p dir="ltr">&nbsp;</p>
 <h1 dir="ltr">References</h1>

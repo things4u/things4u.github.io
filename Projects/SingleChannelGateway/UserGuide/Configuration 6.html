@@ -8,10 +8,10 @@
 <body>
 <h1 dir="ltr" id="docs-internal-guid-8ff340d2-c1c9-78f0-295a-5c5cba894701">1-Channel Gateway Configuration</h1>
 <h2 dir="ltr">Introduction</h2>
-<p dir="ltr">This is the 6th generation of software implementing LoRa gateway function on a platform consisting of an ESP8266 mcu and a SX1276 radio. Unlike the previous versions of the gateway, this version will listen for all available Spreading Factors on a single frequency. Also for well know nodes it will show the name instead of its DevAddr and if condfigured it will also decode messages coming from these well-known sensor&nbsp;nodes.</p>
+<p dir="ltr">This is the 6th generation of software implementing LoRa gateway function on a platform consisting of an ESP8266 mcu and a SX1276 radio. Unlike the previous versions of the gateway, this version will listen for all available Spreading Factors on a single frequency. Also for well know nodes it will show the name instead of its DevAddr and if configured it will also decode messages coming from these well-known sensor&nbsp;nodes.</p>
 <p dir="ltr"><a href="../HardwareHuide/images/ComResult-1.jpg"><img src="../HardwareHuide/images/ComResult-1.jpg" alt="Comresult" width="600" height="450" hspace="10" vspace="10" /></a></p>
-<h2 dir="ltr">QuickStart</h2>
-<p dir="ltr">This section describes the first important decisions you have to take with your Gateway and how to configure the gateway to get you going. By no means this chapter is meant to be exchaustive, detailed or complete, it merely gives a hint how to start and go from here. The reader is advised to read the rest of this chapter and finish the configuration after reading it. </p>
+<h2 dir="ltr">Quick Start</h2>
+<p dir="ltr">This section describes the first important decisions you have to take with your Gateway and how to configure the gateway to get you going. By no means this chapter is meant to be exhaustive, detailed or complete, it merely gives a hint how to start and go from here. The reader is advised to read the rest of this chapter and finish the configuration after reading it. </p>
 <p dir="ltr">So&nbsp;what do you need:</p>
 <p dir="ltr">- ESP6288 including Comresult board or Halard board&nbsp;and a SX1276/RFP95 LoRa chip<br />
  -&nbsp; OR a Heltec board with ESP32 and LoRa schip loaded<br />
@@ -26,33 +26,33 @@
       <li>If so, set the AP_NAME and AP_PASSWD to the SSID and password of your router in configNode.h</li>
     </ol>
   </li>
-  <li>Does youtr board have an OLED display? If so, set the OLED parameter in configGway.h</li>
+  <li>Does your board have an OLED display? If so, set the OLED parameter in configGway.h</li>
   <li>Are you interested in a few well-known LoRa nodes and are they yours? Define a nice name for these nodes in the file &quot;configNode.h&quot;.</li>
-  <li>Do you need to know the message that your LoRa nodes send to the gateway (and possibly other gateways?). If so, set _LOCALSERVER to 1 and set the parameters in &quot;confiigNode.h&quot; and fill in the NwkSKey and AppSKey for these nodes, and the system will decode these messages</li>
+  <li>Do you need to know the message that your LoRa nodes send to the gateway (and possibly other gateways?). If so, set _LOCALSERVER to 1 and set the parameters in &quot;configNode.h&quot; and fill in the NwkSKey and AppSKey for these nodes, and the system will decode these messages</li>
   <li>If necessary modify the _TTNSERVER if you connect to TTN, and/or #define&nbsp;the _THINGSERVER if you have another provider</li>
 </ol>
-<p>All other parameters in the configGway.h file can be left to their default values initially. Please connect to the USB port and look at the console. It will show at what IP address the sensor node connects. You can then open that IP address in your browser and manage the gateway through the webbrowser.</p>
-<p>In order to avoid having to use both options, we try to make most settings availble on both interfaces. But in practise the .h file is used to make configuration changes that are more permanent and the user interface is used to set everyday parameters and things that change more often.</p>
-<h2 dir="ltr">Setting the configuration</h2>
+<p>All other parameters in the configGway.h file can be left to their default values initially. Please connect to the USB port and look at the console. It will show at what IP address the sensor node connects. You can then open that IP address in your browser and manage the gateway through the web browser.</p>
+<p>In order to avoid having to use both options, we try to make most settings available on both interfaces. But in practice the .h file is used to make configuration changes that are more permanent and the user interface is used to set everyday parameters and things that change more often.</p>
+<h2 dir="ltr">Making the Configuration Settings</h2>
 <p dir="ltr">There are two major ways to set the configuration of the Gateway:</p>
 <ol>
   <li>Set configuration parameters in configGway.h file</li>
   <li>Use the GUI&nbsp;to set parameters</li>
 </ol>
 <h2>1. Editing the configGway.h file</h2>
-<p>Most parameters that can be set are compile-time directives so that code is compiled or not based on the value of the directive in the ESP-sc-gateway.h file. This way, the code base can be kept small when functions are not used. Example: Support for Wifi Manager can be turned ON or OFF based on the setting of WIFIMANAGER in the configGway.h file.</p>
+<p>Most parameters that can be set are compile-time directives so that code is compiled or not based on the value of the directive in the configGway.h file. This way, the code base can be kept small when functions are not used. Example: Support for Wifi Manager can be turned ON or OFF based on the setting of WIFIMANAGER in the configGway.h file.</p>
 <p><code>#define WIFIMANAGER 0</code></p>
 <p>By changing the definition to &quot;1&quot; the complete functionality to use Wifi Manager is included in the code and compiled. By using &quot;0&quot; all functions relating to this functionality is excluded from the gateway code.</p>
 <p>Several parameters or #define compiler directives can be set in the configGway.h file such as:</p>
-<h3>DEBUG</h3>
-<p> The value of DEBUG determines whether some parts of code get compiled or not.  Also this is the initial value of the debug parameter. As the value can be changed using the admin webserver, leave it to the value set to 1, but for fFor operational use, better set initial DEBUG vaulue 0.<br />
-  Note: You can still set a higher value for the debug variable in the Webserver GUI&nbsp;(As long as DUSB is set to 1).</p>
-<h3>DUSB</h3>
-<p>DUSB sets the debugging/Output for the SerialUSB port. If DUSB is set to 0, minimal (almost 0) output should be sent to the Serial Port. I like to switch off ANY communictation to the USB port if DUSB is set to 0 (ans will probably).<br />
-  If DUSB is set to 1, it will allow any USB communciation which is permitted by the debug level set in the Webserver GUI.
+<h3>_DUSB</h3>
+<p>DUSB sets the debugging/Output for the Serial USB port. If _DUSB is set to 0, minimal (almost 0) output should be sent to the Serial Port. I like to switch off ANY communication to the USB port if _DUSB is set to 0 (and will probably).<br />
+  If _DUSB is set to 1, it will allow any USB communciation which is permitted by the debug level set in the Webserver GUI.
 </p>
+<h3>_MONITOR</h3>
+<p>This compile switch defines whather the print-outs need to be handled by the gateway and prints need to be made visible on the GUI (monitor). This setting when greater than 0 defines the number of lines in the monitor section of the GUI. In this monitor setting al the print-outs of the gatesway are collected and displayed.</p>
+<p>The _DUSB define makes the&nbsp;_MONITOR prints also output to the USB output.</p>
 <h3>SPIFF_FORMAT</h3>
-<p>If this variable is set,&nbsp;the SPIFFS firlesystem of the ESP chip is formatted before use. This way the user can force (!) the filesystem to be reset before operation and clean corrupt files of empty the memory (if it is full).</p>
+<p>If this variable is set,&nbsp;the SPIFFS filesystem of the ESP chip is formatted before use. This way the user can force (!) the filesystem to be reset before operation and clean corrupt files of empty the memory (if it is full).</p>
 <h3>_SPREADING</h3>
 <p>This parameter sets the initial value for the Spreading Factor (SF) which i used in STD mode of operation, If _CAD is enabled the value of _SPREADING is not of use anymore. Valid choiced are SF7 - SF12.</p>
 <h3>_CAD</h3>
@@ -164,19 +164,20 @@
 <h2>2. Using the GUI to set&nbsp;parameters</h2>
 <p>This part describes the GUI and how to set parameters. And of course my advise what parameters to set :-).</p>
 <p>First of all: Determine the IP address of your single channel gateway. It can be that you set a fixed address in your router, but it could also be tat the router hands out addresses based on its own preference. Should you not know what addres is assigned by the router, remember that the single channel gateway will output the IP address and other important settings over USB during boot-up. So looking at the output on USB is a simple way to get the IP address (and it may be the only way for you).</p>
-<p>When starting your GUI this is the first screen you will see.</p>
-<p><img src="images/Configuration_gui_1.PNG" width="763" height="945" hspace="10" vspace="10" border="1" /></p>
-<p>and the bottom half of the screen.</p>
-<p><img src="images/Configuration_gui_2.PNG" width="760" height="947" hspace="10" vspace="10" border="1" /></p>
-<p dir="ltr">So let's explain the GUI in more detail. The GUI has a few sections:</p>
+<h3>2.1 Basic Mode</h3>
+<p>When starting your GUI this is the first screen you will see is the following:</p>
+<p><img src="images/Configuration_gui_1a.PNG" width="839" height="452" /></p>
+<p><img src="images/Configuration_gui_1b.PNG" width="845" height="517" /></p>
+<p><img src="images/Configuration_gui_1c.PNG" width="842" height="475" /></p>
+<p>&nbsp;</p>
+<h3>Basic Mode Sections</h3>
+<p dir="ltr">The GUI has the following sections:</p>
 <ul>
-  <li>The title part which contains the time that the Gateways was started and ho long it is active.</li>
+  <li>The title part which contains the time that the Gateways was started and how long it is active.</li>
   <li>A few buttons with short-cut actions.</li>
-  <li>Counter section</li>
+  <li>Statictics Counter section</li>
   <li>Message History</li>
   <li>Gateway Settings. This section contains user changeable parts</li>
-  <li>Wifi Config</li>
-  <li>System Status</li>
 </ul>
 <h3 dir="ltr">Title Part</h3>
 <p dir="ltr">The title part contains a little information about the Gateway such as the time it was activated and how long the gateway is active at the moment. It also contains the version of the software.</p>
@@ -281,8 +282,24 @@
     <td>&nbsp;</td>
   </tr>
 </table>
-<p dir="ltr">&nbsp;</p>
-<h3 dir="ltr">WiFi Config</h3>
+<p dir="ltr"></p>
+<p>With the command buttons on top of the screen it is always possible to return to the basic screen.</p>
+<p>&nbsp;</p>
+<h2>2.2 The GUI Buttons</h2>
+<p>The buttons on the top section give more and special capabilities:</p>
+<ol>
+  <li>Documentation</li>
+  <li>Log Files</li>
+  <li>Expert Mode (With additional data on WiFi settings etcO)</li>
+  <li>Monitor data</li>
+  <li>Node Last Seen</li>
+</ol>
+<h3 dir="ltr">2.3.1 Documentation</h3>
+<p dir="ltr">The using this button, the user is referred to the User Guid documentation (this document).</p>
+<h3 dir="ltr">Log Files</h3>
+<p dir="ltr">When the Login Files option is selected, the log files are output by the browser.</p>
+<p dir="ltr">Expert Mode</p>
+<h4 dir="ltr">WiFi Config</h4>
 <p dir="ltr">This section shows several WiFi parameters that are set by the gateway.</p>
 <ul>
   <li>WiFi Host</li>
@@ -292,9 +309,8 @@
   <li>NTP Server</li>
   <li>LoRa Router and Port</li>
   <li>LoRa Router 2 and Port 2</li>
-  <li></li>
 </ul>
-<h3 dir="ltr">System Status</h3>
+<h4 dir="ltr">System Status</h4>
 <p dir="ltr">This section shows some system parameters. There is nothing to set here except when using an ESP8266 module, in this case the yser can set the system clock either to 80MHz or 160MHz.</p>
 <p dir="ltr">&nbsp;</p>
 <h2 dir="ltr">Using gWay Intenal Sensors</h2>

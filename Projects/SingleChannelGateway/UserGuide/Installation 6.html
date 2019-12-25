@@ -6,8 +6,8 @@
 </head>
 
 <body>
-<h1 dir="ltr" id="docs-internal-guid-8ff340d2-c1c9-78f0-295a-5c5cba894701">Installing the Gateway</h1>
-<p>This document describes how to install the hard- and software of the single channel gateway (version 6).</p>
+<h1 dir="ltr" id="docs-internal-guid-8ff340d2-c1c9-78f0-295a-5c5cba894701">Installing the 1ch Gateway</h1>
+<p>This document describes how to install the hard- and software of the single channel gateway (version 6). It is more a hardware story than software. For this reason it does not really below to the user maual but is included to see what simple hardware is needed for the gateway and whay certain choises have been made in the software.</p>
 <p>(c) Maarten Westenberg (mw12554@hotmail.com)</p>
 <p>&nbsp;</p>
 <table width="62%" border="1">
@@ -23,7 +23,7 @@
 <p>This document descibes version 6.0 (and newer)  of the ESP8266 LoRa Gateway. The&nbsp;LoRa gateway based on the ESP8266 mcu has evolved a lot over the last year. Although all versions that&nbsp;I built are/were built using the Wemos D1-mini board that can be bought on Aliexpress amongst others, the system has changed. </p>
 <p>So other PCB's work as well, but if you like to build a small gateway and&nbsp;keep as many GPIO pins available as well, the Hallard board is unbeatable. An alternative solution is the board made by Comresult. This PCB is larger than that of Hallard but can be put inside a standard IP56 box. Should you work with a more traditional PCB, make sure that at least DIO0 and DIO1 are connected to a pin on the Wemos. Such a board is shown above.</p>
 <p>All pins used MUST(!) be correctly configured as described in the confiigGway.h file for the gateway to work.</p>
-<p>The project source code is found on&nbsp;the <a href="https://github.com/things4u/ESP-1ch-Gateway">Things4U github page</a>.</p>
+<p>The project source code is found on&nbsp;the <a href="https://github.com/things4u/ESP-1ch-Gateway-v6.0">Things4U github page</a>.</p>
 <p>Later versions of the gateway may also be based on the ESP32 chip with or without OLED display. The ESP32 mcu looks a lot like the ESP8266 chip but it has two cores and runs faster. The new boards also have LoRa hardware on-board which makes it simple to base a gateway bvoard on one of these modules.</p>
 <p>&nbsp;</p>
 <h1>Gateway Hardware</h1>
