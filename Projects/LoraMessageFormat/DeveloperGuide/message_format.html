@@ -7,9 +7,9 @@
 <body tracingsrc="../../../illustration Maarten-In.jpg" tracingopacity="10">
 
 <h1>LoRa Message Format</h1>
-<h5>Version 1.2<br>
-  Date: October 8, 2016</h5>
-<h5>(c) M. Westenberg (2016)<br>
+<h5>Version 1.3<br>
+  Date: December 28, 2019</h5>
+<h5>(c) M. Westenberg (2016-2019)<br>
 </h5>
 <h2>Introduction</h2>
 <p>This page describes the format of messages exchanged between the various LoRa sensors and their Gateway. In today's world we often use JSON messages to code complex structure into readible format and exchange these messages over the internet. However, LoRa has different requirements. As LoRa nodes are not supposed to talk more than 1% of the time, sending messages as short as possible makes sense.</p>
@@ -308,35 +308,35 @@ The start byte 0x87 consists of <br>
 <p>  This second example handles downlink messages. Just like uplink messages that are sent by the node containing sensor data, downlink messages contain commands and information from the LoRa server (/router).</p>
 <p>1. Ask for node status: 0x84 0xC0&nbsp; computed as follows: ( 0x80 | 0x02&lt;&lt; 1 )&nbsp; ; ( 0x03&lt;&lt;2 | 0x00 )</p>
 <p>2. Set the Spreading Factor to 7: 0x86 0xC4 0x07</p>
-<p>3. Set the timing between messages to 32 seconds: 0x88 0xC8 0x00 0x20</p>
+<p>3. Set the timing between messages to 32 seconds: 0x88 0xC8 0x00 0x20 </p>
 <p>&nbsp;</p>
 <h2>Opcodes</h2>
 <p>The following opcodes are defined both for the node (IDE&nbsp;library) and for the backend:</p>
-<p><code>#define O_TEMP		0x01				// Temperature is a one-byte code<br>
-  #define O_HUMI		0x02				// Humidity is a one-byte code<br>
-  #define O_AIRP		0x03				// Air pressure is a one-byte code<br>
-  #define O_GPS		0x04				// Short version: ONLY 3 bytes LAT and 3 bytes LONG<br>
-  #define O_GPSL		0x05				// Long GPS<br>
-  #define O_PIR		0x06				// Movement, 1 bit (=1 byte)<br>
-  #define O_AQ		0x07				// Airquality<br>
-  #define O_RTC		0x08				// Real Time Clock<br>
-  #define O_COMPASS	0x09				// Compass<br>
-  #define O_MB		0x0A				// Multi Sensors 433<br>
-  #define O_MOIST 	0x0B				// Moisture	is one-byte<br>
-  #define O_LUMI  	0x0C				// Luminescense u16<br>
-  #define O_DIST		0x0D				// Distance is 2-byte<br>
-#define O_GAS		0x0E				// GAS</code></p>
-<p><code>/* 0x10 to 0x1F are free */</code></p>
-<p><code>#define O_BATT		0x20				// Internal Battery<br>
-  #define O_ADC0		0x21				// AD converter on pin 0<br>
-#define O_ADC1		0x22</code></p>
-<p><code>// Reserved for LoRa messages (especially downstream)<br>
-  #define O_STAT		0x30				// Ask for status message from node<br>
-  #define O_SF		0x31				// Spreading factor change OFF=0, values 7-12<br>
-  #define O_TIM		0x32				// Timing of the wait cyclus (20 to 7200 seconds)<br>
-  #define O_1CH		0x33				// Single channel ON=1, OFF==0<br>
-  #define O_LOC		0x34				// Ask for the location. Responds with GPS location (if available)</code><br>
-</p>
+<pre><code>	#define O_TEMP		0x01&nbsp;	// Temperature is a one-byte code
+   #define O_HUMI		0x02&nbsp;	// Humidity is a one-byte code
+   #define O_AIRP		0x03&nbsp;	// Air pressure is a one-byte code
+   #define O_GPS		0x04&nbsp;&nbsp;	// Short version: ONLY 3 bytes LAT and 3 bytes LONG
+   #define O_GPSL		0x05&nbsp;	// Long GPS
+   #define O_PIR		0x06&nbsp;&nbsp;	// Movement, 1 bit (=1 byte)
+   #define O_AQ		0x07&nbsp;&nbsp;&nbsp;	// Airquality
+   #define O_RTC		0x08&nbsp;&nbsp;	// Real Time Clock
+   #define O_COMPASS	0x09	// Compass
+   #define O_MB		0x0A	// Multi Sensors 433
+   #define O_MOIST 	0x0B	// Moisture	is one-byte
+   #define O_LUMI  	0x0C&nbsp;	// Luminescense u16
+   #define O_DIST		0x0D&nbsp;	// Distance is 2-byte
+	#define O_GAS		0x0E&nbsp;&nbsp;	// GAS</code></pre>
+<pre><code>/* 0x10 to 0x1F are free */</code></pre>
+<pre><code>	#define O_BATT		0x20	// Internal Battery
+   #define O_ADC0		0x21	// AD converter on pin 0
+ 	#define O_ADC1		0x22</code></pre>
+<pre><code>// Reserved for LoRa messages (especially downstream)
+   #define O_STAT		0x30	// Ask for status message from node
+   #define O_SF		0x31	// Spreading factor change OFF=0, values 7-12
+   #define O_TIM		0x32	// Timing of the wait cyclus (20 to 7200 seconds)
+   #define O_1CH		0x33	// Single channel ON=1, OFF==0
+   #define O_LOC		0x34	// Ask for the location. Responds with GPS location (if available)</code>
+</pre>
 <p>&nbsp;</p>
 <h2>Encoding/Decoding Library (C++)</h2>
 <p>For encoding sensor values in the LoRa payload, a simple set of library functions is developed that make adding values to the payload very easy. The libary LoRaCode contains 2 files: LoRaCode.h and LoRaCode.cpp.</p>
