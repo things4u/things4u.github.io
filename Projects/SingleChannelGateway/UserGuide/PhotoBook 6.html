@@ -8,15 +8,15 @@
 <body>
 <h1 dir="ltr" id="docs-internal-guid-8ff340d2-c1c9-78f0-295a-5c5cba894701">1-Channel Gateway Photobook</h1>
 <p dir="ltr">This document contains photos of the several single channel gateways I built and used. I try to use a little text here as possible, if you want some, read the other documents&nbsp;of the Single Channel Gateway.</p>
-<h2 dir="ltr">Hallard</h2>
-<p dir="ltr">The Halard board looks a lot like the&nbsp;ComResult board, but because it multiplexes the IO pins it has more pins over for sensors or OLEDs etc.</p>
+<h2 dir="ltr">1.1 Hallard</h2>
+<p dir="ltr">The Hallard board looks a lot like the&nbsp;ComResult board, but because it multiplexes the IO pins it has more pins over for sensors or OLEDs etc.</p>
 <p dir="ltr">&nbsp;</p>
 <table width="34%" border="1">
   <tr>
     <td><img src="images/hallard_1.jpg" alt="aa" width="600" height="400" /></td>
   </tr>
   <tr>
-    <td>Hallard Board (empty)</td>
+    <td><div align="center">Hallard Board (empty)</div></td>
   </tr>
 </table>
 <p dir="ltr">&nbsp;</p>
@@ -28,9 +28,10 @@
     <td>1-ch Gateway made with Hallard PCB. The Hallard board is on top (including the RFM95) and the Wemos D1 mini is below and glued to the bottom of the case.</td>
   </tr>
 </table>
+<p dir="ltr">The Hallard + ESP8266 + RFM95 combination makes a perfect singtle channel gateway and is the cheapest way to make a LoRa Gateway over WiFi.</p>
 <p dir="ltr">&nbsp;</p>
-<p dir="ltr">&nbsp;</p>
-<h2 dir="ltr">Comresult</h2>
+<h2 dir="ltr">2. Comresult</h2>
+<p dir="ltr">The Comresult board is almost the same as the Halard bord and uses the same compile options. The only differece is the pin-out of the board which is slightly different. As a result the user should configure the configGway.h file for&nbsp;this board differenctly and choose pin-out option 2.</p>
 <table width="41%" border="1">
   <tr>
     <td><a href="../HardwareHuide/images/ComResult-1.jpg"><img src="../HardwareHuide/images/ComResult-1.jpg" alt="../../HardwareGuide/Single-Channel-Gway/images/ComResult-2.jpg" width="600" height="400" /></a></td>
@@ -39,30 +40,49 @@
     <td>1-ch Gateway made with the Comresult PCB</td>
   </tr>
 </table>
-<p>The Comresult board has two mounting holes that enable to screw the board inside a water-proof case. The ESP8266 chip used has only one disadvantage: Due to its sice it does not contain many IO pins and thereforeits use a a gateway is limited.</p>
+<p>The Comresult board has two mounting holes that enable to screw the board inside a water-proof case. The ESP8266 chip used has only one disadvantage: Due to its sice it does not contain many IO pins and therefore its use  is limited and it can only be used as a gateway (Maybe with a temperature sensor)..</p>
 <p dir="ltr">&nbsp;</p>
 <p dir="ltr">&nbsp;</p>
-<h2 dir="ltr">TTGO</h2>
-<p dir="ltr">The TTGO board is a Wemos ESP32 type board with SX1276 or SX1278 chip included on the boad. Board sold&nbsp;on aliexpress.com in general do have an&nbsp;OLED display included as well. The white ones look best and are made by Haltec. </p>
+<h2 dir="ltr">4. TTGO</h2>
+<p dir="ltr">The TTGO board is a Wemos ESP32 type board with SX1276 or SX1278 chip included on the boad. Board sold&nbsp;on aliexpress.com in general do have an&nbsp;OLED display included as well. The white ones look best and are made by Heltec. </p>
 <p dir="ltr">So except for the case this board contains everything you will need to make your own gateway. And having said that: It is now possible to buy this board with a matching case as well. It will cost you about $25-$30 but than everything is included (except the battery for the TTGO board).</p>
 <table width="57%" border="1">
   <tr>
     <td><img src="images/ttgo_1.jpg" width="600" height="400" /></td>
   </tr>
   <tr>
-    <td>&nbsp;</td>
+    <td><div align="center">TTGO Board</div></td>
   </tr>
 </table>
+<p>The TTGO board is the same as the Heltec board as far as the gateway is concerned and should be compilerd and configured the same. Only this TTGO board does not have the OLED interface connected but that does not matter for the software.</p>
 <p dir="ltr">&nbsp;</p>
 <p dir="ltr">&nbsp;</p>
-<h1 dir="ltr">TTGO T-Beam</h1>
-<p dir="ltr">This board is based on the ESP32 chip. It has an internal GPS sensor, can charge (and use) the battery and measure the battery power left.</p>
+<h1 dir="ltr">4. TTGO T-Beam (version 1)</h1>
+<p dir="ltr">For the T-Beam board please use pin-out 4 in the configGway.h file. This board is based on the ESP32 chip. It has an internal GPS sensor, can charge (and use) the battery and measure the battery power left. I get questions about this device and its pins, and therefore I like to spend a little more space on this device.</p>
+<p dir="ltr">The default behaviour of the device is the same as the Heltec&nbsp;device Pin-4. Only when using its internal sensors, please modify the configGway.h file.</p>
+<p dir="ltr"> <em>#define GATEWAYNODE 0<br />
+#define _CHECK_MIC 0</em></p>
+<p dir="ltr">Below you see the T_Beam in action. The first version was lacking a small wire which has been included by soldering it directly on the board.</p>
 <p dir="ltr"><a href="images/T-Beam-4.jpg"><img src="images/T-Beam-4.jpg" width="600" height="450" /></a></p>
 <p dir="ltr">I did mark the + and - side of the battery myself. This is because the 18650 battery can be very dangerous if shortened of maltreated. For those that do not believe me, it is the same battery as used in bicycles.</p>
 <p dir="ltr"><a href="images/T-Beam-5.jpg"><img src="images/T-Beam-5.jpg" width="600" height="450" /></a></p>
+<p dir="ltr">In order to further configure the sensors, please modify the following definitions in configNode.h which should match your device setup.:</p>
+<pre><em>#if GATEWAYNODE==1</em></pre>
+<pre><em>	#define _DEVADDR { 0xAA, 0xAA, 0xAA, 0xAA }
+   #define _APPSKEY { 0xBB, 0xBB, 0xBB, 0xBB, 0xBB, 0xBB, 0xBB, 0xBB, 0xBB, 0xBB, 0xBB, 0xBB, 0xBB, 0xBB, 0xBB, 0xBB }
+   #define _NWKSKEY { 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC }
+   #define _SENSOR_INTERVAL 300
+   // For ESP32 based T_BEAM/TTGO boards these two are normally included
+   // If included make value 1, else if not, make them 0
+   #define _GPS 1
+   #define _BATTERY 1</em></pre>
+<pre><em>#endif</em></pre>
+<p dir="ltr">Please note that the internal sensors use the APPSKEY and NWKSKey as well as a reserved DEVADDR to work OK. This is because the coded information needs to be sent to the TTN Gateway in a certain format. Of course it is possible to directly send the senor data to the WiFi server but that is not done here. Instead we send the sensor data the same way as would have been done with an external sensor (using LoRa).</p>
+<p dir="ltr">Also,&nbsp;by standard we use the <a href="../../LoraMessageFormat/DeveloperGuide/message_format.html">lCode mechanism</a> to encode the GPS and Battery data that we send to the MQTT server. Please have a look at the coding mechnism in the include files as well on these web pages in order to understand HOW the data is trainsmitted by the sensors and decoded by the MQTT servers.</p>
 <p dir="ltr">&nbsp;</p>
-<h1 dir="ltr">Haltec ESP32</h1>
-<p dir="ltr">&nbsp;</p>
+<h1 dir="ltr">&nbsp;</h1>
+<h1 dir="ltr">4. Heltec ESP32</h1>
+<p dir="ltr">The Heltec boad is completely assembled and ready for use. It contain an OLED display and battery interface so it is possible to carry your gateway with you all the time.</p>
 <p dir="ltr"><br />
 </p>
 </body>
