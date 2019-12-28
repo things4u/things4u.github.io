@@ -6,9 +6,9 @@
 </head>
 
 <body>
-<h1 dir="ltr" id="docs-internal-guid-8ff340d2-c1c9-78f0-295a-5c5cba894701">1-Channel Gateway Photobook</h1>
+<h1 dir="ltr" id="docs-internal-guid-8ff340d2-c1c9-78f0-295a-5c5cba894701">One-Channel Gateway Photobook</h1>
 <p dir="ltr">This document contains photos of the several single channel gateways I built and used. I try to use a little text here as possible, if you want some, read the other documents&nbsp;of the Single Channel Gateway.</p>
-<h2 dir="ltr">1.1 Hallard</h2>
+<h2 dir="ltr">1. Hallard</h2>
 <p dir="ltr">The Hallard board looks a lot like the&nbsp;ComResult board, but because it multiplexes the IO pins it has more pins over for sensors or OLEDs etc.</p>
 <p dir="ltr">&nbsp;</p>
 <table width="34%" border="1">
@@ -57,7 +57,7 @@
 <p>The TTGO board is the same as the Heltec board as far as the gateway is concerned and should be compilerd and configured the same. Only this TTGO board does not have the OLED interface connected but that does not matter for the software.</p>
 <p dir="ltr">&nbsp;</p>
 <p dir="ltr">&nbsp;</p>
-<h1 dir="ltr">4. TTGO T-Beam (version 1)</h1>
+<h2 dir="ltr">4. TTGO T-Beam (version 1)</h2>
 <p dir="ltr">For the T-Beam board please use pin-out 4 in the configGway.h file. This board is based on the ESP32 chip. It has an internal GPS sensor, can charge (and use) the battery and measure the battery power left. I get questions about this device and its pins, and therefore I like to spend a little more space on this device.</p>
 <p dir="ltr">The default behaviour of the device is the same as the Heltec&nbsp;device Pin-4. Only when using its internal sensors, please modify the configGway.h file.</p>
 <p dir="ltr"> <em>#define GATEWAYNODE 0<br />
@@ -77,12 +77,12 @@
    #define _GPS 1
    #define _BATTERY 1</em></pre>
 <pre><em>#endif</em></pre>
-<p dir="ltr">Please note that the internal sensors use the APPSKEY and NWKSKey as well as a reserved DEVADDR to work OK. This is because the coded information needs to be sent to the TTN Gateway in a certain format. Of course it is possible to directly send the senor data to the WiFi server but that is not done here. Instead we send the sensor data the same way as would have been done with an external sensor (using LoRa).</p>
-<p dir="ltr">Also,&nbsp;by standard we use the <a href="../../LoraMessageFormat/DeveloperGuide/message_format.html">lCode mechanism</a> to encode the GPS and Battery data that we send to the MQTT server. Please have a look at the coding mechnism in the include files as well on these web pages in order to understand HOW the data is trainsmitted by the sensors and decoded by the MQTT servers.</p>
+<p dir="ltr">Please note that the internal sensors use the APPSKEY and NWKSKey as well as a reserved DEVADDR to work OK. This is because the coded information needs to be sent to the TTN Gateway in a certain format. Of course it is also possible to directly send the senor data to the WiFi server but that is not done here (and is not part of the code). Instead we send the sensor data the same way as would have been done with an external LoRa sensor.</p>
+<p dir="ltr">Also,&nbsp;by standard we use the <a href="../../LoraMessageFormat/DeveloperGuide/message_format.html">lCode spec</a> to encode the GPS and Battery data that we send to the MQTT server. Please have a look at the coding mechnism in the include files as well on these web pages in order to understand HOW the data is trainsmitted by the sensors and decoded by the MQTT servers.&nbsp;</p>
 <p dir="ltr">&nbsp;</p>
 <h1 dir="ltr">&nbsp;</h1>
-<h1 dir="ltr">4. Heltec ESP32</h1>
-<p dir="ltr">The Heltec boad is completely assembled and ready for use. It contain an OLED display and battery interface so it is possible to carry your gateway with you all the time.</p>
+<h2 dir="ltr">4. Heltec ESP32</h2>
+<p dir="ltr">The Heltec boad is completely assembled and ready for use. It contains an OLED display and battery interface so it is possible to carry your gateway with you all the time.</p>
 <p dir="ltr"><br />
 </p>
 </body>
