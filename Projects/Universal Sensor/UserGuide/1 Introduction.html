@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>1-ch Gateway v4</title>
+</head>
+
+<body>
+<h1 dir="ltr" id="docs-internal-guid-8ff340d2-c1c9-78f0-295a-5c5cba894701">The Universal Sensor Sketch</h1>
+<h2 dir="ltr">Introduction</h2>
+<p dir="ltr">These documents contain the documentation for the Universal Sensor code. There are LoRa sensors in different types and sizes. Apart from the sensor itself they differ mostly in power usage and local storage capacity. There are sensor in the following types:</p>
+<ul>
+  <li> Based on Arduino Pro-Mini</li>
+  <li>Based on ESP8266 or ESP32 technology</li>
+  <li>Base on Cube-Cell (Heltec)</li>
+</ul>
+<p dir="ltr">All three categories are described in their sections below.&nbsp;But apart from these technologies, it is more important to chose the application of the Sensor first: Where do we want to use it for? After all, if we let end-used take that decision they want it all. However, for Lora sensor you need to determine the minimum requirements necessary to provide the required service and then build the sensor based on these requirements. Valid questions are:</p>
+<ul>
+  <li>How often should sensor values be transmitted to the end-user</li>
+  <li>How many sensor values should be transmitted at one time</li>
+  <li>What is the distance between sensor and gateway (and end-user)</li>
+  <li>Can the sensor be powered by mains voltage or do we need battery power?</li>
+</ul>
+<p>It is important to recognize that Lora is used best in applications where there is a significant distance between sensor and gateway, low bandwidth is required and low power is available. If we for example need&nbsp;sensors in and around our home (only) with lots of WiFi present and a lot of mains voltage available then blue-tooth might ne a better option. And if money available and long distances need to be covered then satellite communication might be more effective,&nbsp;</p>
+<p>So in short, Lora has its place for mid distance communication, low bandwidth and low power. Therefore, in the remainder of the document, we assume that Lora communication has been chosen for good reasons and we focus on the way to get the communication going as good and cheap as possible.</p>
+<h2 dir="ltr">Sensors based on Arduino</h2>
+<p dir="ltr">This is the oldest form of Lora Sensors that I used. For Arduino most sensors were already available, so the focus was on finding a Lora stack that worked in the available amount of memory and did not consume too much power.</p>
+<h2 dir="ltr">Sensors based on ESP</h2>
+<p dir="ltr">Sensors based on ESP8266 or ESP32 should have a big battery, have a long time between Lora messages or be connected to 230V (Europe) main voltage.</p>
+<h2 dir="ltr">Sensors based on Cube-Cell</h2>
+<p dir="ltr">In october 2019 Heltec started with the Cube-Cell sensor initiative. For this they dod not only offer an Arduino IDE interface with development board but also delivered a &quot;capsule&quot; device with internal antenna, interface for a battery and solar cells. It could work for several months on a battery and would have more memory available for sensor development.</p>
+<p dir="ltr">&nbsp;</p>
+<h2 dir="ltr">Not Used Technology</h2>
+<p dir="ltr">Of course there are more mcu's available to build Lora sensors with. Some even have far better specs than the Arduino. However, power usage of the Arduino is minimal and LoRa sensors do not need much coding and/or power so the Arduino was used for sensors for a long time.</p>
+<p dir="ltr">Please look on conrad or Aliexpress to find more mcu's supported.</p>
+<p dir="ltr">&nbsp;</p>
+<h2 dir="ltr">Sections</h2>
+<p dir="ltr">The following sections are provided in this document:</p>
+<ol>
+  <li><a href="1 Introduction.html">Introduction</a> (this document)</li>
+  <li><a href="2 Installation.html">Installation</a></li>
+  <li><a href="3 Configuration.html">Configuration</a></li>
+  <li><a href="4 UserManual.html">User Manual</a> (Compile options)</li>
+  <li>User Manual (Downlink options)</li>
+  <li><a href="6 PhotoBook.html">Photobook</a></li>
+</ol>
+<p dir="ltr">&nbsp;</p>
+</body>
+</html>
