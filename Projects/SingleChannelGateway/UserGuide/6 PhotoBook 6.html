@@ -6,8 +6,8 @@
 </head>
 
 <body>
-<h1 dir="ltr" id="docs-internal-guid-8ff340d2-c1c9-78f0-295a-5c5cba894701">One-Channel Gateway Photobook</h1>
-<p dir="ltr">This document contains photos of the several single channel gateways I built and used. I try to use a little text here as possible, if you want some, read the other documents&nbsp;of the Single Channel Gateway.</p>
+<h1 dir="ltr" id="docs-internal-guid-8ff340d2-c1c9-78f0-295a-5c5cba894701">1-channel Gateway Photobook</h1>
+<p dir="ltr">This document contains photos of the several single channel gateways that were built and used. I try to use a little text here as possible, if you want some, read the other documents&nbsp;of the Single Channel Gateway.</p>
 <h2 dir="ltr">1. Hallard</h2>
 <p dir="ltr">The Hallard board looks a lot like the&nbsp;ComResult board, but because it multiplexes the IO pins it has more pins over for sensors or OLEDs etc.</p>
 <p dir="ltr">&nbsp;</p>
@@ -31,13 +31,13 @@
 <p dir="ltr">The Hallard + ESP8266 + RFM95 combination makes a perfect singtle channel gateway and is the cheapest way to make a LoRa Gateway over WiFi.</p>
 <p dir="ltr">&nbsp;</p>
 <h2 dir="ltr">2. Comresult</h2>
-<p dir="ltr">The Comresult board is almost the same as the Halard bord and uses the same compile options. The only differece is the pin-out of the board which is slightly different. As a result the user should configure the configGway.h file for&nbsp;this board differenctly and choose pin-out option 2.</p>
+<p dir="ltr">The Comresult board is almost the same as the Halard bord and uses the same compile options. The only differece is the pin-out of the board which is slightly different. As a result the user should configure the configGway.h file for&nbsp;this board differently and choose pin-out option 2.</p>
 <table width="41%" border="1">
   <tr>
     <td><a href="../HardwareHuide/images/ComResult-1.jpg"><img src="../HardwareHuide/images/ComResult-1.jpg" alt="../../HardwareGuide/Single-Channel-Gway/images/ComResult-2.jpg" width="600" height="400" /></a></td>
   </tr>
   <tr>
-    <td>1-ch Gateway made with the Comresult PCB</td>
+    <td><div align="center">1-ch Gateway made with the Comresult PCB</div></td>
   </tr>
 </table>
 <p>The Comresult board has two mounting holes that enable to screw the board inside a water-proof case. The ESP8266 chip used has only one disadvantage: Due to its sice it does not contain many IO pins and therefore its use  is limited and it can only be used as a gateway (Maybe with a temperature sensor)..</p>
@@ -79,11 +79,11 @@
 <pre><em>#endif</em></pre>
 <p dir="ltr">Please note that the internal sensors use the APPSKEY and NWKSKey as well as a reserved DEVADDR to work OK. This is because the coded information needs to be sent to the TTN Gateway in a certain format. Of course it is also possible to directly send the senor data to the WiFi server but that is not done here (and is not part of the code). Instead we send the sensor data the same way as would have been done with an external LoRa sensor.</p>
 <p dir="ltr">Also,&nbsp;by standard we use the <a href="../../LoraMessageFormat/DeveloperGuide/message_format.html">lCode spec</a> to encode the GPS and Battery data that we send to the MQTT server. Please have a look at the coding mechnism in the include files as well on these web pages in order to understand HOW the data is trainsmitted by the sensors and decoded by the MQTT servers.&nbsp;</p>
-<p dir="ltr">&nbsp;</p>
+<p dir="ltr">If lCode is not your thing, you can set the output of the internal sensors to raw in the cofniguration files. In that case it will output the sensors as found.</p>
 <h1 dir="ltr">&nbsp;</h1>
 <h2 dir="ltr">4. Heltec ESP32</h2>
-<p dir="ltr">The Heltec boad is completely assembled and ready for use. It contains an OLED display and battery interface so it is possible to carry your gateway with you all the time.</p>
-<p dir="ltr"><br />
+<p dir="ltr">The Heltec board is completely assembled and ready for use. It contains an OLED display, antenna and battery interface so it is possible to carry your gateway with you all the time. The Heltecboard is more expensive than the combination of Halard, Wemos and Lora board but the advantage is that it contains all you need against an affordable price.</p>
+<p dir="ltr"><img src="images/heltec_1.jpg" width="600" height="450" /><br />
 </p>
 </body>
 </html>

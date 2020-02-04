@@ -6,11 +6,11 @@
 </head>
 
 <body>
-<h1 dir="ltr" id="docs-internal-guid-8ff340d2-c1c9-78f0-295a-5c5cba894701">Usermanual Gateway configGway.h</h1>
+<h1 dir="ltr" id="docs-internal-guid-8ff340d2-c1c9-78f0-295a-5c5cba894701">1-channel Gateway configGway.h</h1>
 <h2 dir="ltr">Introduction</h2>
-<p dir="ltr">This is the 6th generation of software implementing LoRa gateway function on a platform consisting of an ESP8266/ESP32 mcu and a sx1276 radio. Unlike older versions of the gateway, this version will listen to all available Spreading Factors on a single frequency. The Gateway uses a web function (over Intranet) that enables monitoring and configuration of the gateway. </p>
-<p dir="ltr"><img src="images/frontpage_1_v6.PNG" width="653" height="652" /></p>
-<p dir="ltr">The interface is described in more detail in <a href="UserManual 6b.html">a separate section of the user manual</a>. The user is advised to learn about the available functions there.</p>
+<p dir="ltr">This is the 6th generation of software implementing LoRa gateway function on a platform consisting of an ESP8266/ESP32 mcu and a sx1276 radio. Unlike older versions of the gateway, this version will listen to all available Spreading Factors (SF) on a single frequency. The Gateway uses a web function (over Intranet) that enables monitoring and configuration of the gateway. </p>
+<p dir="ltr"><a href="images/frontpage_1_v6.PNG"><img src="images/frontpage_1_v6.PNG" width="653" height="652" /></a></p>
+<p dir="ltr">The interface is described in more detail in <a href="5 UserManual 6b.html">a separate section of the user manual</a>. The user is advised to learn about the available functions there.</p>
 <p dir="ltr">The gateway, when connected with a  local OLED display, will show the WiFi address it is connected too (in this case 138) and enable following of its performance over internet.</p>
 <h3 dir="ltr">CAD</h3>
 <p dir="ltr">This gateway will listen on one channel by default, and on that channel listen to all available Spreading Factors. For this we make used of the CAD (Channel Activity Detection) functions that are described below. The CAD mode can be configured by the user, but  the user must select the CAD mode&nbsp;manually either in the used interface or set the CAD mode in the configGway.h file.</p>
@@ -202,6 +202,6 @@
   <li>Timing for Downlink</li>
   <li>etc etc</li>
 </ul>
-<p><a href="UserManual 6b.html">Please read the webserver page</a></p>
+<p><a href="5 UserManual 6b.html">Please read the webserver page</a></p>
 </body>
 </html>
