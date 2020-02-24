@@ -78,7 +78,7 @@
    #define _BATTERY 1</em></pre>
 <pre><em>#endif</em></pre>
 <p dir="ltr">Please note that the internal sensors use the APPSKEY and NWKSKey as well as a reserved DEVADDR to work OK. This is because the coded information needs to be sent to the TTN Gateway in a certain format. Of course it is also possible to directly send the senor data to the WiFi server but that is not done here (and is not part of the code). Instead we send the sensor data the same way as would have been done with an external LoRa sensor.</p>
-<p dir="ltr">Also,&nbsp;by standard we use the <a href="../../LoraMessageFormat/DeveloperGuide/message_format.html">lCode spec</a> to encode the GPS and Battery data that we send to the MQTT server. Please have a look at the coding mechnism in the include files as well on these web pages in order to understand HOW the data is trainsmitted by the sensors and decoded by the MQTT servers.&nbsp;</p>
+<p dir="ltr">Also,&nbsp;by standard we use the <a href="../DeveloperGuide/4 _Lora_Message_Format/message_format.html">lCode spec</a> to encode the GPS and Battery data that we send to the MQTT server. Please have a look at the coding mechnism in the include files as well on these web pages in order to understand HOW the data is trainsmitted by the sensors and decoded by the MQTT servers.&nbsp;</p>
 <p dir="ltr">If lCode is not your thing, you can set the output of the internal sensors to raw in the cofniguration files. In that case it will output the sensors as found.</p>
 <h1 dir="ltr">&nbsp;</h1>
 <h2 dir="ltr">4. Heltec ESP32</h2>
