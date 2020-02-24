@@ -34,23 +34,28 @@
 <ul>
   <li><a href="../Projects/SingleChannelGateway/DevelopersGuide/designing_1ch_gateway/1ch_gateway_1.html">designing a 1-ch Gateway (page 1)</a></li>
   <li><a href="../Projects/SingleChannelGateway/DevelopersGuide/designing_1ch_gateway/1ch_gateway_2.html">designing a 1-ch Gateway (page 2)</a></li>
-  <li><a href="../Projects/SingleChannelGateway/DevelopersGuide/designing_1ch_gateway/ESP-gateway-4.html">Making an ESP8266 gateway with CAD support</a> <em>(Version 4)</em><br />
+  <li><a href="../Projects/SingleChannelGateway/DevelopersGuide/designing_1ch_gateway/ESP-gateway-4.html">Making an ESP8266 gateway with CAD support</a> <em>(Version 4, so old version)</em><br />
   </li>
   <li><a href="../Projects/SingleChannelGateway/DevelopersGuide/designing_1ch_gateway/ESP-gateway_testing.html">ESP Gateway testing (beta)</a></li>
 </ul>
 <h3>&nbsp;</h3>
 <h2>3. Programming the Gateway</h2>
 <p>The are (at least) two way for programming the gateway. We will focus on the C++ programming as done with the Arduino boards. The best known method is that of Arduino IDE working with the Arduino programming environment. This is the oldest and probably the most well known method.</p>
-<p>Several sources however report the the Arduino IDE is standing still and that PlatformIO (Microsoft) is a better way of programming the Arduino-line hardware.</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
+<p>Several sources however report the the Arduino IDE is standing still and that PlatformIO (Microsoft) is a better way of programming the Arduino-line of hardware sich as the ESP8266 and the ESP32.</p>
+<p>Moreover, I found that the PlatformIO environment can be tuned such that&nbsp;Comresult and Hallard board can be compiled and build with the same source and&nbsp;by changing the parameters in platformio.ini a little.</p>
+<ul>
+  <li><a href="3_Gateway_Programming/31_PlatformIO.html">PlatformIO environment</a></li>
+  <li><a href="3_Gateway_Programming/32_ArduinoIDE.html">Arduino IDE environment</a></li>
+</ul>
+<p>So for the moment, both envrinments will be described.</p>
 <p>&nbsp;</p>
 <h2>4. LoRa Message Format</h2>
 <p>For LoRa  we defined a special set of messages to exchange between the gateway and the sensors. The message format needs to be a short as possible, yet reliable and be &quot;position independent&quot;. The latter meaning that messages be decoded on the contents alone and not by the position of the sensor data in the message.</p>
+<p>When the messages of the gateway itself are decoded and shown (_GATEWAYNODE==1) the user has a choice to either&nbsp;dend these messages in lCode format (proferred) of send these as-is and received from the sensors.</p>
 <ul>
   <li>&nbsp;	<a href="../DevelopersGuide/Message Format/message_format.html">Messages used by Things4U</a></li>
 </ul>
-<p>&nbsp;</p>
+<p>Messages intepret by the gateway can be&nbsp;either Lora or Raw. The user can set this in rthe configuration file&nbsp;configNode.h and define either _RAW of _LCODE.</p>
 <h2>5. LoRa Documents</h2>
 <p>These documents are copies of&nbsp;published and relevant documents of manufacturers, suppliers and standard organizations.</p>
 <ul>
