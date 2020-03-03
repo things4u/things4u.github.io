@@ -1,0 +1,49 @@
+<h2>Gateway Programming Intro</h2>
+<p>This chapter describes the structure of the Gateway program. Note that probably not all failes are described in detail or that this document will always keep up with teh latest version of the gateway, but it will describe its main components so that you can make your own modifications.</p>
+<p>The 1-channel gateway is constructed as follows:</p>
+<table width="80%" border="1">
+  <tr>
+    <td width="18%">&nbsp;</td>
+    <td width="82%">&nbsp;</td>
+  </tr>
+  <tr>
+    <td>ESP-sc-gway.ino</td>
+    <td>This is the main file of the gateway and it should be opened with either the Arduino IDE or the PlatformIO environment. It contains include files, forward declarations, variable initialisations, and setup() amd loop() definitions</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>configGway.h</td>
+    <td>This file contains all the definitions that are needed&nbsp;to make the software match YOUR environment. So that means that hardware is set, OLED but also initial values for filenames etc.</td>
+  </tr>
+  <tr>
+    <td>configNode.h</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>loraFiles.h</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>loramModem.h</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>oLED.h</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p>I hope that this file will help you understand the programming of the Gateway. If I made mistakes, or if things are not clear, please tell&nbsp;me!</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>

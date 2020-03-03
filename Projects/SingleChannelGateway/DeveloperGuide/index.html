@@ -43,14 +43,17 @@
 <p>There are (at least) two ways for programming the gateway. We will focus on the C++ programming as done with the Arduino boards. The best known method is that of Arduino IDE working with the Arduino programming environment. This is the oldest and probably the most well known method.</p>
 <p>Several sources however report the the Arduino IDE environment is standing still and that PlatformIO (Microsoft) is a better way of programming the Arduino-line of hardware such as the ESP8266 and the ESP32.</p>
 <p>At  the moment, both envrinments are described&nbsp;and both envornment do the same basic thing, building and installing the gateway software, but both do it in an entire different way.</p>
+<ul>
+  <li><a href="3_Gateway_Programming/31_Gway_Prog_Intro.html">Document to describe the structure and programming of the Gateway</a> (intro)</li>
+</ul>
 <p>&nbsp;</p>
 <h2>4. LoRa Message Format</h2>
-<p>For LoRa  we defined a special set of messages to exchange between the gateway and the sensors. The message format needs to be a short as possible, yet reliable and be &quot;position independent&quot;. The latter meaning that messages be decoded on the contents alone and not by the position of the sensor data in the message.</p>
-<p>When the messages of the gateway itself are decoded and shown (_GATEWAYNODE==1) the user has a choice to either&nbsp;dend these messages in lCode format (proferred) of send these as-is and received from the sensors.</p>
+<p>For LoRa  we defined a special set of messages to exchange between the gateway and the sensors. The message format needs to be a short as possible, yet reliable and be &quot;position independent&quot;. The latter meaning that messages be decoded on the contents alone and not by the position of the (sensor) data in the message.</p>
+<p>When the messages of the gateway itself are decoded and shown (_GATEWAYNODE==1) the user has a choice to either&nbsp;send these messages in lCode format (proferred) of send these as-is and received from the sensors.</p>
 <ul>
   <li>&nbsp;	<a href="../DevelopersGuide/Message Format/message_format.html">Messages used by Things4U</a></li>
 </ul>
-<p>Messages intepret by the gateway can be&nbsp;either Lora or Raw. The user can set this in rthe configuration file&nbsp;configNode.h and define either _RAW of _LCODE.</p>
+<p>Messages intepret by the gateway can be&nbsp;either Lora or Raw format. The user can set this in rthe configuration file&nbsp;configNode.h and define either _RAW of _LCODE.</p>
 <p>&nbsp;</p>
 <h2>5. LoRa Documents</h2>
 <p>These documents are copies of&nbsp;published and relevant documents of manufacturers, suppliers and standard organizations.</p>
