@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>LamPI Architecture</title>
+</head>
+
+<body>
+
+<h1>TTN LoRa Architecture</h1>
+<h5>June 2016</h5>
+<p>This page describes the main components of a LoRa network. As we make use of the TheThingsNetwork (TTN) environment, we will use that environment in our examples. At the time of writing this article, TTN1 is in use. In some cases there are alternatives available for TTN either commercial of private solutions. These might work with TTN or not and they may be &quot;compliant&quot; to the LoRaWAN specification or not. Some are documented here as we think that they make sense, some are not (yet).</p>
+<p>The page will focus on the backend of LoRa network, thus not on LoRa devices and sensors but on the things needed to receive messages, hand-out OTAA id's, route messages to their destinations etc.</p>
+<h2>Main Components</h2>
+<p>According to the website of thethingsnetwork (http://thethingsnetwork.org) the following components are present in a LoRa network.</p>
+<p><img src="../../../LoraAndTtnInfo/4_UserGuide/images/LoRa Architecture.png" width="737" height="342"></p>
+<p>The following components are present:</p>
+<ul>
+  <li>A so-called mote (IoT device) which is in most cases a combination of LoRa transceiver with a sensor</li>
+  <li>LoRaWAN gateways; there can be several gateways in reach that receive and react on a message of a&nbsp;device. Gateways forward LoRa messages over UDP to a router/broker service.</li>
+  <li>The Things Network Router, or private routings; the TTN network is black-box service which receives UDP messages from gateways and forwards these messages to subscribed program(s) of the user. This service consists of at least 2 steps:
+    <ul>
+      <li>Receive and decode UDP messages from gateways and publish these (after some work) to a MQTT broker</li>
+    </ul>
+  </li>
+  <li>Application Handlers</li>
+</ul>
+<p>TTN uses a more complex model of brokers, routers and handlers for its services. However, not all of these &quot;modules&quot; are available for private use (yet) and the way these services are implemented may not be of interest.</p>
+<h2>LoRa devices</h2>
+<p>The design of LoRa devices (motes) is explained in the hardware guide, and technical details about building these devices is beyond the scope of this document. The technical details about LoRa can be found in the LoRa Specification (V 1.0.1, Oct 2015)</p>
+<p>However, for the architecture of LoRa network and its components it is important to know that there are two ways a devices can be part of the LoRA network:</p>
+<ul>
+  <li>OTAA&nbsp;(Over the Air Activation)</li>
+  <li>ABP (Activation by Personalization)</li>
+</ul>
+<p>Devices must be activated on the network they use before the network will actively do something with the data they send. Gateways will still forward upstream messages, but the components in the network after the gateways will not work with that data if it is not recognized as a &quot;well known citizen&quot; on the network. Activation can be done in two ways: Either by giving the LoRa device a fixed identity and telling the network to work with those (ABP) and&nbsp;&quot;dynamic addressing&quot; where similar to WiFi the network router will hand-out a unique address. </p>
+<p>Both activation methods are explained below in more detail, and in chapter 6 of the LoRa Specification.</p>
+<h3>OTAA</h3>
+<p>Over the Air Activation is the preferred way for TTN to get devices activated on the network. As said above, the principle is the same as done for WiFi communication, but there is an important difference: Joining a WiFi network requires you to have a keyboard and a screen and is done by the user, at least the first time that a device is joining a new network.</p>
+<p>For LoRa this is no option, as most devices are simple sensors nodes and we do not want to do any manual configuration in the field. Instead we would like to give them a unique device ID that they can use to ask the network for a (temporary) unique address to use. </p>
+<p>So with OTAA every device goes through a join procedure prior to joining the network and participating in data and information exchange with the network services. The following data is stored inside the LoRa device (spec 6.2.4) prior to starting the Join procedure:</p>
+<ul>
+  <li>AppEUI; Application End-device Unique Identifier</li>
+  <li>DevEUI; Device End-device Unique Identifier</li>
+</ul>
+<p>The node has a unique DEVEUI (Device Id) and a APPEUI (Application identifier). These are both needed in order to generate a JOIN request to the network. On the network side the APPEUI must be known as well and prior to the activation of the device the network must be made aware that there are devices that like to join with that application code. For that purpose the TTN network offers the ttnctl tool and a web interface. The application owner can use these tools to make the network aware of any future nodes of hat application that like to join the LoRa network.</p>
+<p>Upon accepting the Join Request, the network sends a downlink message that contains the DevAddr (Device address) to be used by the LoRa device.</p>
+<h3>ABP</h3>
+<p>In order to make ABP joining safe, it must not be possible for other devices to just join the conversation and take over the identity of our node by just sending the same ID to the network. The network therefore requires the node to keep track of a frame counter so that both parties know that their peer is the same as the one sending previous messages.</p>
+<p>ABP does not require a Join procedure between LoRa device and network. Instead, the LoRa device has been &quot;programmed&quot; with a unique code, the DevAddr that will be used in communication. Also the AppSKey (used to encrypt Payload) and the&nbsp;DevSKey must be stored in the LoRa device prior to any communication.</p>
+<p>&nbsp;</p>
+<h2>LoRa Gateway</h2>
+<p>Most Gateways receive messages from LoRa devices and have the possibility to forward these messages to multiple&nbsp;Routers. These are the so-called uplink messages. The gateway uses a UDP &quot;connection&quot; to send the received LoRa messages to the router/broker backend.&nbsp;Most commonly port 1700 is used for this purpose.</p>
+<p>Gateways can also forward messages from the backend back to the devices. This is referred to downlink messaging. As OTAA is&nbsp;the preferred way of getting an address, the JOIN&nbsp;response messages are a good example of these downlink messages. But also data coming from applications such as commands can be sent downlink messages. Each time after transmitting an uplink message, the LoRa device (must/) will look for downlink messages to process.</p>
+<p>It is good to know that LoRa Gateways are highly&nbsp;sophisticated devices but yet contain no&nbsp;intelligence other than receiving and sensing LoRa messages over a number of channels and at different speed and sending these to a well known (and statically configured) router server (or servers) in the network. So although handling of the full LoRa protocol is difficult, for the backend and our applications it is a black-box function.</p>
+<h3>Single Channel Gateways</h3>
+<p>Single Channel gateways are LoRa devices that receive and transmit only on one channel and at one speed. This means that they will only receive a fraction (mostly 10% or so) of all LoRa messages that are transmitted in their area. However, they might come in useful in areas&nbsp;with less dense traffic or for private networks where we want to provide a service for only a limited set of well-known devices.</p>
+<p>Single channel gateways have no downlink functions, so it is not possible for applications to send messages (back) to a device. However, and more important, they cannot forward Join Accept messages as well. This means that single channel gateways can only be used with ABP addressing. Also, cost of a single channel gateway is very much lower than a full-blown LoRa Gateway.</p>
+<p>At the moment the TTN staging environment  will accept data coming from Single Channel Gateways, and it will schedule downlink travel over these Gateways as well (which will never arrive at its destination). This means that a 1-ch gateway will seriously disrupt OTAA functions in areas where bot fullgateways and 1-ch gateways are present. </p>
+<p>In future releases of the TTN it is expected that they will still accept messages in staging environment (for testing) but recognizing that the device is a single channel gateway it will not send any downlink traffic to that gateway. Whether the production environment of TTN in the future will still handle 1-channel gateways remains to be seen; TTN likes to provide service to&nbsp;full gateways and likes to get rid of single channel gateways for obvious reasons. On the other hand, nothing keeps people from building their own LoRa-like environment with single channel gateways. As the 433MHz and 868MHz bands are free to use for everybody (provided you do not use more than 1% air time), the networks have to cope with other traffic on these frequencies in some way. </p>
+<p>&nbsp;</p>
+<h2>Router, Broker and Handler</h2>
+<p>The Router, Broker and Handler are&nbsp;in general 1 combined function in a program.</p>
+<h3>Router</h3>
+<p>This function will receive UDP datagram messages from Gateways and forwards these messages to one or more brokers. In the TTN network the broker is also responsible to monitoring&nbsp;the Gateways that are associated with the broker, making sure that gateways will not use more airtime than allowed based on the fair use policy of TTN&nbsp;(or when it for other reasons sends more messages to the backend).</p>
+<h3>Broker</h3>
+<p>In TTN the broker is the middle man between the router and the application handler. It must find that right handler for the device based on information registered with the handler. The registration might either be OTAA information or in case of ABP application - devices associations.</p>
+<h3>Handler</h3>
+<p>The handler will make deliver&nbsp;(MQTT) messages to subscribed applications. In order to perform this function, the handler must know which devices are registered to which applications.</p>
+<h3>Read More</h3>
+<p>The following sources of information will explain more about the LoRa architecture</p>
+<ul>
+  <li>LoRa sx127x datasheet</li>
+  <li>LoRa Gateway specification (Semtech)</li>
+  <li>TTN backend description</li>
+</ul>
+<p>Se the <a href="../../../DeveloperGuide.html">DeveloperGuide main page</a> for pointers to these documents.</p>
+</body>
+</html>

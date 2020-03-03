@@ -8,12 +8,28 @@
 <body>
 <h1 dir="ltr" id="docs-internal-guid-8ff340d2-c1c9-78f0-295a-5c5cba894701">CubeCell Interfacing</h1>
 <h2 dir="ltr">Introduction</h2>
-<p dir="ltr">in October Heltec launched the CubeCell msu. It is a chip with Arduino-like capabilities and with LoRa interface on board.</p>
+<p dir="ltr">In October Heltec launched the CubeCell msu. It is a chip with Arduino-like capabilities and with Lora interface on board. Apart from that, the board has several interfaces that will enable it to connect to well-known sensors, batteries and solar panels.</p>
 <p dir="ltr">The following interfaces are defined for CubeCell:</p>
+<ul>
+  <li>I2C interface for sensors</li>
+  <li>Battery 3.7V</li>
+  <li>Solar panel</li>
+  <li>External 3.7V power </li>
+</ul>
+<p dir="ltr">When connected right it should have a very low power consuption.</p>
+<p dir="ltr">NOTE: Be aware that this board does not have BlueTooth or WiFi on board (and it should not) in order to keep power consumption low.</p>
 <p dir="ltr">&nbsp;</p>
 <p dir="ltr"><img src="images/cubecelladcbridge.png" width="722" height="498" /></p>
-<p dir="ltr">The sensors included in the capsule package are I2C based. So next to the VCC and GND pins they do need a SCL and SDA pin as well.</p>
+<p dir="ltr">The sensors included in the capsule package are I2C based. So apart from the VCC and GND pins they do need a SCL and SDA pin as well.</p>
 <p dir="ltr">&nbsp;</p>
 <p dir="ltr"><img src="images/Heltec-PSoC-LoRa-HTCC-AB01-Board-Large-1.jpg" width="1079" height="632" /></p>
+<h2 dir="ltr">More Information</h2>
+<p dir="ltr">More information on teh Cube Cell interfaces and installation can be found at the following places:</p>
+<ul>
+  <li><a href="https://github.com/wasn-eu/CubeCell_Getting_Started">WASN github page</a></li>
+  <li></li>
+</ul>
+<p dir="ltr">&nbsp;</p>
+<p dir="ltr">&nbsp;</p>
 </body>
 </html>

@@ -8,7 +8,29 @@
 <body>
 <h1 dir="ltr" id="docs-internal-guid-8ff340d2-c1c9-78f0-295a-5c5cba894701">6 User Manual Cube-Cell</h1>
 <h2 dir="ltr">Introduction</h2>
-<p dir="ltr">This Chapter contains the user manual for UniversalCube-Cell based Lora Sensors. The following commands are supported:</p>
+<p dir="ltr">This Chapter contains the user manual for Universal Cube-Cell based Lora Sensors. </p>
+<p dir="ltr">Compared to Arduino and ESP mcu's, the Cube-Cell board is a different animal, mostly because several parameters are not set inside the C++ code but rather in the IDE and using (modem-like) AT commends. Unfortinately the documentation provided by Heltec is MINIMAL and not of high quality. We can expect that this is a temporary things which will be solved in later releases.</p>
+<p dir="ltr">So the following steps need to be made:</p>
+<ul>
+  <li>Use &quot;Tools&quot; and Select the &quot;Board&quot; and then &quot;CubeCell-Board&quot; (or Capsule if you have one)</li>
+  <li>Use the IDE unders &quot;Tools&quot; To set a few other parameters right
+    <ul>
+      <li>LORAWAN_REGION &quot;REGION_EU868&quot;</li>
+      <li>LORAWAN_AT_SUPPORT &quot;ON&quot;</li>
+    </ul>
+  </li>
+  <li>Set the remaining parameters for the node using AT commands (Best is to make a text file for this and use the AT commands to do this. Please use a different Serial command program from the IDE as that one does and it is not bi-directional). From teh terminal you can use AT commands to program your Cube-Cell, you can use you TTN console to see the values to pur in the section below.
+    <ul>
+      <li>AT+LORAWAN=1<br />
+        AT+OTAA=0<br />
+        AT+NwkSKey=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX<br />
+        AT+AppSKey=YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY<br />
+      AT+DevAddr=ZZZZZZ</li>
+    </ul>
+  </li>
+</ul>
+<p>The process above is described in detail in thhe Configuration chapter.</p>
+<p dir="ltr">The following commands are supported:</p>
 <p>&nbsp;</p>
 <p dir="ltr"><br />
 </p>

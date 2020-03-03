@@ -1,0 +1,366 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>1-ch Gateway Configuration</title>
+</head>
+
+<body>
+<h1 dir="ltr" id="docs-internal-guid-8ff340d2-c1c9-78f0-295a-5c5cba894701">1-channel Gateway Configuration</h1>
+<h2 dir="ltr">Introduction</h2>
+<p dir="ltr">This is the 6th generation of software implementing LoRa gateway function on a platform consisting of an ESP8266 mcu and a SX1276 radio. Unlike the previous versions of the gateway, this version will listen for all available Spreading Factors on a single frequency. Also for well know nodes it will show the name instead of its DevAddr and if configured it will also decode messages coming from these well-known sensor&nbsp;nodes.</p>
+<p dir="ltr"><a href="../HardwareHuide/images/ComResult-1.jpg"><img src="../HardwareHuide/images/ComResult-1.jpg" alt="Comresult" width="600" height="450" hspace="10" vspace="10" /></a></p>
+<h2 dir="ltr">Quick Start</h2>
+<p dir="ltr">This section describes the first important decisions you have to take with your Gateway and how to configure the gateway to get you going. By no means this chapter is meant to be exhaustive, detailed or complete, it merely gives a hint how to start and go from here. The reader is advised to read the rest of this chapter and finish the configuration after reading it. </p>
+<p dir="ltr">So&nbsp;what do you need:</p>
+<p dir="ltr">- ESP6288 including Comresult board or Halard board&nbsp;and a SX1276/RFP95 LoRa chip<br />
+ -&nbsp; OR a Heltec board with ESP32 and LoRa schip loaded<br />
+  - Computer with Arduino IDE Version 1.8.5 or later<br />
+- micro USB to USB cable for downloading the Gateway software to your node</p>
+<p dir="ltr">And to easy compile:</p>
+<ol>
+  <li>ESP8266 or ESP32. Based upon the board you have you MUST edit the configGway.h file and edit _PIN_OUT</li>
+  <li>433MHz or 868MHz. Based upon the board frequency, set _FREQ</li>
+  <li>Does your board have a fixed IP address given by your router?
+    <ol>
+      <li>If so, set the AP_NAME and AP_PASSWD to the SSID and password of your router in configNode.h</li>
+    </ol>
+  </li>
+  <li>Does your board have an OLED display? If so, set the OLED parameter in configGway.h</li>
+  <li>Are you interested in a few well-known LoRa nodes and are they yours? Define a nice name for these nodes in the file &quot;configNode.h&quot;.</li>
+  <li>Do you need to know the message that your LoRa nodes send to the gateway (and possibly other gateways?). If so, set _LOCALSERVER to 1 and set the parameters in &quot;configNode.h&quot; and fill in the NwkSKey and AppSKey for these nodes, and the system will decode these messages</li>
+  <li>If necessary modify the _TTNSERVER if you connect to TTN, and/or #define&nbsp;the _THINGSERVER if you have another provider</li>
+</ol>
+<p>All other parameters in the configGway.h file can be left to their default values initially. Please connect to the USB port and look at the console. It will show at what IP address the sensor node connects. You can then open that IP address in your browser and manage the gateway through the web browser.</p>
+<p>In order to avoid having to use both options, we try to make most settings available on both interfaces. But in practice the .h file is used to make configuration changes that are more permanent and the user interface is used to set everyday parameters and things that change more often.</p>
+<h2 dir="ltr">Making the Configuration Settings</h2>
+<p dir="ltr">There are two major ways to set the configuration of the Gateway:</p>
+<ol>
+  <li>Set configuration parameters in configGway.h file</li>
+  <li>Use the GUI&nbsp;to set parameters</li>
+</ol>
+<h2>1. Editing the configGway.h file</h2>
+<p>Most parameters that can be set are compile-time directives so that code is compiled or not based on the value of the directive in the configGway.h file. This way, the code base can be kept small when functions are not used. Example: Support for Wifi Manager can be turned ON or OFF based on the setting of WIFIMANAGER in the configGway.h file.</p>
+<p><code>#define WIFIMANAGER 0</code></p>
+<p>By changing the definition to &quot;1&quot; the complete functionality to use Wifi Manager is included in the code and compiled. By using &quot;0&quot; all functions relating to this functionality is excluded from the gateway code.</p>
+<p>Several parameters or #define compiler directives can be set in the configGway.h file such as:</p>
+<h3>_DUSB</h3>
+<p>DUSB sets the debugging/Output for the Serial USB port. If _DUSB is set to 0, minimal (almost 0) output should be sent to the Serial Port. I like to switch off ANY communication to the USB port if _DUSB is set to 0 (and will probably).<br />
+  If _DUSB is set to 1, it will allow any USB communciation which is permitted by the debug level set in the Webserver GUI.
+</p>
+<h3>_MONITOR</h3>
+<p>This compile switch defines whather the print-outs need to be handled by the gateway and prints need to be made visible on the GUI (monitor). This setting when greater than 0 defines the number of lines in the monitor section of the GUI. In this monitor setting al the print-outs of the gatesway are collected and displayed.</p>
+<p>The _DUSB define makes the&nbsp;_MONITOR prints also output to the USB output.</p>
+<h3>SPIFF_FORMAT</h3>
+<p>If this variable is set,&nbsp;the SPIFFS filesystem of the ESP chip is formatted before use. This way the user can force (!) the filesystem to be reset before operation and clean corrupt files of empty the memory (if it is full).</p>
+<h3>_SPREADING</h3>
+<p>This parameter sets the initial value for the Spreading Factor (SF) which i used in STD mode of operation, If _CAD is enabled the value of _SPREADING is not of use anymore. Valid choiced are SF7 - SF12.</p>
+<h3>_CAD</h3>
+<p>Set the paramet Channel Activity Detection and the corresponding mode of operation of the Single Channel Gateway. In CAD mode the gateway is set to one frequency (mostly 0) and listens to all Spreading Factor messages of coming in on that frequency.</p>
+<p>The default value fr this parameter is 1 (ON) and you are advised to&nbsp;keep CAD on since it does ot seem to be missing messages.</p>
+<h3>A_SERVER</h3>
+<p>Specify whether or not to use the Webserver for this Single Channel Gateway. Although it is possible to switch the Webserver off, for example for security reasons, I recommend to use it as it provides good information on the Gateway operation and the setting of all parameters.</p>
+<h3>A_REFRESH</h3>
+<p>This parameter determines whether the Webserver should refresh every XX seconds. At this moment the Webserver will refresh every 60 seconds by default (It is possible to set other values). It may be possibel that you miss some LoRa packages as the Webserver takes some time and compute power, but for debugging a Single Channel Gateway it is a nice feature to have.</p>
+<h3>A_SERVERPORT</h3>
+<p>Leave at 80 (The standard Webserver port).</p>
+<h3>A_MAXBUFFERSIZE</h3>
+<p>This should be the maximum size of a message going up. Standard value is 192 and should not be changed.</p>
+<h3>A_OTA</h3>
+<p>Over the air download of new gateway code is enabled by default. The download itself is not protected by passwords or so, but the SSID of the WiFi server is of-course so we expect that people that have access to the WiFi environment will also be able to download new software versions to the gateway.</p>
+<h3>_PIN_OUT</h3>
+<p>This defines the pin-out for the gateway device we use. At this moment there are a few standard gateway boards defined:</p>
+<ol>
+  <li>Hallard</li>
+  <li>Comresult</li>
+  <li>ESP32 development boards</li>
+  <li>ESP TTGO board</li>
+</ol>
+<h3>STATISTICS</h3>
+<p>Specify whether you want the gateway to gather statics information. There are three values possible:</p>
+<ul>
+  <li>0; No statistics</li>
+  <li>1; Limited</li>
+  <li>2; Gather also statistics for a maximum of MAX_STAT messages received by the gateway.</li>
+</ul>
+<h3>MAX_STAT</h3>
+<p>&nbsp;</p>
+<h3>STRICT_1CH</h3>
+<p>The STRICT 1-CHANNEL configuration parameter&nbsp;determines the behaviour of the gateway during downstream messaging. The downstream messaging protocol is descripbed in the docuentation, but where necessary important parts are discussed here as well.</p>
+<p>For CLASS A devices  the downstream messages are sent by the gateway upon receiving a message from a mote. For regular messages, two timeslots are available for sending downstream messages, and for JOIN messages another two are defined.</p>
+<ol>
+  <li>RX1, This timeslots opens 1 second AFTER the messages has been recived from the Mote (tmst is set in the message). RX_DELAY1 is 1 second.</li>
+  <li>RX2, This timeslot opens 2 seconds AFTER the last message has been received from the mote. The timing is relative to the tmst parameter specified by the mote.</li>
+  <li>JOIN1, this timeslot starts at 5 seconds als lasts 1 second</li>
+  <li>JOIN2, this timeslot starts at 6 seconds and lasts 1 second.</li>
+</ol>
+<p>Note, that the timslots start after the last byte has been received from the mote, so the mote must determine and send its tmst values as late as possible.</p>
+<h3>WIFIMANAGER</h3>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>AP_NAME</p>
+<p>AP_PASSWD</p>
+<p>REPEATER</p>
+<p>MUTEX</p>
+<p>OLED</p>
+<p>GATEWAYMGT</p>
+<p>STAT_LOG</p>
+<p>CONFIGFILE</p>
+<ul>
+  <li></li>
+  <li><code>MAX_STAT&nbsp;20; Sets the number of lines in the web interface and records that are kept in memory of the last messages sucessfully received.</code></li>
+</ul>
+<ul>
+  <li><code>WIFIMANAGER 0; Set to OFF by default. If you like to use WiFi manager, please set it to 1</code></li>
+  <li><code>AP_NAME &quot;&lt;Name your gateway accesspoint&gt;&quot;;</code></li>
+  <li><code>AP_PASSWD &quot;&lt;Your AccessPoint password&gt;&quot;;</code></li>
+  <li><code>GATEWAYMGT 1;</code></li>
+  <li><code>CFG_sx1276_radio; Let this one be defined in this version. The code will support sx1272 with probably minor modifications as well, but this has not been tested. </code></li>
+  <li><code>CONFIGFILE &quot;/gwayConfig.txt&quot;</code>; This parameter tells us the name of the SPIFFS&nbsp;file used to store the configuration data.</li>
+  <li><code>_LOCUDPPORT 1700</code></li>
+  <li><code>_PULL_INTERVAL 30</code></li>
+  <li><code>_STAT_INTERVAL 60</code></li>
+  <li><code>_NTP_INTERVAL 3600</code></li>
+</ul>
+<ul>
+  <li><code>_TTNPORT 1700</code></li>
+  <li><code>_TTNSERVER &quot;router.eu.thethings.network&quot;</code></li>
+</ul>
+<ul>
+  <li><code> _THINGPORT &lt;Your Port&gt;; Second backend server to send messages to. Leave undefined (comment #define out) if not used</code></li>
+  <li><code>_THINGSERVER &quot;&lt;Your Backend DNS name&gt;&quot;; Second backend server to send messages to. Leave undefined (comment #define out) if not used</code></li>
+</ul>
+<ul>
+  <li><code>GATEWAYNODE 0; </code></li>
+  <li><code>#if GATEWAYNODE==1<br />
+    #define _DEVADDR { 0x26, 0x01, 0x15, 0x3D }<br />
+    #define _APPSKEY { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }<br />
+    #define _NWKSKEY { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }<br />
+    #define _SENSOR_INTERVAL 300<br />
+    #endif</code></li>
+</ul>
+<ul>
+  <li><code>_DESCRIPTION &quot;ESP Gateway&quot;</code></li>
+  <li><code>_EMAIL &quot;&lt;Your Email&gt;&quot;</code></li>
+  <li><code>_PLATFORM &quot;ESP8266&quot;</code></li>
+  <li><code>_LAT &lt;Your LAT&gt;</code></li>
+  <li><code>_LON &lt;Your LON&gt;</code></li>
+  <li><code>_ALT &lt;Your ALT&gt;</code></li>
+</ul>
+<ul>
+  <li><code>A_SERVER 1; Enable the webserver. Do not touch unless you know what you are doing</code></li>
+  <li><code>A_REFRESH </code>&lt;seconds&gt;<code>&nbsp;&nbsp; //seconds between webpage refresh. 0 stops automatic refresh</code></li>
+  <li><code>A_SERVERPORT 80</code></li>
+  <li><code>A_MAXBUFSIZE 192</code></li>
+</ul>
+<h3><code>_BAUDRATE</code></h3>
+<p><code>The value of BAUDRATE 115200&nbsp;&nbsp;&nbsp;&nbsp; // Do not touch<br />
+  Do not touch this valyue, it seems to be a working value.
+</code></p>
+<p>Most parameters starting with a &quot;_&quot; are parameters only. Please only change these if you know what you are doing. If the parameter contains a &quot;&lt;xxx&gt;&quot; it means that you have to put your own values there. After all, it does not make sense to put my email address or&nbsp;GPS data in your configuration.</p>
+<p>The remaning part of the #define settings should be to include or not include certain parts of the code based on your own preference.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2>2. Using the GUI to set&nbsp;parameters</h2>
+<p>This part describes the GUI and how to set parameters. And of course my advise what parameters to set :-).</p>
+<p>First of all: Determine the IP address of your single channel gateway. It can be that you set a fixed address in your router, but it could also be tat the router hands out addresses based on its own preference. Should you not know what addres is assigned by the router, remember that the single channel gateway will output the IP address and other important settings over USB during boot-up. So looking at the output on USB is a simple way to get the IP address (and it may be the only way for you).</p>
+<h3>2.1 Basic Mode</h3>
+<p>When starting your GUI this is the first screen you will see is the following:</p>
+<p><img src="images/Configuration_gui_1a.PNG" width="839" height="452" /></p>
+<p><img src="images/Configuration_gui_1b.PNG" width="845" height="517" /></p>
+<p><img src="images/Configuration_gui_1c.PNG" width="842" height="475" /></p>
+<p>&nbsp;</p>
+<h3>Basic Mode Sections</h3>
+<p dir="ltr">The GUI has the following sections:</p>
+<ul>
+  <li>The title part which contains the time that the Gateways was started and how long it is active.</li>
+  <li>A few buttons with short-cut actions.</li>
+  <li>Statictics Counter section</li>
+  <li>Message History</li>
+  <li>Gateway Settings. This section contains user changeable parts</li>
+</ul>
+<h3 dir="ltr">Title Part</h3>
+<p dir="ltr">The title part contains a little information about the Gateway such as the time it was activated and how long the gateway is active at the moment. It also contains the version of the software.</p>
+<h3 dir="ltr">Buttons</h3>
+<p dir="ltr">A few important buttons that activate pop-up screens showing other information that is not present on the main GUI screen.&nbsp;The LOG button for example opens a popup with a text editor containing all messages received by the gateway (.csv style). When a message isreceived the system will log its details in the SPIFFS filesystem. Because of the memory limitation of the ESP module, the last 100 files are saved on the chip&nbsp;and previous ones are deleted as soon as memory runs out. Still, it allows te used to anayse messages longs after these have been received by the gateway.</p>
+<h3 dir="ltr">Counters</h3>
+<p dir="ltr">This section contains the statistical info of all the messages that have been received by the gateway. It displays per spreading factor and per channel how many messages were received and display the amount of messages processed per hour.</p>
+<h3 dir="ltr">Message History</h3>
+<p dir="ltr">This section shows the last 20 messages received by the gateway. Of every message we record the time that it was received, the sensor ID, the channel and the spreading factor used for sending the message etc. As of version 5.3.2 of the gateway another column can be added to this section: The data sent by sensors. When enabled in the configGway.h file with </p>
+<p dir="ltr">#define _LOCALSERVER 1</p>
+<p dir="ltr">It is possible to add NwkSKey and AppSKey in the configNode.h file and enable for some well known nodes the decoding of their data. With this, the sensors do the same thing as the TTN backend, but enable this ith the local GUI Webserver or through the local USB interface. Just enable GUI on the webserver to send output to the USB port.</p>
+<h3 dir="ltr">Gateway Settings</h3>
+<table width="94%" border="1">
+  <tr>
+    <td width="16%"><strong>Parameter</strong></td>
+    <td width="15%"><strong>Allowed Values</strong></td>
+    <td width="11%"><strong>Default Value</strong></td>
+    <td width="58%"><strong>Description</strong></td>
+  </tr>
+  <tr>
+    <td>CAD</td>
+    <td>Yes or No</td>
+    <td>Yes</td>
+    <td>Set the Channel Activity Detection option. CAD allows the gateway to scan all Spreading factors in the frequency band</td>
+  </tr>
+  <tr>
+    <td>HOP</td>
+    <td>Yes or No</td>
+    <td>NO</td>
+    <td>Specify whether frequency hopping should be enabled. Frequency hopping will make the gateway work on more than one channel. This mode is highly experimental and does not work correctly. the user is strongly advised NOT to use HOP.</td>
+  </tr>
+  <tr>
+    <td>SF</td>
+    <td>7 to 12</td>
+    <td>9</td>
+    <td>Spreading Factor setting SF7 to SF12. If CAD is enabled (see above) the Spreading Factor is automatically set (AUTO)</td>
+  </tr>
+  <tr>
+    <td>Channel</td>
+    <td>0 to 9</td>
+    <td>0</td>
+    <td>The channel that the Gateway should work on. If HOP is set (see above) the frequency will shift between the first 3 well known frequencies</td>
+  </tr>
+  <tr>
+    <td>Debug Level</td>
+    <td>0 to 3</td>
+    <td>1</td>
+    <td><p>The debug level specifies what debugging info is output to the USB Console and what info not. With debug level 0, almost no messages are shon on the console. Debug level 1 displays a minimal (essential set) without influencing the performance of the gateway. Debug levels 2 and up should only be used for debugging</p></td>
+  </tr>
+  <tr>
+    <td>Debug Pattern</td>
+    <td>SCN, CAD, RX, TX, PRE,MAI, GUI, RDIO buttons</td>
+    <td>All Off</td>
+    <td>The buttons allow use to specify which section is activated for sending debugging info to the Console.</td>
+  </tr>
+  <tr>
+    <td>Usb Debug</td>
+    <td>&nbsp;</td>
+    <td>1</td>
+    <td>This is the value of DUSB (see configGway.h file)</td>
+  </tr>
+  <tr>
+    <td>WWW Refresh</td>
+    <td>ON or OFF</td>
+    <td>OFF</td>
+    <td>By setting this parameter to ON, the&nbsp;Webserver will every 60 seconds renew the page.</td>
+  </tr>
+  <tr>
+    <td>Update Firmware</td>
+    <td>--</td>
+    <td>&nbsp;</td>
+    <td>-- Not used at the moment --</td>
+  </tr>
+  <tr>
+    <td>Format SPIFFS</td>
+    <td>--</td>
+    <td>&nbsp;</td>
+    <td>By pressing the button the user can format the filesystem at any time.</td>
+  </tr>
+  <tr>
+    <td>Statistics</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>This parameter defines what kind of statistcis info is gathered and computed by the gateway system.</td>
+  </tr>
+  <tr>
+    <td>Boots and Resets</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>The number of times the system was rebooted. This can be a &quot;on purpose&quot; boot or can be due to an error for example. The number of boots is shown, by pressing RESET the user can reset the counter.</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+<p dir="ltr"></p>
+<p>With the command buttons on top of the screen it is always possible to return to the basic screen.</p>
+<p>&nbsp;</p>
+<h2>2.2 The GUI Buttons</h2>
+<p>The buttons on the top section give more and special capabilities:</p>
+<ol>
+  <li>Documentation</li>
+  <li>Log Files</li>
+  <li>Expert Mode (With additional data on WiFi settings etcO)</li>
+  <li>Monitor data</li>
+  <li>Node Last Seen</li>
+</ol>
+<h3 dir="ltr">2.3.1 Documentation</h3>
+<p dir="ltr">The using this button, the user is referred to the User Guid documentation (this document).</p>
+<h3 dir="ltr">Log Files</h3>
+<p dir="ltr">When the Login Files option is selected, the log files are output by the browser.</p>
+<p dir="ltr">Expert Mode</p>
+<h4 dir="ltr">WiFi Config</h4>
+<p dir="ltr">This section shows several WiFi parameters that are set by the gateway.</p>
+<ul>
+  <li>WiFi Host</li>
+  <li>SSID</li>
+  <li>IP Address</li>
+  <li>IP Gateway (connected to)</li>
+  <li>NTP Server</li>
+  <li>LoRa Router and Port</li>
+  <li>LoRa Router 2 and Port 2</li>
+</ul>
+<h4 dir="ltr">System Status</h4>
+<p dir="ltr">This section shows some system parameters. There is nothing to set here except when using an ESP8266 module, in this case the yser can set the system clock either to 80MHz or 160MHz.</p>
+<p dir="ltr">&nbsp;</p>
+<h2 dir="ltr">Using gWay Intenal Sensors</h2>
+<p dir="ltr"><a href="../HardwareHuide/images/ComResult-1.jpg"></a>This is&nbsp; feature not normally found on LoRa Gateways, but implemented for the Single Channel Gateway as a means to help with debugging LoRa sensors. </p>
+<p dir="ltr">The Gateway program enables use of sensors that are connected to the gateway, but reported as if they are orininatin from an ordinary LoRa sensor. The gateway will fake in this case that the message is coming from a real sensor but measure the sensor vaues, encode them as a sensor node would do and sends them to the server backend (of TTN or example).</p>
+<p dir="ltr">Especially for Gateways based on the TTGOT-Beam board and others there are several on-board sensors such as GPS and local battery voltage that are very&nbsp;useful to report to the server. And also when debugging a LoRa environment it is good if there are sensors that canbe reported to the server without having the&nbsp;actual LoRa component and a sensor node involved: It enables you to check the gateway-server connection.</p>
+<h3 dir="ltr">The T-Bone sensors</h3>
+<p dir="ltr">The TTGO T-Bone board has both the possibility to use the local GPS as a sensor and send the voltage of the local battery to the server. The first is well documenten in the code.</p>
+<p dir="ltr">For the battery voltage reporting the GPIO35 pin should&nbsp;be measured by the A0 analog pin and its value should be multiplied by 2 to get the accurate voltage of the battery. The sensor works between 3.5 and 4.2V battery power so reading the value of GPIO35 pin enables the user to receive&nbsp;information about the battery, indicating the USB power is lost, and repair power before it is too late.</p>
+<h2>Documentation</h2>
+<p>There are (at least) two y seperate documents that apply to this gateway:</p>
+<ul>
+  <li>The RFM95 datasheet made by HopeRF</li>
+  <li><a href="https://www.google.fr/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;ved=0ahUKEwjOvbn4wNnUAhWGcRQKHTkuAjUQFggmMAA&amp;url=http%3A%2F%2Fwww.semtech.com%2Fimages%2Fdatasheet%2Fsx1276_77_78_79.pdf&amp;usg=AFQjCNFxkfmyuNwFCcaP_-dWGKdmskNKBQ&amp;cad=rja">The SX1276 datasheet made by Semtech</a> (this one is better than the HopeRF)</li>
+  <li><a href="../../../UserGuide/LoRa documents/LoRa gateway to network server interface definition.pdf">Semtech ANNWS.01.2.1.W.SYS, 
+  Gateway to Server Interface</a></li>
+</ul>
+<p>Datasheets for RFM95 and SX1276 should be the same. However, the HopeRF document dontains confusing information especially in the registers description are where RSSI for example (regaister 0x1B ?) is concerned.</p>
+<h2 dir="ltr">&nbsp;</h2>
+<h2>RSSI</h2>
+<p dir="ltr">RSSI stands for Received Signal Strength Indicator is is measured on the receiver to determine the signal quality of the sender. Normal RSSI can be measured any time at the receiver side by reading regaister 0x1B. The SX1276/RFM95 transceiver contains a special register 0x1A that contains theaverage packet RSSI information.</p>
+<p dir="ltr">The RSSI function is used by CAD to determine if we have received a message. This is not as the RFM95 is designed, after all new messages might be received that are below the noise floor and this using RSSI is not the most reliable process.</p>
+<p dir="ltr">The correct RSSI sample can be computed (according to the RFM95 manual para 4.2.5.3) by adding TS_RE + TS_RSSI</p>
+<h2>DIO Pin-Out</h2>
+<p>In the sx1276 datasheet we find that DIO 0 and DIO 1 are used to handle CAD interrupts and for message reception. So where we would only use dio0 in the version&nbsp; 3.x of the gateway, we now use dio0 AND dio1 in order to detect CAD  and RX Timeout events. This also means for users that the have to modify their gateway and set the pins correctly in the loraModem.h file.</p>
+<h3>&nbsp;</h3>
+<h1>Types of&nbsp;Use</h1>
+<p>The are several ways you can use the single channel gateway:</p>
+<ul>
+  <li>As as single channel gateway (unattended)</li>
+  <li>A a debugging aid for sensors connecting</li>
+</ul>
+<h2>Single Channel Gateway Use</h2>
+<p>If teh conly thing you want is running it as just a (standalone) gateway, please keep the following things in mind:</p>
+<ol>
+  <li>Remove all USB debugging from the output</li>
+  <li>Remove the debugging parameter</li>
+  <li>Set the pattern to zero</li>
+  <li>And remove all the other #define's in configGway.h file where possible</li>
+</ol>
+<h2>Debugging Use</h2>
+<p>If you want to use the device for debugging of the gateway and sensor functiojn, please do teh following:</p>
+<ol>
+  <li>Set the USB debugging on (#define _DUSB 1)</li>
+  <li>Select the debug parameter in &quot;configGway.h&quot;</li>
+  <li>Specify the name of as many known sensors as possible in &quot;configNode.h&quot;</li>
+</ol>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><br />
+</p>
+</body>
+</html>

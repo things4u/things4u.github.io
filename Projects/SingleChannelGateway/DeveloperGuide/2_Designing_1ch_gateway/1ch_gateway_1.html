@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Untitled Document</title>
+<title>Gateway Design 1</title>
 </head>
 
 <body>
@@ -19,7 +19,7 @@
 <ul>
   <li>The MCU used is a ESP8266 based microprocessor, I standardized on the Wemos D1 mini (about $ 3.00 on Aliexpress)</li>
   <li>The LoRaWAN radio&nbsp;used is the sx1276. Parts of the code still deal with sx1272 as well, but since I do not have one of these devices available I have decided not to support them for the moment.</li>
-  <li>We implement the Semtech gateway description: <a href="../../../LoraAndTtnInfo/UserGuide/LoRa documents/LoRa gateway to network server interface definition.pdf">Gateway to Server Interface, ANNWS.01.2.1.W.SYS, Revision 1.0</a></li>
+  <li>We implement the Semtech gateway description: <a href="../5_LoRa_TTN_Reading/LoRa gateway to network server interface definition.pdf">Gateway to Server Interface, ANNWS.01.2.1.W.SYS, Revision 1.0</a></li>
   <li>We use the LoRaWAN specification 1.0 and later 1.1</li>
   <li>The Gateway was tested on TeensyLC based motes and on 3.3V Arduino Pro-Mini clones. For the Arduino, the original 8MHz version with the big chrystal works fine, and the 16MHz version does as well (running on 16MHz!).</li>
 </ul>
@@ -60,7 +60,7 @@
 <h2>V1: Simple Read-only Gateway</h2>
 <p>The simple version of the LoRa 1ch gateway is using PUSH messages only, and PUSH_ACK messages are not read.</p>
 <ul>
-  <li><a href="../../HardwareHuide/ESP-gateway.html">The building description for the ESP Gateway hardware is found here</a></li>
+  <li><a href="../../Archive/ESP-gateway.html">The building description for the ESP Gateway hardware is found here</a></li>
 </ul>
 <p>The first version&nbsp;was a very basic version which would only forward messages from LoRa node up to the server.</p>
 <h2>V2: Bi-directional data</h2>
