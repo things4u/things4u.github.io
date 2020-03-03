@@ -9,7 +9,7 @@
 <h1 dir="ltr" id="docs-internal-guid-8ff340d2-c1c9-78f0-295a-5c5cba894701">1-channel Gateway Configuration</h1>
 <h2 dir="ltr">Introduction</h2>
 <p dir="ltr">This is the 6th generation of software implementing LoRa gateway function on a platform consisting of an ESP8266 mcu and a SX1276 radio. Unlike the previous versions of the gateway, this version will listen for all available Spreading Factors on a single frequency. Also for well know nodes it will show the name instead of its DevAddr and if configured it will also decode messages coming from these well-known sensor&nbsp;nodes.</p>
-<p dir="ltr"><a href="../HardwareHuide/images/ComResult-1.jpg"><img src="../HardwareHuide/images/ComResult-1.jpg" alt="Comresult" width="600" height="450" hspace="10" vspace="10" /></a></p>
+<p dir="ltr"><a href="../HardwareGuide/images/ComResult-1.jpg"><img src="../HardwareGuide/images/ComResult-1.jpg" alt="Comresult" width="600" height="450" hspace="10" vspace="10" /></a></p>
 <h2 dir="ltr">Quick Start</h2>
 <p dir="ltr">This section describes the first important decisions you have to take with your Gateway and how to configure the gateway to get you going. By no means this chapter is meant to be exhaustive, detailed or complete, it merely gives a hint how to start and go from here. The reader is advised to read the rest of this chapter and finish the configuration after reading it. </p>
 <p dir="ltr">So&nbsp;what do you need:</p>
@@ -314,7 +314,7 @@
 <p dir="ltr">This section shows some system parameters. There is nothing to set here except when using an ESP8266 module, in this case the yser can set the system clock either to 80MHz or 160MHz.</p>
 <p dir="ltr">&nbsp;</p>
 <h2 dir="ltr">Using gWay Intenal Sensors</h2>
-<p dir="ltr"><a href="../HardwareHuide/images/ComResult-1.jpg"></a>This is&nbsp; feature not normally found on LoRa Gateways, but implemented for the Single Channel Gateway as a means to help with debugging LoRa sensors. </p>
+<p dir="ltr"><a href="../HardwareGuide/images/ComResult-1.jpg"></a>This is&nbsp; feature not normally found on LoRa Gateways, but implemented for the Single Channel Gateway as a means to help with debugging LoRa sensors. </p>
 <p dir="ltr">The Gateway program enables use of sensors that are connected to the gateway, but reported as if they are orininatin from an ordinary LoRa sensor. The gateway will fake in this case that the message is coming from a real sensor but measure the sensor vaues, encode them as a sensor node would do and sends them to the server backend (of TTN or example).</p>
 <p dir="ltr">Especially for Gateways based on the TTGOT-Beam board and others there are several on-board sensors such as GPS and local battery voltage that are very&nbsp;useful to report to the server. And also when debugging a LoRa environment it is good if there are sensors that canbe reported to the server without having the&nbsp;actual LoRa component and a sensor node involved: It enables you to check the gateway-server connection.</p>
 <h3 dir="ltr">The T-Bone sensors</h3>

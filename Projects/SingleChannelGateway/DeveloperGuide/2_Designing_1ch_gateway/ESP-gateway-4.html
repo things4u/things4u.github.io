@@ -13,7 +13,7 @@
 <p dir="ltr">For this we make used of the CAD (Channel Activity Detection) functions that are described below. The CAD mode can be configured by the user, but  the user must select the CAD mode&nbsp;manually either in the used interface or set the CAD mode in the ESP-sc-gway.h file</p>
 <h3 dir="ltr">HOP</h3>
 <p dir="ltr">Also, we have tried to integrate frequency hopping to this version of the gateway. However, this function is experimental at best and not ready for production. A lot of incoming messages are not noticed by the software. The problem is that the chip does have supporting interrupts and registers to spot activity on spreading factors for a given frequency but it does not have any tools to detect incoming messages on other frequencies (read below for detailed analysis).</p>
-<p dir="ltr"><a href="../../HardwareHuide/images/ComResult-1.jpg"><img src="../../HardwareHuide/images/ComResult-1.jpg" width="600" height="450" /></a></p>
+<p dir="ltr"><a href="../../HardwareGuide/images/ComResult-1.jpg"><img src="../../HardwareGuide/images/ComResult-1.jpg" width="600" height="450" /></a></p>
 <h3 dir="ltr">Change History</h3>
 <p dir="ltr">Version 4.x of this single channel gateway had a number of changes compared to version 3:</p>
 <ol>
@@ -101,7 +101,7 @@
 <p>This code assumes that we map all DIO lines onto GPIO15. The code &quot;sees&quot; this when dio0 and dio1 have the same value set. It then assumes that we du multiplexing of interrupts&nbsp; and it will do the appropriate initialisation in setup(). This can only be done by connecting the DIO 0, 1 and if necessary DIO 2 to the GPIO15 pin with a diode and this is how the Hallard PCB does it's multiplexing.</p>
 <table width="45%" border="1">
   <tr>
-    <td><a href="../../HardwareHuide/images/hallard_2.jpg"><img src="../../HardwareHuide/images/hallard_2.jpg" alt="../../HardwareGuide/Single-Channel-Gway/images/hallard_1.jpg" width="400" height="300" /></a></td>
+    <td><a href="../../HardwareGuide/images/hallard_2.jpg"><img src="../../HardwareGuide/images/hallard_2.jpg" alt="../../HardwareGuide/Single-Channel-Gway/images/hallard_1.jpg" width="400" height="300" /></a></td>
   </tr>
   <tr>
     <td>1-ch Gateway made with Hallard PCB</td>
@@ -114,7 +114,7 @@
 <p>&nbsp;</p>
 <table width="44%" border="1">
   <tr>
-    <td><a href="../../HardwareHuide/images/ComResult-1.jpg"><img src="../../HardwareHuide/images/ComResult-1.jpg" alt="../../HardwareGuide/Single-Channel-Gway/images/ComResult-2.jpg" width="400" height="300" /></a></td>
+    <td><a href="../../HardwareGuide/images/ComResult-1.jpg"><img src="../../HardwareGuide/images/ComResult-1.jpg" alt="../../HardwareGuide/Single-Channel-Gway/images/ComResult-2.jpg" width="400" height="300" /></a></td>
   </tr>
   <tr>
     <td>1-ch Gateway made with the Comresult PCB</td>
