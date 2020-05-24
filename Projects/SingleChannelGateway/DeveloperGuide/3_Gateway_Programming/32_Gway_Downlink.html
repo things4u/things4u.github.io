@@ -1,0 +1,9 @@
+<h2>Gateway Downlink Programming</h2>
+<p>This document deals with the downlink that is prgrammed in the gateway code. It appears that it is very difficult to&nbsp;get this code right, partly because of the timing of the ESP which is not accurate, and partly because we made errors with the code.</p>
+<p>Getting downlink to work reliably is very difficult. IN order to get the timing right, we have mofieid the timing in the gateway slightly as folliws:</p>
+<ol>
+  <li>The bgateway received a message from the sensor node. If will read the values and send all info UP to the handler. </li>
+  <li>Based on the parameters set by the device it may open a receipt window&nbsp;TX1 or TX2  after sending out its messsage. As the gateway includes it own timing, the gateway timing&nbsp;is also sent to the LoRa hander over MQTT.</li>
+  <li>If the gateway is selected(!) it receives a downlink message from the LoRa Handler which needs to be sent to the device node based on the gateway timing previously sent.</li>
+</ol>
+<p>As the gateway needs a lot of time to compose a message UP, the handler time is sent 650,000 uSecs highter by the gatway</p>
