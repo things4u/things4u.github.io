@@ -42,6 +42,7 @@
   <li>Set configuration parameters in configGway.h file</li>
   <li>Use the GUI&nbsp;to set parameters</li>
 </ol>
+<p>&nbsp;</p>
 <h2>1. Editing the configGway.h file</h2>
 <p>Most parameters that can be set are compile-time directives so that code is compiled or not based on the value of the directive in the configGway.h file. This way, the code base can be kept small when functions are not used. Example: Support for Wifi Manager can be turned ON or OFF based on the setting of WIFIMANAGER in the configGway.h file.</p>
 <p><code>#define WIFIMANAGER 0</code></p>
@@ -145,9 +146,8 @@ _AP_PASSWD</h3>
 <p>&nbsp;</p>
 <h3>_STAT_LOG</h3>
 <p>&nbsp;</p>
-<h3>CONFIGFILE</h3>
+<h3>CONFIGURATION FILE</h3>
 <ul>
-  <li></li>
   <li><code>_MAX_STAT&nbsp;20; Sets the number of lines in the web interface and records that are kept in memory of the last messages sucessfully received.</code></li>
 </ul>
 <ul>
@@ -167,7 +167,7 @@ _AP_PASSWD</h3>
   <li><code>_TTNSERVER &quot;router.eu.thethings.network&quot;</code></li>
 </ul>
 <ul>
-  <li><code> _THINGPORT &lt;Your Port&gt;; Second backend server to send messages to. Leave undefined (comment #define out) if not used</code></li>
+  <li><code> _THINGPORT &lt;Your Port&gt;; Second backend server to send messages to. Leave undefined (comment the define out) if not used</code></li>
   <li><code>_THINGSERVER &quot;&lt;Your Backend DNS name&gt;&quot;; Second backend server to send messages to. Leave undefined (comment #define out) if not used</code></li>
 </ul>
 <ul>
