@@ -116,10 +116,13 @@ Default of _CLASS parameter is class &quot;A&quot;</p>
 </ol>
 <p>Note, that the timslots start after the last byte has been received from the mote, so the mote must determine and send its tmst values as late as possible.</p>
 <h3>&nbsp;</h3>
+<h3>_MUTEX</h3>
+<p>The mutex setting is normally not used but left to 0.</p>
 <p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>_AP_NAME</p>
-<p>_AP_PASSWD</p>
+<h3>_AP_NAME<br />
+_AP_PASSWD</h3>
+<p>Set the Access Point SSID name and Password for the gateway. This is normally NOT used, only for WifiManager.</p>
+<h3>&nbsp;</h3>
 <h3>_REPEATER</h3>
 <p>This parameter has default value 0 and it should stay that way unless the gateway is used in repeater mode.</p>
 <pre>As part of the 0 value, please set the _TTNSERVER and _TTNPORT to the right values. De dafult values are as follows:
@@ -135,20 +138,23 @@ Default of _CLASS parameter is class &quot;A&quot;</p>
    #	define _TTNPORT 1700							// Standard port for TTN
    #endif
  </pre>
-<p>MUTEX</p>
-<p>OLED</p>
-<p>GATEWAYMGT</p>
-<p>STAT_LOG</p>
-<p>CONFIGFILE</p>
+<p>&nbsp;</p>
+<h3>_OLED</h3>
+<p>&nbsp;</p>
+<h3>_GATEWAYMGT</h3>
+<p>&nbsp;</p>
+<h3>_STAT_LOG</h3>
+<p>&nbsp;</p>
+<h3>CONFIGFILE</h3>
 <ul>
   <li></li>
-  <li><code>MAX_STAT&nbsp;20; Sets the number of lines in the web interface and records that are kept in memory of the last messages sucessfully received.</code></li>
+  <li><code>_MAX_STAT&nbsp;20; Sets the number of lines in the web interface and records that are kept in memory of the last messages sucessfully received.</code></li>
 </ul>
 <ul>
-  <li><code>WIFIMANAGER 0; Set to OFF by default. If you like to use WiFi manager, please set it to 1</code></li>
-  <li><code>AP_NAME &quot;&lt;Name your gateway accesspoint&gt;&quot;;</code></li>
-  <li><code>AP_PASSWD &quot;&lt;Your AccessPoint password&gt;&quot;;</code></li>
-  <li><code>GATEWAYMGT 1;</code></li>
+  <li><code>_WIFIMANAGER 0; Set to OFF by default. If you like to use WiFi manager, please set it to 1</code></li>
+  <li><code>_AP_NAME &quot;&lt;Name your gateway accesspoint&gt;&quot;;</code></li>
+  <li><code>_AP_PASSWD &quot;&lt;Your AccessPoint password&gt;&quot;;</code></li>
+  <li><code>_GATEWAYMGT 1;</code></li>
   <li><code>CFG_sx1276_radio; Let this one be defined in this version. The code will support sx1272 with probably minor modifications as well, but this has not been tested. </code></li>
   <li><code>CONFIGFILE &quot;/gwayConfig.txt&quot;</code>; This parameter tells us the name of the SPIFFS&nbsp;file used to store the configuration data.</li>
   <li><code>_LOCUDPPORT 1700</code></li>
